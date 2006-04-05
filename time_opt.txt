@@ -1,0 +1,72 @@
+RESULTS:
+Maximum Lambda = -1.00458  Minimum Lambda = -1.00871
+
+15022006 1235
+real    25m6.992s
+user    21m43.309s
+sys     1m5.404s
+
+15022006 1408
+all x fftw from long double to double
+real    21m58.876s
+user    19m9.472s
+sys     0m38.950s
+
+06032006 17:30
+improvement in binary operators
+real    20m5.448s
+user    17m53.875s
+sys     0m36.618s
+
+07032006 0739
+binary ops with binary elemental ops
+-O3
+direct opreator with binary ops
+real    14m46.719s
+user    12m55.664s
+sys     0m39.982s
+
+07032006 0819
+adjoint opreator with binary ops
+real    14m59.141s
+user    13m3.861s
+sys     0m40.343s
+
+07032006 1136
+-O3 without binary ops (using update ops)
+real    16m15.478s
+user    13m41.371s
+sys     0m38.022s
+
+08032006 1340
+"optimised" cgsolver and block vector
+real    15m21.420s
+user    12m20.178s
+sys     1m5.012s
+
+08032006
+optimised some ops in spectral_fourier_layer
+real    15m39.141s
+user    12m39.127s
+sys     1m6.336s
+
+21032006 16:42
+passed copy to the paded array from gffti to cat in direct transform 
+real    14m23.420s
+user    12m49.248s
+sys     0m59.820s
+
+22032006 11:33
+passed copy to the paded array from gffti to cat in inverse transform
+real    15m46.260s
+user    13m50.092s
+sys     0m58.376s
+
+22032006 12:15
+normalization by diving array
+real    15m52.228s
+user    13m51.432s
+sys     0m58.044s
+
+
+
