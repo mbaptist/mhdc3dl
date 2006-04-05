@@ -1,0 +1,27 @@
+# KDevelop Custom Project File List
+basic.C
+basic.h
+block_vector.h
+gen_random.C
+gen_random.h
+globals.C
+globals.h
+input.C
+input.h
+linops.C
+linops.h
+main.C
+Makefile
+Makefile.in
+mhdc3dl.C
+mhdc3dl.h
+mhdc3dl_lss.C
+mhdc3dl_lss.h
+mhdc3dl_python.C
+mhdc3dl_sss.C
+mhdc3dl_sss.h
+mhdc3dl_test.C
+spectral.C
+spectral.h
+vzdeigen/Makefile
+vzdeigen/Makefile.in
