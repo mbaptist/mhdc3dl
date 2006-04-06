@@ -15,8 +15,6 @@ Makefile
 Makefile.in
 mhdc3dl.C
 mhdc3dl.h
-mhdc3dl_lss.C
-mhdc3dl_lss.h
 mhdc3dl_python.C
 mhdc3dl_sss.C
 mhdc3dl_sss.h
@@ -25,3 +23,7 @@ spectral.C
 spectral.h
 vzdeigen/Makefile
 vzdeigen/Makefile.in
+sss.C
+sss.h
+lss.C
+lss.h
