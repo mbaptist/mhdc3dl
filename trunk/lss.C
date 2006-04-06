@@ -31,19 +31,19 @@ using namespace cat;
 //LARGE SCALE STABILITY
 
 lss::lss(input & input_obj_):
-  input_obj(input_obj_),
-  spectral_obj(input_obj.n1,
-	       input_obj.n2,
-	       input_obj.n3,
-	       input_obj.l1,
-	       input_obj.l2,
-	       input_obj.l3),
-  basic(input_obj,spectral_obj),
-  a_nought_obj(input_obj,spectral_obj,basic),
-  a_nought_adjoint_obj(input_obj,spectral_obj,basic),
-  a_one_obj(input_obj,spectral_obj,basic),
-  precond_obj(input_obj,spectral_obj,.75),
-  precond_adjoint_obj(input_obj,spectral_obj,1.5)
+input_obj(input_obj_),
+spectral_obj(input_obj.n1,
+             input_obj.n2,
+             input_obj.n3,
+             input_obj.l1,
+             input_obj.l2,
+             input_obj.l3),
+basic(input_obj,spectral_obj),
+a_nought_obj(input_obj,spectral_obj,basic),
+a_nought_adjoint_obj(input_obj,spectral_obj,basic),
+a_one_obj(input_obj,spectral_obj,basic),
+precond_obj(input_obj,spectral_obj,.75),
+precond_adjoint_obj(input_obj,spectral_obj,1.5)
 {
 }
 
@@ -52,155 +52,155 @@ lss::~lss()
 }
 
 void lss::run(double & lambda_minimal,
-	      double & lambda_maximal)
+              double & lambda_maximal)
 {
-
+	
   //sizes
   int & n1=input_obj.n1;
-  int & n2=input_obj.n2;
-  int & n3=input_obj.n3;
-
+	int & n2=input_obj.n2;
+	int & n3=input_obj.n3;
+	
   //save basic fields
-  basic.save("vb.dat","hb.dat","tb.dat");
-
+	basic.save("vb.dat","hb.dat","tb.dat");
+	
   //define a block vector to contain the constants for
   //the rhs of auxiliary problems (AP)
-  CBVF constant(n1,n2/2+1,n3);
-
+	CBVF constant(n1,n2/2+1,n3);
+	
   //Solving for auxiliary problems
   
   //Order zero
   //solutions of order 0 APs
   CBVF s[4]=
-    {CBVF(n1,n2/2+1,n3),
-     CBVF(n1,n2/2+1,n3), 
-     CBVF(n1,n2/2+1,n3),
-     CBVF(n1,n2/2+1,n3)};
+	{CBVF(n1,n2/2+1,n3),
+			CBVF(n1,n2/2+1,n3),
+			CBVF(n1,n2/2+1,n3),
+			CBVF(n1,n2/2+1,n3)};
   //pressure part of order 0 APs
-  CSF s_p[4]=
-    {CSF(n1,n2/2+1,n3),
-     CSF(n1,n2/2+1,n3), 
-     CSF(n1,n2/2+1,n3),
-     CSF(n1,n2/2+1,n3)};
+	CSF s_p[4]=
+	{CSF(n1,n2/2+1,n3),
+			CSF(n1,n2/2+1,n3),
+			CSF(n1,n2/2+1,n3),
+			CSF(n1,n2/2+1,n3)};
   //s0
-  constant=0;
-  constant.vel()(0,0,0)=cat::tvector<double,3>(1,0,0);
-  solve_zero(s,s_p,constant,0);  
+	constant=0;
+	constant.vel()(0,0,0)=cat::tvector<double,3>(1,0,0);
+	solve_zero(s,s_p,constant,0);
   //s1
-  constant=0;
-  constant.vel()(0,0,0)=cat::tvector<double,3>(0,1,0);
-  solve_zero(s,s_p,constant,1);
+	constant=0;
+	constant.vel()(0,0,0)=cat::tvector<double,3>(0,1,0);
+	solve_zero(s,s_p,constant,1);
   //s2
-  constant=0;
-  constant.mag()(0,0,0)=cat::tvector<double,3>(1,0,0);
-  solve_zero(s,s_p,constant,2);
+	constant=0;
+	constant.mag()(0,0,0)=cat::tvector<double,3>(1,0,0);
+	solve_zero(s,s_p,constant,2);
   //s3
-  constant=0;
-  constant.mag()(0,0,0)=cat::tvector<double,3>(0,1,0);
-  solve_zero(s,s_p,constant,3);
-  
+	constant=0;
+	constant.mag()(0,0,0)=cat::tvector<double,3>(0,1,0);
+	solve_zero(s,s_p,constant,3);
+	
   //Order one
  
   //solutions of order 1 APs
-  CBVF g[4][2]=
-    {
-      {CBVF(n1,n2/2+1,n3),
-       CBVF(n1,n2/2+1,n3)},
-      {CBVF(n1,n2/2+1,n3),
-       CBVF(n1,n2/2+1,n3)},
-      {CBVF(n1,n2/2+1,n3),
-       CBVF(n1,n2/2+1,n3)},
-      {CBVF(n1,n2/2+1,n3),
-       CBVF(n1,n2/2+1,n3)}
-    };
-  for(int i=0;i<4;++i)
-    {
-      stringstream ss;
-      ss << input_obj.apbfname
-	 << "_s_"
-	 << i
-	 << ".dat";
-      save_block_vector(s[i],ss.str());
-      for(int j=0;j<2;++j)
+	CBVF g[4][2]=
 	{
-	  solve_one(g[i][j],s,s_p,i,j);
-	  stringstream sss;
-	  sss << input_obj.apbfname
-	     << "_gamma_"
-	     << i
-	     << "_"
-	     << j
-	     << ".dat";
-	  save_block_vector(g[i][j],sss.str());
-	}
+		{CBVF(n1,n2/2+1,n3),
+				CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),
+				CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),
+				CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),
+				CBVF(n1,n2/2+1,n3)}
+	};
+	for(int i=0;i<4;++i)
+    {
+	    stringstream ss;
+	    ss << input_obj.apbfname
+		    << "_s_"
+		    << i
+		    << ".dat";
+	    save_block_vector(s[i],ss.str());
+	    for(int j=0;j<2;++j)
+	    {
+		    solve_one(g[i][j],s,s_p,i,j);
+		    stringstream sss;
+		    sss << input_obj.apbfname
+			    << "_gamma_"
+			    << i
+			    << "_"
+			    << j
+			    << ".dat";
+		    save_block_vector(g[i][j],sss.str());
+	    }
     }
   
 //Evaluate the averages of B_k_Gamma_ij
   cout << "Evaluating averages of B_k_Gamma_ij... " << endl;
   for(int i=0;i<4;++i)
-    for(int j=0;j<2;++j)
-      for(int k=0;k<2;++k)
-	{
+	  for(int j=0;j<2;++j)
+		  for(int k=0;k<2;++k)
+		  {
 	  //Note that the average of the 3rd component is wrong
 	  //but it is not used in further evaluataions
-
+			  
 	  //Velocity part
-	  av_b_k_gamma_ij_vel[i][j][k]=
-  	    real((a_one_obj(g[i][j],k)).vel()(0,0,0));
-
+			  av_b_k_gamma_ij_vel[i][j][k]=
+				  real((a_one_obj(g[i][j],k)).vel()(0,0,0));
+			  
 	  //	  cout << "   <d_vel(" << i << "," << j << "," << k << ")>="
 	  //     << av_b_k_gamma_ij_vel[i][j][k] << endl;
-
+			  
 	  //Magnetic part
-  	  av_b_k_gamma_ij_mag[i][j][k]=
-  	    real((a_one_obj(g[i][j],k)).mag()(0,0,0));
+			  av_b_k_gamma_ij_mag[i][j][k]=
+				  real((a_one_obj(g[i][j],k)).mag()(0,0,0));
 
 	  // cout << "   <d_mag(" << i << "," << j << "," << k << ")>="
 	 //     << av_b_k_gamma_ij_mag[i][j][k] << endl;
-	}
-  cout << "... done! " << endl;
+		  }
+	cout << "... done! " << endl;
 
 
 
   //Build and diagonalise matrix
-  cout << "Finding minimal and maximal growthrates..." << endl;
+	cout << "Finding minimal and maximal growthrates..." << endl;
   
-  cat::tvector<double,2> q(1.,0.);
-  cat::array<double,2> ep=eval_ep(q);
+	cat::tvector<double,2> q(1.,0.);
+	cat::array<double,2> ep=eval_ep(q);
   double lambda1,lambda2;
-  diag(lambda1,lambda2,ep);
+	diag(lambda1,lambda2,ep);
   double lambda_max,lambda_min;
-  if (lambda1>lambda2)
-    {
-      lambda_max=lambda1;
-      lambda_min=lambda2;
-    }
-  else
-    {
-      lambda_max=lambda2;
-      lambda_min=lambda1;
-    }
-  int n_int=10000;
-  double size_int=2*M_PI/n_int; 
-  for(int i=1;i<=n_int;++i)
-    {
-      double theta=i*size_int;
-      q=tvector<double,2>(cos(theta),sin(theta));
-      cat::array<double,2> ep=eval_ep(q);
-      diag(lambda1,lambda2,ep);
-      if(lambda1>lambda_max)
-	lambda_max=lambda1;
-      if(lambda2>lambda_max)
-	lambda_max=lambda2;
-      if(lambda1<lambda_min)
-	lambda_min=lambda1;
-      if(lambda2<lambda_min)
-	lambda_min=lambda2;
-    }
-  cout << "...done!" << endl;
+	if (lambda1>lambda2)
+	{
+		lambda_max=lambda1;
+		lambda_min=lambda2;
+	}
+	else
+	{
+		lambda_max=lambda2;
+		lambda_min=lambda1;
+	}
+	int n_int=10000;
+	double size_int=2*M_PI/n_int;
+	for(int i=1;i<=n_int;++i)
+	{
+		double theta=i*size_int;
+		q=tvector<double,2>(cos(theta),sin(theta));
+		cat::array<double,2> ep=eval_ep(q);
+		diag(lambda1,lambda2,ep);
+		if(lambda1>lambda_max)
+			lambda_max=lambda1;
+		if(lambda2>lambda_max)
+			lambda_max=lambda2;
+		if(lambda1<lambda_min)
+			lambda_min=lambda1;
+		if(lambda2<lambda_min)
+			lambda_min=lambda2;
+	}
+	cout << "...done!" << endl;
 
-  lambda_maximal=lambda_max;
-  lambda_minimal=lambda_min;
+	lambda_maximal=lambda_max;
+	lambda_minimal=lambda_min;
 
 }
   
@@ -253,7 +253,7 @@ void lss::solve_zero(CBVF * s,
   cout << "... done!" << endl;
 //   cout << "Printing non-vanishing harmonics in s" << endl;
 //   spectral_obj.pnvh(s[i]);
-   cout << "... done!" << endl;
+	cout << "... done!" << endl;
 }
 
 //Solving order 1 auxiliary problems
@@ -353,12 +353,14 @@ cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 	    out(0,i)+=aux;
 	    //cout << "av_vel1: " << aux << endl;
 
-	    aux=(av_b_k_gamma_ij_vel[i][j][k])[1];	    
-	    aux*=q[j];
-	    aux*=q[k];
-	    out(1,i)+=aux;
+// 	    aux=(av_b_k_gamma_ij_vel[i][j][k])[1];	    
+// 	    aux*=q[j];
+// 	    aux*=q[k];
+// 	    out(1,i)+=aux;
 	    //cout << "av_vel2: " << aux << endl;
 
+		  out(1,i)+=(av_b_k_gamma_ij_vel[i][j][k])[1]*q[j]*q[k];
+		  
 	    aux=(av_b_k_gamma_ij_mag[i][j][k])[0];	    
 	    aux*=q[j];
 	    aux*=q[k];
