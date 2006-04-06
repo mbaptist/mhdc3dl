@@ -25,15 +25,16 @@ INSTALL_ROOT = /usr/local
 IFLAGS = $(DEBUG) $(INCLUDE)
 FLAGS = $(DEBUG) $(LIB) 
 
-OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o mhdc3dl.o
+OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o
+#sss.o
 
 all:  mhdc3dl mhdc3dl_python mhdc3dl_test
 
 clean:
 	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so *~ && $(MAKE) -C vzdeigen clean
 
-mhdc3dl: $(OBJECTS) main.o
-	$(CXX) $(FLAGS) -o mhdc3dl $(OBJECTS) main.o
+mhdc3dl: $(OBJECTS) mhdc3dl.o
+	$(CXX) $(FLAGS) -o mhdc3dl $(OBJECTS) mhdc3dl.o
 
 #mhdc3dl_sss: libvzdeigen $(OBJECTS) mhdc3dl_sss.o
 #	$(CXX) $(FLAGS) -o mhdc3dl_sss $(OBJECTS) mhdc3dl_sss.o -lfftw3 ./vzdeigen/libvzdeigen.a -L/opt/intel_fc_80/lib -lifcore -lirc -lifport 

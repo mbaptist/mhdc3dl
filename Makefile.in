@@ -25,7 +25,8 @@ INSTALL_ROOT = @prefix@
 IFLAGS = $(DEBUG) $(INCLUDE)
 FLAGS = $(DEBUG) $(LIB) 
 
-OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
+OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o
+#sss.o
 
 all:  mhdc3dl mhdc3dl_python mhdc3dl_test
 
