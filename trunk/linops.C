@@ -131,9 +131,9 @@ Real linops_base::scalar_prod(const CBVF & xx,const CBVF & yy) const
 
 //Ctor
 a_nought::a_nought(input & input_obj__,
-		   spectral & spectral_obj__,
-		   Basic & basic__):
-  linops_base(input_obj__,spectral_obj__,basic__)
+                   spectral & spectral_obj__,
+                   Basic & basic__):
+linops_base(input_obj__,spectral_obj__,basic__)
 {
 }
 
@@ -143,24 +143,14 @@ a_nought::~a_nought()
 }
 
 //a_nought(w_hat)
-CBVF a_nought::operator()
-  (const CBVF & w_hat)
+CBVF a_nought::operator()(const CBVF & w_hat)
 // const
 {
 
   //create temporary block vector for output
-  CBVF out(w_hat);
-  out=0;
+	CBVF out(w_hat.shape());
 
-  //nullify temporaries
-  // vel=0;
-//   mag=0;
-//   temp=0;
-//   curl_vel=0;
-//   curl_mag=0;
-//   grad_temp=0;
-
-  //FFT fields into real space
+  //transform fields into real space
   spectral_obj.fft_ccs.inverse_transform(vel,w_hat.vel());
   spectral_obj.fft_ccs.inverse_transform(mag,w_hat.mag());
   spectral_obj.sfft_s.inverse_transform(temp,w_hat.temp());
@@ -170,56 +160,35 @@ CBVF a_nought::operator()
   curl_mag_hat=spectral_obj.curl_hat(w_hat.mag(),0);
   grad_temp_hat=spectral_obj.grad_hat(w_hat.temp(),0);
 
-  //FFT derivatives into real space
-  spectral_obj.fft_ssc.inverse_transform(curl_vel,curl_vel_hat);
+  //transform derivatives into real space
+	spectral_obj.fft_ssc.inverse_transform(curl_vel,curl_vel_hat);
   spectral_obj.fft_ssc.inverse_transform(curl_mag,curl_mag_hat);
   spectral_obj.fft_ssc.inverse_transform(grad_temp,grad_temp_hat);
-  //curl_vel=spectral_obj.fft_ssc.inverse_transform(curl_vel_hat);
-  //curl_mag=spectral_obj.fft_ssc.inverse_transform(curl_mag_hat);
-  //grad_temp=spectral_obj.fft_ssc.inverse_transform(grad_temp_hat);
   
   //evaluate nonlinear term for velocity
-  nonlinear=cross_product(basic.vel(),curl_vel)
-    -cross_product(basic.curl_vel(),vel)
-    -cross_product(basic.mag(),curl_mag)
-    +cross_product(basic.curl_mag(),mag);
-
-  //FFT nonlinear into Fourier space
+	nonlinear=cross_product(basic.vel(),curl_vel)
+		-cross_product(basic.curl_vel(),vel)
+		-cross_product(basic.mag(),curl_mag)
+		+cross_product(basic.curl_mag(),mag);
+	
+  //transform nonlinear into Fourier space
   spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 
   //evaluate velocity component
-  //out.vel()=spectral_obj.lap_hat(w_hat.vel());
-  //out.vel()*=visc;
-
-  //out.vel()=visc*spectral_obj.lap_hat(w_hat.vel());
-
-  //Coriolis term
+	CVF aux(out.vel().shape());
+	aux=w_hat.temp();
+	out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())+compress*cat::tvector<Real,3>(0,0,g)*aux+nonlinear_hat;
+	//Coriolis term
   //out.vel()+=(-cross_product(cat::tvector<Real,3>(0,0,omegaz),w_hat.vel()));
-
-
-   CVF aux(out.vel().shape());
-   aux=w_hat.temp();
-//   aux*=cat::tvector<Real,3>(0,0,g);
-//   aux*=compress;
-//   out.vel()+=aux;
-//   out.vel()+=nonlinear_hat;
-
-  out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())+compress*cat::tvector<Real,3>(0,0,g)*aux+nonlinear_hat;
-
+		
   //evaluate nonlinear term for magnetic field
   nonlinear=cross_product(basic.vel(),mag)
     -cross_product(basic.mag(),vel);
 
-  //FFT nonlinear into Fourier space
+  //transform nonlinear into Fourier space
   spectral_obj.fft_ssc.direct_transform(nonlinear_hat,nonlinear);
 
   //magnetic field component
-  //out.mag()=spectral_obj.lap_hat(w_hat.mag());
-  //out.mag()*=diff;
-
-  //out.mag()+=spectral_obj.curl_hat(nonlinear_hat,1);
-
-
   out.mag()=diff*spectral_obj.lap_hat(w_hat.mag())+spectral_obj.curl_hat(nonlinear_hat,1);
 
   //evaluate nonlinear term (s_nonlinear) for temperature
@@ -231,43 +200,30 @@ CBVF a_nought::operator()
   //s_nonlinear+=rsaux;
   s_nonlinear+=(-dot_product(basic.vel(),grad_temp));
 
-  //FFT s_nonlinear into Fourier space
+  //transform s_nonlinear into Fourier space
   spectral_obj.sfft_s.direct_transform(s_nonlinear_hat,s_nonlinear);
 
   //temperature component
-  // out.temp()=0;
-//   out.temp()=-w_hat.vel()[2];
-//   out.temp()*=deltat;
-//   CSF saux(out.temp().shape());
-//   saux=spectral_obj.lap_hat(w_hat.temp());
-//   saux*=tcond;
-//   out.temp()+=saux;
-//   out.temp()+=s_nonlinear_hat;
-
-
-  out.temp()=-deltat*w_hat.vel()[2]+tcond*spectral_obj.lap_hat(w_hat.temp())+s_nonlinear_hat;
-
+	out.temp()=-deltat*w_hat.vel()[2]+tcond*spectral_obj.lap_hat(w_hat.temp())+s_nonlinear_hat;
 
   //dealiasing
-  spectral_obj.dealias(out);
+	spectral_obj.dealias(out);
 
   //remove gradient
-  spectral_obj.remove_gradient(out,0);
+	spectral_obj.remove_gradient(out,0);
 
   return out;
 
 }
 
 
-
-
 //A_NOUGHT_ADJOINT
 
 //Ctor
 a_nought_adjoint::a_nought_adjoint(input & input_obj__,
-				   spectral & spectral_obj__,
-				   Basic & basic__):  
-  linops_base(input_obj__,spectral_obj__,basic__)
+                                   spectral & spectral_obj__,
+                                   Basic & basic__):  
+linops_base(input_obj__,spectral_obj__,basic__)
 {
 }
 
@@ -277,24 +233,14 @@ a_nought_adjoint::~a_nought_adjoint()
 }
 
 //a_nought_adjoint(w_hat)
-CBVF a_nought_adjoint::operator()
-  (const CBVF & w_hat) 
+CBVF a_nought_adjoint::operator()(const CBVF & w_hat)
 //const
 {
 
   //create temporary block vector for output
-  CBVF out(w_hat);
-  out=0;
+	CBVF out(w_hat.shape());
   
-  //nullify temporaries
-//   vel=0;
-//   mag=0;
-//   temp=0;
-//   curl_vel=0;
-//   curl_mag=0;
-//   grad_temp=0;
-
-  //FFT fields into real space
+  //transform fields into real space
   spectral_obj.fft_ccs.inverse_transform(vel,w_hat.vel());
   spectral_obj.fft_ccs.inverse_transform(mag,w_hat.mag());
   spectral_obj.sfft_s.inverse_transform(temp,w_hat.temp());
@@ -304,11 +250,10 @@ CBVF a_nought_adjoint::operator()
   curl_mag_hat=spectral_obj.curl_hat(w_hat.mag(),0);
   grad_temp_hat=spectral_obj.grad_hat(w_hat.temp(),0);
 
-  //FFT derivatives into real space
+  //transform derivatives into real space
   spectral_obj.fft_ssc.inverse_transform(curl_vel,curl_vel_hat);
   spectral_obj.fft_ssc.inverse_transform(curl_mag,curl_mag_hat);
   spectral_obj.fft_ssc.inverse_transform(grad_temp,grad_temp_hat);
-
 
   //evaluate nonlinear term for velocity (first part)
   nonlinear=cross_product(basic.curl_vel(),vel)
@@ -319,27 +264,19 @@ CBVF a_nought_adjoint::operator()
   raux*=grad_temp;
   nonlinear+=raux;
 
-  //FFT nonlinear into Fourier space (first part)
+  //transform nonlinear into Fourier space (first part)
   spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 
   //evaluate velocity component (first part)
-  //out.vel()=spectral_obj.lap_hat(w_hat.vel());
-  //out.vel()*=visc;
+	
+	CVF aux(out.vel().shape());
+	aux=-w_hat.temp();
+	aux*=cat::tvector<Real,3>(0,0,deltat);
 
-  //Coriolis term
-  //out.vel()+=cross_product(cat::tvector<Real,3>(0,0,omegaz),w_hat.vel());
-
-   CVF aux(out.vel().shape());
-   aux=-w_hat.temp();
-   aux*=cat::tvector<Real,3>(0,0,deltat);
-
-//   out.vel()+=aux;
-//   out.vel()+=nonlinear_hat;
-
-  out.vel()=aux+visc*spectral_obj.lap_hat(w_hat.vel())+nonlinear_hat;
+	out.vel()=aux+visc*spectral_obj.lap_hat(w_hat.vel())+nonlinear_hat;
 
   //evaluate nonlinear term for velocity (second part)
-  nonlinear=cross_product(basic.vel(),vel);
+	nonlinear=cross_product(basic.vel(),vel);
 
   //FFT nonlinear into Fourier space (second part)
   spectral_obj.fft_ssc.direct_transform(nonlinear_hat,nonlinear);
@@ -347,11 +284,7 @@ CBVF a_nought_adjoint::operator()
   //evaluate velocity component (second part)
   out.vel()+=(-spectral_obj.curl_hat(nonlinear_hat,1));
   
-
-
-
   //evaluate nonlinear term for magnetic field (first part)
-  nonlinear=0;
   nonlinear=-cross_product(basic.curl_mag(),vel)
     -cross_product(basic.vel(),curl_mag);
   //Joule term
@@ -367,20 +300,16 @@ CBVF a_nought_adjoint::operator()
   spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 
   //magnetic field component (first part)
-  // out.mag()=spectral_obj.lap_hat(w_hat.mag());
-//   out.mag()*=diff;
-//   out.mag()+=nonlinear_hat;
-
   out.mag()=diff*spectral_obj.lap_hat(w_hat.mag())+nonlinear_hat;
 
   //evaluate nonlinear term for magnetic field (second part)
-  nonlinear=cross_product(basic.mag(),vel);
+	nonlinear=cross_product(basic.mag(),vel);
 
   //FFT nonlinear into Fourier space (second part)
-  spectral_obj.fft_ssc.direct_transform(nonlinear_hat,nonlinear);
+	spectral_obj.fft_ssc.direct_transform(nonlinear_hat,nonlinear);
 
   //magnetic field component (second part)
-  out.mag()+=spectral_obj.curl_hat(nonlinear_hat,1);
+	out.mag()+=spectral_obj.curl_hat(nonlinear_hat,1);
 
   
   
@@ -391,17 +320,7 @@ CBVF a_nought_adjoint::operator()
   spectral_obj.sfft_s.direct_transform(s_nonlinear_hat,s_nonlinear);
 
   //temperature component
-//   out.temp()=w_hat.vel()[2];
-//   out.temp()*=g;
-//   out.temp()*=compress;
-//   CSF saux(out.temp().shape());
-//   saux=spectral_obj.lap_hat(w_hat.temp());
-//   saux*=tcond;
-//   out.temp()+=saux;
-//   out.temp()+=s_nonlinear_hat;
-
-  out.temp()=compress*g*w_hat.vel()[2]+tcond*spectral_obj.lap_hat(w_hat.temp())+s_nonlinear_hat;
-
+	out.temp()=compress*g*w_hat.vel()[2]+tcond*spectral_obj.lap_hat(w_hat.temp())+s_nonlinear_hat;
 
   //dealiasing
   spectral_obj.dealias(out);
@@ -414,16 +333,13 @@ CBVF a_nought_adjoint::operator()
 }
 
 
-
-
-
 //A_ONE
 
 //Ctor
 a_one::a_one(input & input_obj__,
-	     spectral & spectral_obj__,
-	     Basic & basic__):
-  linops_base(input_obj__,spectral_obj__,basic__)
+             spectral & spectral_obj__,
+             Basic & basic__):
+linops_base(input_obj__,spectral_obj__,basic__)
 {
 }
 
@@ -434,22 +350,13 @@ a_one::~a_one()
 
 
 //a_one(index)
-CBVF a_one::operator()
-  (const CBVF & field,const int & index)
+CBVF a_one::operator()(const CBVF & field,const int & index)
 // const
 {
-
-  CBVF out(field);
-
-  //nullify temporaries
-//   vel=0;
-//   mag=0;
-//   temp=0;
-//   curl_vel=0;
-//   curl_mag=0;
-//   grad_temp=0;
-
-  //FFT fields into real space
+	
+	CBVF out(field.shape());
+	
+  //transform fields into real space
   spectral_obj.fft_ccs.inverse_transform(vel,field.vel());
   spectral_obj.fft_ccs.inverse_transform(mag,field.mag());
   spectral_obj.sfft_s.inverse_transform(temp,field.temp());
@@ -505,7 +412,6 @@ CBVF a_one::operator()
 
 
   //evaluate nonlinear term (s_nonlinear) for temperature
-  s_nonlinear=0;
   //Joule term
   //for(int o=0;o<3;++o)
   //  for(int k=0;k<3;++k)
@@ -529,13 +435,11 @@ CBVF a_one::operator()
   out.temp()*=2;
   out.temp()+=s_nonlinear_hat;
 
-
   //dealiasing
   spectral_obj.dealias(out);
 
   //remove gradient
   spectral_obj.remove_gradient(out,0);
-
 
   return out;
 
@@ -609,11 +513,11 @@ void linops::test_adjoint(CBVF & a,CBVF & b)
 ////////////////////////////////
 
 precond::precond(input & input_obj__,
-		 spectral & spectral_obj__,
-		 float qq__):
-  input_obj(input_obj__),
-  spectral_obj(spectral_obj__),
-  qq_(qq__)
+                 spectral & spectral_obj__,
+                 float qq__):
+input_obj(input_obj__),
+spectral_obj(spectral_obj__),
+qq_(qq__)
 {
 }
 
@@ -623,35 +527,36 @@ precond::~precond()
 
 Real & precond::qq()
 {
-  return qq_;
+	return qq_;
 }
 
 
 CBVF precond::operator()
-  (const CBVF & x) const
+(const CBVF & x) const
 {
 
-  int n1(input_obj.n1);
-  int n2(input_obj.n2);
+	int n1(input_obj.n1);
+	int n2(input_obj.n2);
   int n3(input_obj.n3);
 
-  CBVF out(x);
+	CBVF out(x);
   
   //cout << "shapes: " << x.shape()[0] << x.shape()[1] << x.shape()[2] << endl;
 
-  for(int i=0;i<n1;++i)
+	for(int i=0;i<n1;++i)
     for(int j=0;j<n2/2+1;++j)
-      for(int k=0;k<n3;++k)
-	{
-	  Real aux=pow(spectral_obj.wv2(i,j,k),-qq_);
-	  if (i==0 && j==0 && k==0)
- 	    aux=1;
-	  for(int n=0;n<3;++n)
+	    for(int k=0;k<n3;++k)
 	    {
-	      out.vel()(i,j,k)[n]*=aux;
-	      out.mag()(i,j,k)[n]*=aux;
+		    Real aux=pow(spectral_obj.wv2(i,j,k),-qq_);
+		    if (i==0 && j==0 && k==0)
+			    aux=1;
+		    for(int n=0;n<3;++n)
+		    {
+			    out.vel()(i,j,k)[n]*=aux;
+			    out.mag()(i,j,k)[n]*=aux;
+		    }
+		    out.temp()(i,j,k)*=aux;
 	    }
-	  out.temp()(i,j,k)*=aux;
-	}
-  return out;
+	return out;
 }
+
