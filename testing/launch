@@ -1,0 +1,29 @@
+#!/usr/bin/python
+
+#import mhdc3dl_python module
+import mhdc3dl_python 
+
+#import the defaults from the file "defaults.cfg"
+#into the __builtin__ module 
+import imp
+default="default.cfg"
+imp.load_source('mhdc3dl_python',default)
+
+ofile=open("output.dat","w")
+
+mhdc3dl_python.visc=.5
+mhdc3dl_python.diff=.2
+mhdc3dl_python.tcond=.5
+
+#Main run cycle
+#change as needed
+for s in range(100,200):
+	mhdc3dl_python.basic_seed=s
+	eddy=mhdc3dl_python.lss_run("mhdc3dl_python")
+	line=str(mhdc3dl_python.basic_seed)+" "+str(mhdc3dl_python.visc)+" "+str(mhdc3dl_python.diff)+" "+str(mhdc3dl_python.tcond)+" "+str(eddy[0])+" "+str(eddy[1])+"\n"
+	print(line)
+	ofile.write(line)
+	ofile.flush()
+
+
+
