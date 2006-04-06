@@ -4,7 +4,7 @@
 AC_PREREQ(2.59)
 AC_INIT(mhdcl, 0.1b, mbaptist@fc.up.pt)
 
-AC_CONFIG_SRCDIR([lss.C])
+AC_CONFIG_SRCDIR([mhdc3dl.C])
 
 AC_PROG_INSTALL
 AC_PROG_RANLIB

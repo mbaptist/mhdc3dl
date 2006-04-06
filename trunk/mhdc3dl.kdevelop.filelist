@@ -27,3 +27,7 @@ sss.C
 sss.h
 lss.C
 lss.h
+testing/stdtest.cfg
+testing/stdtest_lr.cfg
+testing/time_opt.txt
+mhdc3dl.C
