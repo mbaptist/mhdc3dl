@@ -68,5 +68,10 @@ real    15m52.228s
 user    13m51.432s
 sys     0m58.044s
 
+06042006 13:30
+code cleanup (output of harmonics was removed)
+real    9m35.094s
+user    7m54.198s
+sys     1m5.320s
 
 
