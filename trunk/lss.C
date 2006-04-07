@@ -1,35 +1,28 @@
 
+//class lss - imlementation
+//LARGE SCALE STABILITY
+
 #include "input.h"
 
-#include "lss.h"
-
 #include "block_vector.h"
-
 #include "spectral.h"
-
 #include "basic.h"
 #include "linops.h"
 
-#include <cat.h>
+#include "lss.h"
 
+#include <cat.h>
 #include <lass.h>
 
 #include <iostream>
 #include <fstream>
 #include <string>
 
-#include "spectral.h"
-
 using namespace std;
 //using namespace lass;
 using namespace cat;
 
-
-
-
-
-//LARGE SCALE STABILITY
-
+//Ctor
 lss::lss(input & input_obj_):
 input_obj(input_obj_),
 spectral_obj(input_obj.n1,
@@ -47,14 +40,15 @@ precond_adjoint_obj(input_obj,spectral_obj,1.5)
 {
 }
 
+//Dtor() 
 lss::~lss()
 {
 }
 
+//Evaluate eddy viscosity
 void lss::run(double & lambda_minimal,
               double & lambda_maximal)
 {
-	
   //sizes
   int & n1=input_obj.n1;
 	int & n2=input_obj.n2;
@@ -320,7 +314,6 @@ void lss::solve_one(CBVF & gamma,
  
 }
 
-
 //Evaluate ep (2x2 matrix to be diagonalised)
 cat::array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
 {
@@ -336,60 +329,29 @@ cat::array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
 //Evaluate e (4x4 matrix to be reduced to 2x2)
 cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 {
-  cat::array<double,2> out(4,4);
-  for(int i=0;i<4;++i)
-    {
-      out(0,i)=0;
-      out(1,i)=0;
-      out(2,i)=0;
-      out(3,i)=0;
-      for(int k=0;k<2;++k)
-	for(int j=0;j<2;++j)
-	  {
-
-	    double aux=(av_b_k_gamma_ij_vel[i][j][k])[0];
-	    aux*=q[j];
-	    aux*=q[k];
-	    out(0,i)+=aux;
-	    //cout << "av_vel1: " << aux << endl;
-
-// 	    aux=(av_b_k_gamma_ij_vel[i][j][k])[1];	    
-// 	    aux*=q[j];
-// 	    aux*=q[k];
-// 	    out(1,i)+=aux;
-	    //cout << "av_vel2: " << aux << endl;
-
-		  out(1,i)+=(av_b_k_gamma_ij_vel[i][j][k])[1]*q[j]*q[k];
-		  
-	    aux=(av_b_k_gamma_ij_mag[i][j][k])[0];	    
-	    aux*=q[j];
-	    aux*=q[k];
-	    out(2,i)+=aux;
-	    //cout << "av_mag1: " << aux << endl;
-
-	    aux=(av_b_k_gamma_ij_mag[i][j][k])[1];
-	    aux*=q[j];
-	    aux*=q[k];
-	    out(3,i)+=aux;
-	    //cout << "av_mag2: " << aux << endl;
-
-	  }
-      out(0,i)+=(input_obj.visc)*(0==i);
-      out(1,i)+=(input_obj.visc)*(1==i);
-      out(2,i)+=(input_obj.diff)*(2==i);
-      out(3,i)+=(input_obj.diff)*(3==i);
-    }
-
-  out*=-1;
-
-  //cout << "E:" << endl;
-  //cout << out << endl;
-
-
-	    
+	cat::array<double,2> out(4,4);
+	for(int i=0;i<4;++i)
+	{
+		out(0,i)=0;
+		out(1,i)=0;
+		out(2,i)=0;
+		out(3,i)=0;
+		for(int k=0;k<2;++k)
+			for(int j=0;j<2;++j)
+			{
+				out(0,i)+=(av_b_k_gamma_ij_vel[i][j][k])[0]*q[j]*q[k];
+				out(1,i)+=(av_b_k_gamma_ij_vel[i][j][k])[1]*q[j]*q[k];
+				out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
+				out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
+			}
+		out(0,i)+=(input_obj.visc)*(0==i);
+		out(1,i)+=(input_obj.visc)*(1==i);
+		out(2,i)+=(input_obj.diff)*(2==i);
+		out(3,i)+=(input_obj.diff)*(3==i);
+	}
+	out*=-1;
   return out;
 }
-
 
 void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & matrix)
 {
