@@ -74,4 +74,17 @@ real    9m35.094s
 user    7m54.198s
 sys     1m5.320s
 
+20042006 10:30
+fft outofplace implemented
+v_rfft_h_z improved to prevent unnecessary creation of plans (important)
+real    8m59.048s
+user    7m54.242s
+sys     0m57.532s
+
+10042006 12:34
+v_rfft_h_z_xxy -> v_rfft_h_z
+real    9m2.969s
+user    7m47.069s
+sys     0m57.356s
+
 
