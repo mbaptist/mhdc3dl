@@ -8,7 +8,7 @@
 #
 ################################################
 
-CXX = g++ -O2 -mtune=pentium-m 
+CXX = g++ -O3 -mtune=pentium-m 
 
 DEBUG = 
 #-g 
