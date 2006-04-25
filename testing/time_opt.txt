@@ -87,4 +87,9 @@ real    9m2.969s
 user    7m47.069s
 sys     0m57.356s
 
+25042006 11:25
+guru plan execution
+real    9m50.010s
+user    7m44.469s
+sys     0m58.816s
 
