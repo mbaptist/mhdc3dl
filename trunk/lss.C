@@ -344,10 +344,10 @@ cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 				out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
 				out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
 			}
-		out(0,i)+=(input_obj.visc)*(0==i);
-		out(1,i)+=(input_obj.visc)*(1==i);
-		out(2,i)+=(input_obj.diff)*(2==i);
-		out(3,i)+=(input_obj.diff)*(3==i);
+		out(0,i)+=(input_obj.visc)*(0==i)*q[0]*q[0];
+		out(1,i)+=(input_obj.visc)*(1==i)*q[1]*q[1];
+		out(2,i)+=(input_obj.diff)*(2==i)*q[0]*q[0];
+		out(3,i)+=(input_obj.diff)*(3==i)*q[1]*q[1];
 	}
 	out*=-1;
   return out;
