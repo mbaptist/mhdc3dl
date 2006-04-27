@@ -141,6 +141,8 @@ void lss::run(double & lambda_minimal,
 	  //Velocity part
 			  av_b_k_gamma_ij_vel[i][j][k]=
 				  real((a_one_obj(g[i][j],k)).vel()(0,0,0));
+
+			  cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
 			  
 	  //	  cout << "   <d_vel(" << i << "," << j << "," << k << ")>="
 	  //     << av_b_k_gamma_ij_vel[i][j][k] << endl;
@@ -148,7 +150,9 @@ void lss::run(double & lambda_minimal,
 	  //Magnetic part
 			  av_b_k_gamma_ij_mag[i][j][k]=
 				  real((a_one_obj(g[i][j],k)).mag()(0,0,0));
-
+			  
+			  cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
+			  
 	  // cout << "   <d_mag(" << i << "," << j << "," << k << ")>="
 	 //     << av_b_k_gamma_ij_mag[i][j][k] << endl;
 		  }
@@ -344,10 +348,10 @@ cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 				out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
 				out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
 			}
-		out(0,i)+=(input_obj.visc)*(0==i)*q[0]*q[0];
-		out(1,i)+=(input_obj.visc)*(1==i)*q[1]*q[1];
-		out(2,i)+=(input_obj.diff)*(2==i)*q[0]*q[0];
-		out(3,i)+=(input_obj.diff)*(3==i)*q[1]*q[1];
+		out(0,i)+=(input_obj.visc)*(0==i);
+		out(1,i)+=(input_obj.visc)*(1==i);
+		out(2,i)+=(input_obj.diff)*(2==i);
+		out(3,i)+=(input_obj.diff)*(3==i);
 	}
 	out*=-1;
   return out;
@@ -358,7 +362,7 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
   double a=1.;
   double b=-matrix(0,0)-matrix(1,1);
   double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
-  lambda1=-b/(2*a)*(1+sqrt(1-4*a*c/(b*b)));
+  lambda1=-b/(2.*a)*(1.+sqrt(1.-4.*a*c/(b*b)));
   lambda2=c/(a*lambda1);
 }
 
