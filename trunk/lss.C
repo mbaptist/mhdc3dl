@@ -142,7 +142,7 @@ void lss::run(double & lambda_minimal,
 			  av_b_k_gamma_ij_vel[i][j][k]=
 				  real((a_one_obj(g[i][j],k)).vel()(0,0,0));
 
-			  cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
+			  //cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
 			  
 	  //	  cout << "   <d_vel(" << i << "," << j << "," << k << ")>="
 	  //     << av_b_k_gamma_ij_vel[i][j][k] << endl;
@@ -151,7 +151,7 @@ void lss::run(double & lambda_minimal,
 			  av_b_k_gamma_ij_mag[i][j][k]=
 				  real((a_one_obj(g[i][j],k)).mag()(0,0,0));
 			  
-			  cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
+			  //cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
 			  
 	  // cout << "   <d_mag(" << i << "," << j << "," << k << ")>="
 	 //     << av_b_k_gamma_ij_mag[i][j][k] << endl;
