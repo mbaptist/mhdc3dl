@@ -348,6 +348,9 @@ public:
   //Destructor
   ~precond();
 
+private:
+		precond();
+
   //Pulic Methods
 public:
   CBVF operator()
