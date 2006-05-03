@@ -509,7 +509,7 @@ void linops::test_adjoint(CBVF & a,CBVF & b)
 
 
 ////////////////////////////////
-//Preconditioner
+// Preconditioner
 ////////////////////////////////
 
 precond::precond(input & input_obj__,
@@ -535,12 +535,14 @@ CBVF precond::operator()
 (const CBVF & x) const
 {
 
+
+#if 1
 	int n1(input_obj.n1);
 	int n2(input_obj.n2);
   int n3(input_obj.n3);
 
-	CBVF out(x);
-  
+	CBVF out(x.shape());
+
   //cout << "shapes: " << x.shape()[0] << x.shape()[1] << x.shape()[2] << endl;
 
 	for(int i=0;i<n1;++i)
@@ -552,11 +554,39 @@ CBVF precond::operator()
 			    aux=1;
 		    for(int n=0;n<3;++n)
 		    {
-			    out.vel()(i,j,k)[n]*=aux;
-			    out.mag()(i,j,k)[n]*=aux;
+			    out.vel()(i,j,k)[n]=x.vel()(i,j,k)[n]*aux;
+			    out.mag()(i,j,k)[n]=x.mag()(i,j,k)[n]*aux;
 		    }
-		    out.temp()(i,j,k)*=aux;
+		    out.temp()(i,j,k)=x.temp()(i,j,k)*aux;
 	    }
+
 	return out;
+
+#endif
+
+#if 0
+	CBVF out(x.shape());
+
+	out.vel()=	pow(spectral_obj.lap_hat(-x.vel()),-qq_);
+	out.mag()=	pow(spectral_obj.lap_hat(-x.mag()),-qq_);
+	out.temp()=pow(spectral_obj.lap_hat(-x.temp()),-qq_);
+	out.vel()(0,0,0)=x.vel()(0,0,0);
+	out.mag()(0,0,0)=x.mag()(0,0,0);
+	out.temp()(0,0,0)=x.temp()(0,0,0);
+	return out;
+#endif
+	
+#if 0
+	CBVF out(x);
+
+	
+	out*=pow(spectral_obj.wv2,-qq_);
+		
+	out.vel()(0,0,0)=x.vel()(0,0,0);
+	out.mag()(0,0,0)=x.mag()(0,0,0);
+	out.temp()(0,0,0)=x.temp()(0,0,0);
+	return out;
+#endif
+	
 }
 
