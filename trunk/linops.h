@@ -333,30 +333,20 @@ class precond
 {
   //Members
 private:
-  input & input_obj;
   spectral & spectral_obj;
   Real qq_;
-  //Accessors
-public:
-  Real & qq();
-
 public:
   //Constructor
-  precond(input & input_obj__,
-	  spectral & spectral_obj__,
-	  float qq__);
+	precond(spectral & spectral_obj__,float qq__);
   //Destructor
   ~precond();
-
 private:
+	//Forbidden ctors	
 		precond();
-
   //Pulic Methods
 public:
   CBVF operator()
     (const CBVF& x) const;
-  
-
 };
 
 

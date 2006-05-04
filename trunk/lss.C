@@ -25,18 +25,14 @@ using namespace cat;
 //Ctor
 lss::lss(input & input_obj_):
 input_obj(input_obj_),
-spectral_obj(input_obj.n1,
-             input_obj.n2,
-             input_obj.n3,
-             input_obj.l1,
-             input_obj.l2,
-             input_obj.l3),
+spectral_obj(input_obj.n1,input_obj.n2,input_obj.n3,
+             input_obj.l1,input_obj.l2,input_obj.l3),
 basic(input_obj,spectral_obj),
 a_nought_obj(input_obj,spectral_obj,basic),
 a_nought_adjoint_obj(input_obj,spectral_obj,basic),
 a_one_obj(input_obj,spectral_obj,basic),
-precond_obj(input_obj,spectral_obj,.75),
-precond_adjoint_obj(input_obj,spectral_obj,1.5)
+precond_obj(spectral_obj,input_obj.qq),
+precond_adjoint_obj(spectral_obj,input_obj.qq_adj)
 {
 }
 
@@ -226,7 +222,7 @@ void lss::solve_zero(CBVF * s,
   cout << "Solving for s(" << i << ")..." << endl;
   CBVF rhs_zero=-a_nought_obj(rhs_constant_zero);
 
-  cout << sum(rhs_zero.vel()) << endl;
+	// cout << sum(rhs_zero.vel()) << endl;
 
   spectral_obj.remove_gradient(rhs_zero,0);
   s[i]=0;
