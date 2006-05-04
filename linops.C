@@ -512,10 +512,7 @@ void linops::test_adjoint(CBVF & a,CBVF & b)
 // Preconditioner
 ////////////////////////////////
 
-precond::precond(input & input_obj__,
-                 spectral & spectral_obj__,
-                 float qq__):
-input_obj(input_obj__),
+precond::precond(spectral & spectral_obj__,float qq__):
 spectral_obj(spectral_obj__),
 qq_(qq__)
 {
@@ -525,18 +522,44 @@ precond::~precond()
 {
 }
 
-Real & precond::qq()
-{
-	return qq_;
-}
-
-
 CBVF precond::operator()
 (const CBVF & x) const
 {
-
-
-#if 1
+	CBVF out(x.shape());
+	array_iterator<CV,3> outvel_iterator(out.vel());
+	array_iterator<CV,3> outmag_iterator(out.mag());
+	array_iterator<CS,3> outtemp_iterator(out.temp());
+	array_const_iterator<CV,3> xvel_iterator(x.vel());
+	array_const_iterator<CV,3> xmag_iterator(x.mag());
+	array_const_iterator<CS,3> xtemp_iterator(x.temp());
+	array_const_iterator<RS,3> wv2_iterator(spectral_obj.wv2);
+	for (outvel_iterator=out.vel().begin(),
+	     outmag_iterator=out.mag().begin(),
+	     outtemp_iterator=out.temp().begin(),
+	     xvel_iterator=x.vel().begin(),
+	     xmag_iterator=x.mag().begin(),
+	     xtemp_iterator=x.temp().begin(),
+	     wv2_iterator=spectral_obj.wv2.begin();
+	     outvel_iterator!=out.vel().end();
+	     ++outvel_iterator,
+	     ++outmag_iterator,
+	     ++outtemp_iterator,
+	     ++xvel_iterator,
+	     ++xmag_iterator,
+	     ++xtemp_iterator,
+	     ++wv2_iterator)
+	{
+		Real aux=pow((*wv2_iterator),-qq_);
+		(*outvel_iterator)=(*xvel_iterator)*aux;
+		(*outmag_iterator)=(*xmag_iterator)*aux;
+		(*outtemp_iterator)=(*xtemp_iterator)*aux;
+	}
+	out.vel()(0,0,0)=x.vel()(0,0,0);
+	out.mag()(0,0,0)=x.mag()(0,0,0);
+	out.temp()(0,0,0)=x.temp()(0,0,0);
+	return out;
+	
+#if 0
 	int n1(input_obj.n1);
 	int n2(input_obj.n2);
   int n3(input_obj.n3);
@@ -567,20 +590,29 @@ CBVF precond::operator()
 #if 0
 	CBVF out(x.shape());
 
-	out.vel()=	pow(spectral_obj.lap_hat(-x.vel()),-qq_);
-	out.mag()=	pow(spectral_obj.lap_hat(-x.mag()),-qq_);
-	out.temp()=pow(spectral_obj.lap_hat(-x.temp()),-qq_);
+	out=spectral_obj.lap_hat(-x);
+	
+	out.vel()=	pow(out.vel(),-qq_);
+	out.mag()=	pow(out.mag(),-qq_);
+	out.temp()=pow(out.temp(),-qq_);
 	out.vel()(0,0,0)=x.vel()(0,0,0);
 	out.mag()(0,0,0)=x.mag()(0,0,0);
 	out.temp()(0,0,0)=x.temp()(0,0,0);
+
+	
+	
 	return out;
 #endif
 	
 #if 0
 	CBVF out(x);
 
+	RSF pwv2(x.shape());
+	pwv2=pow(spectral_obj.wv2,-qq_);
 	
-	out*=pow(spectral_obj.wv2,-qq_);
+	out.vel()*=pwv2;
+	out.mag()*=pwv2;
+	out.temp()*=pwv2;
 		
 	out.vel()(0,0,0)=x.vel()(0,0,0);
 	out.mag()(0,0,0)=x.mag()(0,0,0);
