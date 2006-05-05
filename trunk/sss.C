@@ -51,7 +51,7 @@ int main()
   
   int basic_start_seed;
   int basic_stop_seed;
-  int basic_seed_step;
+  int br_seed_step;
 
   if(input_obj->sss_ifname!="")
     {
@@ -60,7 +60,7 @@ int main()
       vzdeigen_load_ffile_(v1,&m,(input_obj->sss_ifname).c_str());
       basic_start_seed=input_obj->sss_basic_restore_seed;
       basic_stop_seed=input_obj->sss_basic_restore_seed;
-      basic_seed_step=1;
+      br_seed_step=1;
     }
   else
     {
@@ -70,12 +70,12 @@ int main()
 	   << " and symmetry: " << sym << endl;
       //basic_start_seed=input_obj->basic_start_seed;
       //basic_stop_seed=input_obj->basic_stop_seed;
-      //basic_seed_step=input_obj->basic_seed_step;
+      //br_seed_step=input_obj->br_seed_step;
     }
 
   for(int seed=basic_start_seed;
       seed<=basic_stop_seed;
-      seed+=basic_seed_step)
+      seed+=br_seed_step)
     {
       
       basic=new basic_fields(*input_obj,*spectral_obj);//,seed);

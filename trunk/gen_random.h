@@ -40,25 +40,25 @@ private:
 public:
   //generate random fields
   void gen_random_field_hat(CSF & field_hat,
-			    const int ki, const int kf,
-			    const double alpha,const double p,
-			    const bool kind,const bool sym);
+			    const int & ki, const int & kf,
+			    const double & alpha,const double & p,
+			    const bool & kind,const bool & sym);
   //fourier coefficients for vector field
   void gen_random_field_hat
   (CVF & field_hat,
-   const int ki, const int kf,
-   const double alpha,const double p,
-   const bool kind,const bool sym);
+   const int & ki, const int & kf,
+   const double & alpha,const double & p,
+   const bool & kind,const bool & sym);
 //scalar field in real space
   void gen_random_field(RSF & field,
-			const int ki, const int kf,
-			const double alpha,const double p,
-			const bool kind,const bool sym);
+			const int & ki, const int & kf,
+			const double & alpha,const double & p,
+			const bool & kind,const bool & sym);
   //vector field in real space
   void gen_random_field(RVF & field,
-			const int ki, const int kf,
-			const double alpha,const double p,
-			const bool kind,const bool sym);
+			const int & ki, const int & kf,
+			const double & alpha,const double & p,
+			const bool & kind,const bool & sym);
 };
 
 #endif

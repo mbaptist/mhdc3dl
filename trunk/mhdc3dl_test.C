@@ -217,6 +217,67 @@ void test_remove_gradient()
 
   cout << "gradient: " << endl;
   spectral_obj->pnvh(gv_hat);
- 
+
+	
 
 }
+
+
+
+
+#if 0
+
+void linops::test_adjoint(CBVF & a,CBVF & b)
+{
+
+  //   cout << "a" << endl;
+  //   spectral_obj.pnvh(a);
+  //   cout << "b" << endl;
+  //   spectral_obj.pnvh(b);
+
+  CBVF c(a),d(a);
+
+  c=eval_a_nought(b);
+  d=eval_a_nought_star(a);
+
+
+  //   cout << "c=Ab" << endl;
+  //   spectral_obj.pnvh(c);
+  //   cout << "d=A*a" << endl;
+  //   spectral_obj.pnvh(d);
+
+  Real sp1,sp2;
+
+  sp1=spectral_obj.scalar_prod(a,c);
+  sp2=spectral_obj.scalar_prod(d,b);
+
+  cout << "<a,a_nought(b)>= " << sp1 << endl;
+  cout << "<a_nought_star(a),b>= " << sp2 << endl;
+  cout << "||<a,a_nought(b)>-<a_nought_star(a),b>||= " << abs(sp1-sp2) << endl;
+
+  cout << endl;
+
+
+  c=eval_a_nought(a);
+  d=eval_a_nought_star(b);
+
+
+  //   cout << "c=Aa" << endl;
+  //   spectral_obj.pnvh(c);
+  //   cout << "d=A*b" << endl;
+  //   spectral_obj.pnvh(d);
+
+  sp1=spectral_obj.scalar_prod(b,c);
+  sp2=spectral_obj.scalar_prod(d,a);
+
+  cout << "<b,a_nought(a)>= " << sp1 << endl;
+  cout << "<a_nought_star(b),a>= " << sp2 << endl;
+  cout << "||<b,a_nought(a)>-<a_nought_star(b),a>||= " << abs(sp1-sp2) << endl;
+
+  cout << endl;
+
+}
+
+#endif
+
+

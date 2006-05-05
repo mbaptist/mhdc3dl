@@ -63,7 +63,13 @@ void input::py_load_input(py_input_parser & parse)
   parse(basic_mag_fname,"basic_mag_fname");
   parse(basic_temp_fname,"basic_temp_fname");
   //Random
-  parse(basic_seed,"basic_seed");
+  parse(br_seed,"br_seed");
+	parse(br_ki,"br_ki");
+	parse(br_kf,"br_kf");
+	parse(br_alpha,"br_alpha");
+	parse(br_rms_norm,"br_rms_norm");
+	parse(br_kind,"br_kind");
+	parse(br_sym,"br_sym");
 
   parse(ls_eps,"ls_eps");
   parse(qq,"qq");
@@ -135,7 +141,11 @@ void py_input_parser::operator()(int & val, const string & item)
   //val=PyInt_AsLong(PyDict_GetItem(dict,PyString_FromString(item.c_str())));
   val=PyInt_AsLong(pval(item));
 }
-
+void py_input_parser::operator()(bool & val, const string & item)
+{
+  //val=PyInt_AsLong(PyDict_GetItem(dict,PyString_FromString(item.c_str())));
+	val=PyInt_AsLong(pval(item));
+}
 void py_input_parser::operator()(double & val, const string & item)
 {
   // val=PyFloat_AsDouble(PyDict_GetItem(dict,PyString_FromString(item.c_str())));

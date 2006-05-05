@@ -25,8 +25,9 @@
 class lss
 {
 private:
-  //
+  //Reference to input object
   input & input_obj;
+	
   spectral spectral_obj;
   Basic basic;
   a_nought a_nought_obj;

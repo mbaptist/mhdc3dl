@@ -47,7 +47,10 @@ public:
   std::string basic_vel_fname;
   std::string basic_mag_fname;
   std::string basic_temp_fname;
-  int basic_seed;
+	//Random Mode
+	int br_seed,br_ki,br_kf;
+	double 	br_alpha,br_rms_norm;
+	bool	br_kind,br_sym;
 
 
   //large scale stability
@@ -97,6 +100,7 @@ public:
   ~py_input_parser();
   //Python to C++ conversion function
   void operator()(int & val,const std::string & item);
+	void operator()(bool & val,const std::string & item);
   void operator()(double & val,const std::string & item);
   void operator()(std::string & val,const std::string & item);
 private:
