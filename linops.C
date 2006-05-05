@@ -447,67 +447,6 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
 
 
 
-
-
-
-
-#if 0
-
-void linops::test_adjoint(CBVF & a,CBVF & b)
-{
-
-  //   cout << "a" << endl;
-  //   spectral_obj.pnvh(a);
-  //   cout << "b" << endl;
-  //   spectral_obj.pnvh(b);
-
-  CBVF c(a),d(a);
-
-  c=eval_a_nought(b);
-  d=eval_a_nought_star(a);
-
-
-  //   cout << "c=Ab" << endl;
-  //   spectral_obj.pnvh(c);
-  //   cout << "d=A*a" << endl;
-  //   spectral_obj.pnvh(d);
-
-  Real sp1,sp2;
-
-  sp1=spectral_obj.scalar_prod(a,c);
-  sp2=spectral_obj.scalar_prod(d,b);
-
-  cout << "<a,a_nought(b)>= " << sp1 << endl;
-  cout << "<a_nought_star(a),b>= " << sp2 << endl;
-  cout << "||<a,a_nought(b)>-<a_nought_star(a),b>||= " << abs(sp1-sp2) << endl;
-
-  cout << endl;
-
-  
-  c=eval_a_nought(a);
-  d=eval_a_nought_star(b);
-
-
-  //   cout << "c=Aa" << endl;
-  //   spectral_obj.pnvh(c);
-  //   cout << "d=A*b" << endl;
-  //   spectral_obj.pnvh(d);
-
-  sp1=spectral_obj.scalar_prod(b,c);
-  sp2=spectral_obj.scalar_prod(d,a);
-
-  cout << "<b,a_nought(a)>= " << sp1 << endl;
-  cout << "<a_nought_star(b),a>= " << sp2 << endl;
-  cout << "||<b,a_nought(a)>-<a_nought_star(b),a>||= " << abs(sp1-sp2) << endl;
-
-  cout << endl;
-
-}
-
-#endif
-
-
-
 ////////////////////////////////
 // Preconditioner
 ////////////////////////////////
@@ -557,68 +496,6 @@ CBVF precond::operator()
 	out.vel()(0,0,0)=x.vel()(0,0,0);
 	out.mag()(0,0,0)=x.mag()(0,0,0);
 	out.temp()(0,0,0)=x.temp()(0,0,0);
-	return out;
-	
-#if 0
-	int n1(input_obj.n1);
-	int n2(input_obj.n2);
-  int n3(input_obj.n3);
-
-	CBVF out(x.shape());
-
-  //cout << "shapes: " << x.shape()[0] << x.shape()[1] << x.shape()[2] << endl;
-
-	for(int i=0;i<n1;++i)
-    for(int j=0;j<n2/2+1;++j)
-	    for(int k=0;k<n3;++k)
-	    {
-		    Real aux=pow(spectral_obj.wv2(i,j,k),-qq_);
-		    if (i==0 && j==0 && k==0)
-			    aux=1;
-		    for(int n=0;n<3;++n)
-		    {
-			    out.vel()(i,j,k)[n]=x.vel()(i,j,k)[n]*aux;
-			    out.mag()(i,j,k)[n]=x.mag()(i,j,k)[n]*aux;
-		    }
-		    out.temp()(i,j,k)=x.temp()(i,j,k)*aux;
-	    }
-
-	return out;
-
-#endif
-
-#if 0
-	CBVF out(x.shape());
-
-	out=spectral_obj.lap_hat(-x);
-	
-	out.vel()=	pow(out.vel(),-qq_);
-	out.mag()=	pow(out.mag(),-qq_);
-	out.temp()=pow(out.temp(),-qq_);
-	out.vel()(0,0,0)=x.vel()(0,0,0);
-	out.mag()(0,0,0)=x.mag()(0,0,0);
-	out.temp()(0,0,0)=x.temp()(0,0,0);
-
-	
-	
-	return out;
-#endif
-	
-#if 0
-	CBVF out(x);
-
-	RSF pwv2(x.shape());
-	pwv2=pow(spectral_obj.wv2,-qq_);
-	
-	out.vel()*=pwv2;
-	out.mag()*=pwv2;
-	out.temp()*=pwv2;
-		
-	out.vel()(0,0,0)=x.vel()(0,0,0);
-	out.mag()(0,0,0)=x.mag()(0,0,0);
-	out.temp()(0,0,0)=x.temp()(0,0,0);
-	return out;
-#endif
-	
+	return out;	
 }
 

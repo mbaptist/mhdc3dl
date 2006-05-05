@@ -82,16 +82,16 @@ Basic::Basic(const input & input_obj__,spectral & spectral_obj__):
   else if (input_obj.basic_mode=="random")
     {
       gen_random * gen_random_obj;
-      int seed=input_obj.basic_seed;
+      int seed=input_obj.br_seed;
       //instantiate random generator
       if (seed>0)
 	gen_random_obj=new gen_random(input_obj,spectral_obj,seed);
       else
 	gen_random_obj=new gen_random(input_obj,spectral_obj);
       //generate fields
-      gen_random_obj->gen_random_field(vel_,1,5,3,1,0,1);
-      gen_random_obj->gen_random_field(mag_,1,5,3,1,0,1);
-      gen_random_obj->gen_random_field(temp_,1,5,3,1,0,1);
+	    gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_kind,input_obj.br_sym);
+	    gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_kind,input_obj.br_sym);
+	    gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_kind,input_obj.br_sym);
       delete gen_random_obj;
       eval_derivatives();
     }  

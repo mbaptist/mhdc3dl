@@ -42,8 +42,8 @@ lss::~lss()
 }
 
 //Evaluate eddy viscosity
-void lss::run(double & lambda_minimal,
-              double & lambda_maximal)
+void lss::run(double & lambda_minimum,
+              double & lambda_maximum)
 {
   //sizes
   int & n1=input_obj.n1;
