@@ -42,8 +42,8 @@ lss::~lss()
 }
 
 //Evaluate eddy viscosity
-void lss::run(double & lambda_minimum,
-              double & lambda_maximum)
+void lss::run(double & lambda_minimal,
+              double & lambda_maximal)
 {
   //sizes
   int & n1=input_obj.n1;
@@ -51,7 +51,7 @@ void lss::run(double & lambda_minimum,
 	int & n3=input_obj.n3;
 	
   //save basic fields
-	basic.save("vb.dat","hb.dat","tb.dat");
+	basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
 	
   //define a block vector to contain the constants for
   //the rhs of auxiliary problems (AP)

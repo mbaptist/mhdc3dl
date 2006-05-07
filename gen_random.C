@@ -43,10 +43,10 @@ gen_random::~gen_random()
 //generate random fields
 //fourier coefficients for scalar field for sine/cossine representation
 void gen_random::gen_random_field_hat(CSF & field_hat,
-				      const int ki, const int kf,
-				      const double alpha,const double p,
-				      const bool kind,
-				      const bool sym)
+				      const int & ki, const int & kf,
+				      const double & alpha,const double & p,
+				      const bool & kind,
+				      const bool & sym)
 {
   const int s1(field_hat.shape()[0]);
   const int s2(field_hat.shape()[1]);
@@ -133,9 +133,9 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 //fourier coefficients for vector field
 void gen_random::gen_random_field_hat
 (CVF & field_hat,
- const int ki, const int kf,
- const double alpha,const double p,
- const bool kind,const bool sym)
+ const int & ki, const int & kf,
+ const double & alpha,const double & p,
+ const bool & kind,const bool & sym)
 {
   CSF aux(field_hat.shape());
   aux=0;
@@ -190,9 +190,9 @@ void gen_random::gen_random_field_hat
 
 //scalar field in real space
 void gen_random::gen_random_field(RSF & field,
-				  const int ki, const int kf,
-				  const double alpha,const double p,
-				  const bool kind,const bool sym)
+				  const int & ki, const int & kf,
+				  const double & alpha,const double & p,
+				  const bool & kind,const bool & sym)
 {
   const int s1(field.shape()[0]);
   const int s2(field.shape()[1]);
@@ -210,9 +210,9 @@ void gen_random::gen_random_field(RSF & field,
 
 //vector field in real space
 void gen_random::gen_random_field(RVF & field,
-				  const int ki, const int kf,
-				  const double alpha,const double p,
-				  const bool kind,const bool sym)
+				  const int & ki, const int & kf,
+				  const double & alpha,const double & p,
+				  const bool & kind,const bool & sym)
 {
   const int s1(field.shape()[0]);
   const int s2(field.shape()[1]);
