@@ -218,15 +218,20 @@ void gen_random::gen_random_field(RSF & field,
 // 					assert(field(s1-i,s2-j,k)==(sym?1:-1)*field(i,j,k));
 // 			}
 
-	for(int i=1;i<s1/2+1;++i)
-		for(int j=0;j<s2;++j)
-			for(int k=0;k<s3;++k)
-				field(s1-i,j,k)=(sym?1:-1)*field(i,j,k);
 	for(int i=0;i<s1;++i)
-		for(int j=1;j<s2/2+1;++j)
+		for(int j=0;j<s2/2+1;++j)
 			for(int k=0;k<s3;++k)
-				field(i,s2-j,k)=(sym?1:-1)*field(i,j,k);
-				
+				if(i!=0&&j!=0)
+					field(s1-i,s2-j,k)=(sym?1:-1)*field(i,j,k);
+	
+	for(int i=1;i<s1;++i)
+		for(int k=0;k<s3;++k)
+				field(s1-i,0,k)=(sym?1:-1)*field(i,0,k);
+
+	for(int j=1;j<s2;++j)
+		for(int k=0;k<s3;++k)
+			field(0,s1-j,k)=(sym?1:-1)*field(0,j,k);
+	
 }
 
 //vector field in real space
