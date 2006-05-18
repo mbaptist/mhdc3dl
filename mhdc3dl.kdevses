@@ -3,25 +3,25 @@
 <KDevPrjSession>
  <DocsAndViews NumberOfDocuments="10" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/spectral.C" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/linops.C" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.h" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
-   <View0 Type="Source" />
+   <View0 line="100" Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.C" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc4>
   <Doc5 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.h" >
    <View0 Type="Source" />
   </Doc5>
   <Doc6 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.C" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc6>
   <Doc7 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.h" >
    <View0 Type="Source" />
@@ -38,7 +38,11 @@
    <breakpointList/>
   </kdevdebugger>
   <kdevbookmarks>
-   <bookmarks/>
+   <bookmarks>
+    <bookmark url="/home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
+     <mark line="234" />
+    </bookmark>
+   </bookmarks>
   </kdevbookmarks>
   <kdevsubversion>
    <subversion recurseresolve="1" recurserelocate="1" recursemerge="1" recursecommit="1" base="" recursepropget="1" recurseswitch="1" recurseupdate="1" recursepropset="1" recursediff="1" recurserevert="1" forcemove="1" recursecheckout="1" forceremove="1" recurseadd="1" recurseproplist="1" forcemerge="1" />

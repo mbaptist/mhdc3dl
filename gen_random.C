@@ -57,8 +57,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	double wv2step(max(spectral_obj.wv2)/(energ_spec.size()-1));
 	
   //Randomly generate field components in Fourier space
-	cat::array_iterator<Complex,3>
-		field_hat_iterator(field_hat);
+	//symmetry about the z axis is already partially imposed (see comment below)
+	cat::array_iterator<Complex,3> field_hat_iterator(field_hat);
 	cat::array_iterator<Real,3> wv2_iterator(spectral_obj.wv2);
 	for(field_hat_iterator=field_hat.begin(),
 	    wv2_iterator=spectral_obj.wv2.begin();
@@ -79,8 +79,21 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 			*field_hat_iterator=0.;
 	}
 	
-  //Ensure that fields have zero average
-	field_hat(0,0,0)=0.;
+  //symmetry about z axis
+	//combining symmetry about the z axis and hermitian symmetry, we obtain that
+	//symetric fields are real and anti-symetric fields are imaginary;
+	//this condition is imposed above, as we generated the coefficients;
+	//any two of the above three conditions specify the symmetry completely;
+	//since only half of the harmonics are stored, 2 conditions are being used, except
+	//in the plane ky=0; therefore, we impose below the condition of symmetry
+	//about the z axis for that plane.
+	for(int i=1;i<s1/2+1;++i)
+		for(int k=0;k<s3;++k)
+			field_hat(s1-i,0,k)=(sym?1:-1)*field_hat(i,0,k);
+	//for anti-simmetric fields the values at the line kx=0, ky=0 must all be zero.
+	if (sym==0)
+		for(int k=0;k<s3;++k)
+			field_hat(0,0,k)=0;
 	
   //Ensure that kz=0 terms are zero in sine representation
 	if (kind==0)
@@ -91,14 +104,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 				field_hat(i,j,s3-1)=0.;
 			}
 	
-  //symmetry about z axis
-	for(int i=1;i<s1/2+1;++i)
-		for(int k=0;k<s3;++k)
-			field_hat(s1-i,0,k)=(sym?1:-1)*field_hat(i,0,k);
-
-	if (!sym)
-		for(int k=0;k<s3;++k)
-			field_hat(0,0,k)=0;
+	 //Ensure that fields have zero average
+	field_hat(0,0,0)=0.;
 	
   //dealiasing
 	spectral_obj.dealias(field_hat);
@@ -129,7 +136,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	field_hat*=(p/sqrt(2*sum(energ_spec)));
 	
   //Re-eval energ_spec
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);	
+	energ_spec=spectral_obj.eval_energ_spec(field_hat);
 	
 }
 
@@ -151,7 +158,8 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
 	aux=0;
 gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	field_hat[2]=aux;
-	
+
+	//Make the field solenoidal
 	spectral_obj.remove_gradient(field_hat,kind);
 	
   //dealiasing
@@ -210,10 +218,10 @@ void gen_random::gen_random_field(RSF & field,
 		spectral_obj.sfft_c.inverse_transform(field,field_hat);
 	else
 		spectral_obj.sfft_s.inverse_transform(field,field_hat);
-
+	
 	//Test Symmetry
-
-
+	
+	
 // 	for(int i=1;i<s1;++i)
 // 		for(int j=1;j<s2/2+1;++j)
 // 			for(int k=0;k<s3;++k)
