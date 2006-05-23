@@ -43,6 +43,7 @@ gen_random::~gen_random()
 //generate random fields
 //fourier coefficients for scalar field for sine/cossine representation
 void gen_random::gen_random_field_hat(CSF & field_hat,
+                                      const double & a,const double & b,
                                       const int & ki, const int & kf,
                                       const double & alpha,const double & p,
                                       const bool & kind,
@@ -77,6 +78,44 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		}
 		else
 			*field_hat_iterator=0.;
+	}
+
+
+	if (a==0)
+	{
+		int nn1=field_hat.shape()[0];
+		int nn2=(field_hat.shape()[1]-1)*2;
+		int nn3=field_hat.shape()[2];
+		cout << nn2 << endl;
+		RSF faux(nn1,nn2,nn3);
+		if (kind)
+			spectral_obj.sfft_c.inverse_transform(faux,field_hat);
+		else
+			spectral_obj.sfft_s.inverse_transform(faux,field_hat);
+		cat::array_iterator<Real,3> iter(faux);
+		for(iter=faux.begin();iter!=faux.end();++iter)
+			(*iter)=abs(*iter);
+
+		for(int i=1;i<nn1;++i)
+			for(int j=1;j<nn2/2+1;++j)
+				for(int k=0;k<nn3;++k)
+					faux(i,j,k)=(sym?1:-1)*faux(nn1-i,nn2-j,k);
+// 		cout << aux << endl;
+// 		exit(0);
+		if (kind)
+			spectral_obj.sfft_c.direct_transform(field_hat,faux);
+		else
+			spectral_obj.sfft_s.direct_transform(field_hat,faux);
+
+		faux=0;
+		
+		if (kind)
+			spectral_obj.sfft_c.inverse_transform(faux,field_hat);
+		else
+			spectral_obj.sfft_s.inverse_transform(faux,field_hat);
+		cout << faux << endl;
+ 		exit(0);
+		
 	}
 	
   //symmetry about z axis
@@ -144,19 +183,20 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 //fourier coefficients for vector field
 void gen_random::gen_random_field_hat
 (CVF & field_hat,
+ const double & a,const double & b,
  const int & ki, const int & kf,
  const double & alpha,const double & p,
  const bool & kind,const bool & sym)
 {
 	CSF aux(field_hat.shape());
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
+gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
 	field_hat[0]=aux;
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
+gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
 	field_hat[1]=aux;
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
+gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	field_hat[2]=aux;
 
 	//Make the field solenoidal
@@ -202,6 +242,7 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 
 //scalar field in real space
 void gen_random::gen_random_field(RSF & field,
+                                  const double & a,const double & b,
                                   const int & ki, const int & kf,
                                   const double & alpha,const double & p,
                                   const bool & kind,const bool & sym)
@@ -211,7 +252,7 @@ void gen_random::gen_random_field(RSF & field,
 	const int s3(field.shape()[2]);
 	
 	CSF field_hat(s1,s2/2+1,s3);
-	gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym);
+	gen_random_field_hat(field_hat,a,b,ki,kf,alpha,p,kind,sym);
 	
   //transform fields to real space
 	if (kind)
@@ -232,6 +273,7 @@ void gen_random::gen_random_field(RSF & field,
 
 //vector field in real space
 void gen_random::gen_random_field(RVF & field,
+                                  const double & a,const double & b,
                                   const int & ki, const int & kf,
                                   const double & alpha,const double & p,
                                   const bool & kind,const bool & sym)
@@ -241,7 +283,7 @@ void gen_random::gen_random_field(RVF & field,
 	const int s3(field.shape()[2]);
 	
 	CVF field_hat(s1,s2/2+1,s3);
-	gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym);
+	gen_random_field_hat(field_hat,a,b,ki,kf,alpha,p,kind,sym);
 	
   //transform fields to real space
 	if(kind)

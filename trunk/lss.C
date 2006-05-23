@@ -177,7 +177,7 @@ void lss::run(double & lambda_minimal,
 // 	int n_int=10000;
 // 	double size_int=2*M_PI/n_int;
 	double size_int=input_obj.ls_eps/2;
-	int n_int=2*M_PI/size_int;
+	int n_int=static_cast<int>(2*M_PI/size_int);
 	for(int i=1;i<=n_int;++i)
 	{
 		double theta=i*size_int;
