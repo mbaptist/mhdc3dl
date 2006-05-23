@@ -71,13 +71,13 @@ void test_adjoint()
 
   gen_random gr(*input_obj,*spectral_obj,1000);
 
-  gr.gen_random_field_hat(a.vel(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.mag(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.temp(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.vel(),-1.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.mag(),-1.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.temp(),0.,1.,1,10,6,1,0,1);
   
-  gr.gen_random_field_hat(b.vel(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.mag(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.temp(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.vel(),-1.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.mag(),-1.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.temp(),0.,1.,1,10,6,1,0,1);
 
 
 //   a=0;
