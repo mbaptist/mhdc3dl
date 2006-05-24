@@ -79,44 +79,6 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		else
 			*field_hat_iterator=0.;
 	}
-
-
-	if (a==0)
-	{
-		int nn1=field_hat.shape()[0];
-		int nn2=(field_hat.shape()[1]-1)*2;
-		int nn3=field_hat.shape()[2];
-		cout << nn2 << endl;
-		RSF faux(nn1,nn2,nn3);
-		if (kind)
-			spectral_obj.sfft_c.inverse_transform(faux,field_hat);
-		else
-			spectral_obj.sfft_s.inverse_transform(faux,field_hat);
-		cat::array_iterator<Real,3> iter(faux);
-		for(iter=faux.begin();iter!=faux.end();++iter)
-			(*iter)=abs(*iter);
-
-		for(int i=1;i<nn1;++i)
-			for(int j=1;j<nn2/2+1;++j)
-				for(int k=0;k<nn3;++k)
-					faux(i,j,k)=(sym?1:-1)*faux(nn1-i,nn2-j,k);
-// 		cout << aux << endl;
-// 		exit(0);
-		if (kind)
-			spectral_obj.sfft_c.direct_transform(field_hat,faux);
-		else
-			spectral_obj.sfft_s.direct_transform(field_hat,faux);
-
-		faux=0;
-		
-		if (kind)
-			spectral_obj.sfft_c.inverse_transform(faux,field_hat);
-		else
-			spectral_obj.sfft_s.inverse_transform(faux,field_hat);
-		cout << faux << endl;
- 		exit(0);
-		
-	}
 	
   //symmetry about z axis
 	//combining symmetry about the z axis and hermitian symmetry, we obtain that
@@ -163,8 +125,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		int index=static_cast<int>((*wv2_iterator)/wv2step);
 		if(index>=ki && index<kf)
 		{
-			double power=pow(double(*wv2_iterator),-alpha);
-			(*field_hat_iterator)*=sqrt(power/energ_spec(index));
+			double power=pow(sqrt(*wv2_iterator),-alpha);
+			(*field_hat_iterator)*=sqrt(power/(2.*energ_spec(index)));
 		}
 	}
 	
