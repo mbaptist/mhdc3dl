@@ -59,8 +59,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	
   //Randomly generate field components in Fourier space
 	//symmetry about the z axis is already partially imposed (see comment below)
-	cat::array_iterator<Complex,3> field_hat_iterator(field_hat);
-	cat::array_iterator<Real,3> wv2_iterator(spectral_obj.wv2);
+	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
+	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
 	for(field_hat_iterator=field_hat.begin(),
 	    wv2_iterator=spectral_obj.wv2.begin();
 	    field_hat_iterator!=field_hat.end(),
@@ -172,9 +172,8 @@ gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	double wv2step(max(spectral_obj.wv2)/(energ_spec.size()-1));
 	
   //Normalise to spectrum between ki and kf
-	cat::array_iterator<cat::tvector<complex<Real>,3>,3>
-		field_hat_iterator(field_hat);
-	cat::array_iterator<Real,3> wv2_iterator(spectral_obj.wv2);
+	cat::array<cat::tvector<complex<Real>,3>,3>::iterator field_hat_iterator(field_hat);
+	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
 	for(field_hat_iterator=field_hat.begin(),
 	    wv2_iterator=spectral_obj.wv2.begin();
 	    field_hat_iterator!=field_hat.end(),

@@ -9,7 +9,7 @@
 #include <cat.h>
 
 using namespace cat;
-
+//using namespace goops;
 
 spectral::spectral(const int & n1__,const int & n2__,const int & n3__,
 		   const Real & l1__,const Real & l2__,const Real & l3__):
