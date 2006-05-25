@@ -465,13 +465,13 @@ CBVF precond::operator()
 (const CBVF & x) const
 {
 	CBVF out(x.shape());
-	array_iterator<CV,3> outvel_iterator(out.vel());
-	array_iterator<CV,3> outmag_iterator(out.mag());
-	array_iterator<CS,3> outtemp_iterator(out.temp());
-	array_const_iterator<CV,3> xvel_iterator(x.vel());
-	array_const_iterator<CV,3> xmag_iterator(x.mag());
-	array_const_iterator<CS,3> xtemp_iterator(x.temp());
-	array_const_iterator<RS,3> wv2_iterator(spectral_obj.wv2);
+	array<CV,3>::iterator outvel_iterator(out.vel());
+	array<CV,3>::iterator outmag_iterator(out.mag());
+	array<CS,3>::iterator outtemp_iterator(out.temp());
+	array<CV,3>::const_iterator xvel_iterator(x.vel());
+	array<CV,3>::const_iterator xmag_iterator(x.mag());
+	array<CS,3>::const_iterator xtemp_iterator(x.temp());
+	array<RS,3>::const_iterator wv2_iterator(spectral_obj.wv2);
 	for (outvel_iterator=out.vel().begin(),
 	     outmag_iterator=out.mag().begin(),
 	     outtemp_iterator=out.temp().begin(),

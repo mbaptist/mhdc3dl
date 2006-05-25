@@ -56,9 +56,9 @@ public:
 private:
   void enforce_sym_()
   {
-    cat::array_iterator<cat::tvector<T,3>,3> vel_it(this->vel());
-    cat::array_iterator<cat::tvector<T,3>,3> mag_it(this->mag());
-    cat::array_iterator<T,3> temp_it(this->temp());
+	  typename cat::array<cat::tvector<T,3>,3>::iterator vel_it(this->vel());
+	  typename cat::array<cat::tvector<T,3>,3>::iterator mag_it(this->mag());
+	  typename cat::array<T,3>::_iterator temp_it(this->temp());
     for(vel_it=(this->vel()).begin(),
 	  mag_it=(this->mag()).begin(),
 	  temp_it=(this->temp()).begin();
