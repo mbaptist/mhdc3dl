@@ -110,12 +110,13 @@ py_input_parser::py_input_parser(string filename_):
   ss << "import sys\n" 
      << "sys.path.insert(0,'')\n"
      << "import imp\n"
-     << "imp.load_source('input_module','"
+     << "imp.load_source('__builtin__','"
      << filename
      << "')\n";
   PyRun_SimpleString(ss.str().c_str());
-  module=PyImport_ImportModule("input_module");
+  module=PyImport_ImportModule("__builtin__");
   dict=PyModule_GetDict(module);
+	Py_BuildValue("ModeOfFile","input");
 }
 
 py_input_parser::py_input_parser(PyObject * module_):
