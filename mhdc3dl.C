@@ -4,7 +4,8 @@ int main(int argc,char * argv[])
 {
  
   //get input filename
-  string inputfname("default.cfg");
+	////string inputfname("default.cfg");
+	string inputfname("mhdc3dl_run_default.py");
   if (argc>1)
     if (argv[1]!="")
       inputfname=argv[1];
