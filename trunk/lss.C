@@ -49,6 +49,15 @@ void lss::run(double & lambda_minimal,
   int & n1=input_obj.n1;
 	int & n2=input_obj.n2;
 	int & n3=input_obj.n3;
+
+	double & l1=input_obj.l1;
+	double & l2=input_obj.l2;
+	double & l3=input_obj.l3;
+	
+	cout << .5*sum(dot_product(basic.mag(),basic.mag()))*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
+	CVF ttt(n1,n2/2+1,n3);
+	spectral_obj.fft_ccs.direct_transform(ttt,basic.mag());
+	cout << (l1*l2*l3)*sum(spectral_obj.eval_energ_spec(ttt)) << endl;
 	
   //save basic fields
 	basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
