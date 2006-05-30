@@ -31,3 +31,4 @@ testing/stdtest.cfg
 testing/stdtest_lr.cfg
 testing/time_opt.txt
 mhdc3dl.C
+mhdc3dl_run_default.py
