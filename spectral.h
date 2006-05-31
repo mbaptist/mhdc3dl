@@ -12,19 +12,19 @@
 #include <cat.h>
 
 
-class spectral : public spectral_fourier_layer
+class spectral : public SpectralFourierLayer
 {
  public:
-  using spectral_fourier_layer::dealias;
-  using spectral_fourier_layer::poisson_hat; 
-  using spectral_fourier_layer::d_dhorizontal_hat; 
-  using spectral_fourier_layer::grad_hat; 
-  using spectral_fourier_layer::div_hat;
-  using spectral_fourier_layer::curl_hat;
-  using spectral_fourier_layer::lap_hat;
-  using spectral_fourier_layer::remove_gradient;
-  using spectral_fourier_layer::scalar_prod;
-  using spectral_fourier_layer::pnvh;
+  using SpectralFourierLayer::dealias;
+  using SpectralFourierLayer::poisson_hat;
+  using SpectralFourierLayer::d_dhorizontal_hat;
+  using SpectralFourierLayer::grad_hat;
+  using SpectralFourierLayer::div_hat;
+  using SpectralFourierLayer::curl_hat;
+  using SpectralFourierLayer::lap_hat;
+  using SpectralFourierLayer::remove_gradient;
+  using SpectralFourierLayer::scalar_prod;
+  using SpectralFourierLayer::pnvh;
 
  public:
 
