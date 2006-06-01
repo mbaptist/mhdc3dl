@@ -164,7 +164,7 @@ Basic::Basic(const input & input_obj__,spectral & spectral_obj__):
       //cout << spectral_obj.scalar_prod(vv_hat,vv_hat) << endl;
       
       cout << "Non-vanishing harmonics in Basic velocity" << endl;
-      spectral_obj.pnvh(vel_);
+      spectral_obj.pnvh(vel_,0);
       
       cout << "Energy spectrum of Basic velocity: " << endl;
       

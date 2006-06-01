@@ -35,16 +35,20 @@ PATH: /usr/bin
 PATH: /bin
 PATH: /usr/bin
 PATH: /usr/games
-PATH: /home/mbaptist/work/codes/devel/cat
-PATH: /home/mbaptist/work/codes/devel/goops
-PATH: /home/mbaptist/work/codes/devel/lass
-PATH: /home/mbaptist/work/codes/devel/godess
-PATH: /home/mbaptist/work/codes/devel/mhdc3dl
-PATH: /home/mbaptist/work/codes/devel/cat
-PATH: /home/mbaptist/work/codes/devel/goops
-PATH: /home/mbaptist/work/codes/devel/lass
-PATH: /home/mbaptist/work/codes/devel/godess
-PATH: /home/mbaptist/work/codes/devel/mhdc3dl
+PATH: /home/mbaptist/codes/cat
+PATH: /home/mbaptist/codes/lass
+PATH: /home/mbaptist/codes/godess
+PATH: /home/mbaptist/codes/goops
+PATH: /home/mbaptist/codes/mhdc3dl
+PATH: /home/mbaptist/codes/mhdc3dl/utils
+PATH: /home/mbaptist/codes/ns3dp
+PATH: /home/mbaptist/codes/cat
+PATH: /home/mbaptist/codes/lass
+PATH: /home/mbaptist/codes/godess
+PATH: /home/mbaptist/codes/goops
+PATH: /home/mbaptist/codes/mhdc3dl
+PATH: /home/mbaptist/codes/mhdc3dl/utils
+PATH: /home/mbaptist/codes/ns3dp
 
 
 ## ----------- ##
@@ -61,7 +65,7 @@ configure:1539: found /usr/bin/g++
 configure:1549: result: g++
 configure:1565: checking for C++ compiler version
 configure:1568: g++ --version </dev/null >&5
-g++ (GCC) 4.1.0 20060517 (Red Hat 4.1.0-19)
+g++ (GCC) 4.1.1 20060525 (Red Hat 4.1.1-1)
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -72,7 +76,7 @@ Using built-in specs.
 Target: i386-redhat-linux
 Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --enable-shared --enable-threads=posix --enable-checking=release --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-libgcj-multifile --enable-languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk --disable-dssi --with-java-home=/usr/lib/jvm/java-1.4.2-gcj-1.4.2.0/jre --with-cpu=generic --host=i386-redhat-linux
 Thread model: posix
-gcc version 4.1.0 20060517 (Red Hat 4.1.0-19)
+gcc version 4.1.1 20060525 (Red Hat 4.1.1-1)
 configure:1576: $? = 0
 configure:1578: g++ -V </dev/null >&5
 g++: '-V' option must have argument
@@ -160,7 +164,7 @@ configure:2089: found /usr/bin/gcc
 configure:2099: result: gcc
 configure:2343: checking for C compiler version
 configure:2346: gcc --version </dev/null >&5
-gcc (GCC) 4.1.0 20060517 (Red Hat 4.1.0-19)
+gcc (GCC) 4.1.1 20060525 (Red Hat 4.1.1-1)
 Copyright (C) 2006 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -171,7 +175,7 @@ Using built-in specs.
 Target: i386-redhat-linux
 Configured with: ../configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --enable-shared --enable-threads=posix --enable-checking=release --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-libgcj-multifile --enable-languages=c,c++,objc,obj-c++,java,fortran,ada --enable-java-awt=gtk --disable-dssi --with-java-home=/usr/lib/jvm/java-1.4.2-gcj-1.4.2.0/jre --with-cpu=generic --host=i386-redhat-linux
 Thread model: posix
-gcc version 4.1.0 20060517 (Red Hat 4.1.0-19)
+gcc version 4.1.1 20060525 (Red Hat 4.1.1-1)
 configure:2354: $? = 0
 configure:2356: gcc -V </dev/null >&5
 gcc: '-V' option must have argument

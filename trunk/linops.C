@@ -381,7 +381,7 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
   spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 
   //evaluate velocity component
-  out.vel()=spectral_obj.d_dhorizontal_hat(field.vel(),index);
+  out.vel()=spectral_obj.d_dx_index_hat(field.vel(),index);
   out.vel()*=visc;
   out.vel()*=2;
   out.vel()+=nonlinear_hat;
@@ -405,7 +405,7 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
   spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 
   //evaluate magnetic component
-  out.mag()=spectral_obj.d_dhorizontal_hat(field.mag(),index);
+  out.mag()=spectral_obj.d_dx_index_hat(field.mag(),index);
   out.mag()*=diff;
   out.mag()*=2;
   out.mag()+=nonlinear_hat;
@@ -430,7 +430,7 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
   spectral_obj.sfft_s.direct_transform(s_nonlinear_hat,s_nonlinear);
 
   //evaluate temperature component
-  out.temp()=spectral_obj.d_dhorizontal_hat(field.temp(),index);
+  out.temp()=spectral_obj.d_dx_index_hat(field.temp(),index);
   out.temp()*=tcond;
   out.temp()*=2;
   out.temp()+=s_nonlinear_hat;

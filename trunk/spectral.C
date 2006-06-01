@@ -66,7 +66,7 @@ Real spectral::scalar_prod(const CBVF & x,const CBVF & y) const
 void spectral::pnvh(const CBVF & field)
 {
   cout << "vel" << endl;
-  SpectralFourierLayer::pnvh(field.vel());
+	SpectralFourierLayer::pnvh(field.vel());
   cout << "mag" << endl;
   SpectralFourierLayer::pnvh(field.mag());
   cout << "temp" << endl;

@@ -17,7 +17,7 @@ class spectral : public SpectralFourierLayer
  public:
   using SpectralFourierLayer::dealias;
   using SpectralFourierLayer::poisson_hat;
-  using SpectralFourierLayer::d_dhorizontal_hat;
+  using SpectralFourierLayer::d_dx_index_hat;
   using SpectralFourierLayer::grad_hat;
   using SpectralFourierLayer::div_hat;
   using SpectralFourierLayer::curl_hat;
