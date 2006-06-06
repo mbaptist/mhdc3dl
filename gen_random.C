@@ -40,22 +40,13 @@ gen_random::~gen_random()
 {
 }
 
-//generate random fields
-//fourier coefficients for scalar field for sine/cossine representation
-void gen_random::gen_random_field_hat(CSF & field_hat,
-                                      const double & a,const double & b,
-                                      const int & ki, const int & kf,
-                                      const double & alpha,const double & p,
-                                      const bool & kind,
-                                      const bool & sym)
+//generate random scalar field in fourier space
+//generates random fourier coefficients for the required symmetry
+void gen_random::gen_random_scalar_field_hat(CSF & field_hat,const bool & kind,const bool & sym)
 {
-	const int s1(field_hat.shape()[0]);
-	const int s2(field_hat.shape()[1]);
-	const int s3(field_hat.shape()[2]);
-	
-  //Eval energy spectrum
-	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat));
-	double wv2step(max(spectral_obj.wv2)/(energ_spec.size()-1));
+//Eval energy spectrum
+	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
+	double wvstep(sqrt(max(spectral_obj.wv2))/(energ_spec.size()-1));
 	
   //Randomly generate field components in Fourier space
 	//symmetry about the z axis is already partially imposed (see comment below)
@@ -68,7 +59,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	    ++field_hat_iterator,
 	    ++wv2_iterator)
 	{
-		int index=static_cast<int>((*wv2_iterator)/wv2step);
+		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
 		if(index>=ki && index<kf)
 		{
 			if(sym==1)
@@ -79,8 +70,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		else
 			*field_hat_iterator=0.;
 	}
-	
-  //symmetry about z axis
+
+	  //symmetry about z axis
 	//combining symmetry about the z axis and hermitian symmetry, we obtain that
 	//symetric fields are real and anti-symetric fields are imaginary;
 	//this condition is imposed above, as we generated the coefficients;
@@ -105,6 +96,30 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 				field_hat(i,j,s3-1)=0.;
 			}
 	
+}
+
+
+
+
+
+
+
+
+
+
+
+//generate random fields
+//fourier coefficients for scalar field for sine/cossine representation
+void gen_random::gen_random_field_hat(CSF & field_hat,
+                                      const double & a,const double & b,
+                                      const int & ki, const int & kf,
+                                      const double & alpha,const double & p,
+                                      const bool & kind,
+                                      const bool & sym)
+{
+
+	gen_random_field_hat(field_hat,kind,sym)
+
 	 //Ensure that fields have zero average
 	field_hat(0,0,0)=0.;
 	
@@ -112,7 +127,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	spectral_obj.dealias(field_hat);
 	
   //Eval spectrum between ki and kf
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
   //Normalise to spectrum between ki and kf
 	for(field_hat_iterator=field_hat.begin(),
@@ -122,7 +137,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	    ++field_hat_iterator,
 	    ++wv2_iterator)
 	{
-		int index=static_cast<int>((*wv2_iterator)/wv2step);
+		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
 		if(index>=ki && index<kf)
 		{
 			double power=pow(sqrt(*wv2_iterator),-alpha);
@@ -131,13 +146,13 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	}
 	
   //Re-eval energ_spec
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
   //Normalise for RMS vel,mag,temp = p
 	field_hat*=(p/sqrt(2*sum(energ_spec)));
 	
   //Re-eval energ_spec
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
 }
 
@@ -150,16 +165,84 @@ void gen_random::gen_random_field_hat
  const double & alpha,const double & p,
  const bool & kind,const bool & sym)
 {
-	CSF aux(field_hat.shape());
-	aux=0;
-gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
-	field_hat[0]=aux;
-	aux=0;
-gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
-	field_hat[1]=aux;
-	aux=0;
-gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
-	field_hat[2]=aux;
+	const int s1(field_hat.shape()[0]);
+	const int s2(field_hat.shape()[1]);
+	const int s3(field_hat.shape()[2]);
+	
+  //Eval energy spectrum
+	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
+	double wvstep(sqrt(max(spectral_obj.wv2))/(energ_spec.size()-1));
+	
+  //Randomly generate field components in Fourier space
+	//symmetry about the z axis is already partially imposed (see comment below)
+	CVF::iterator field_hat_iterator(field_hat);
+	RSF::iterator wv2_iterator(spectral_obj.wv2);
+	for(field_hat_iterator=field_hat.begin(),
+	    wv2_iterator=spectral_obj.wv2.begin();
+	    field_hat_iterator!=field_hat.end(),
+	    wv2_iterator!=spectral_obj.wv2.end();
+	    ++field_hat_iterator,
+	    ++wv2_iterator)
+	{
+		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
+		if(index>=ki && index<kf)
+		{
+			if(sym==1)
+				*field_hat_iterator=cat::tvector<complex<double>,3>
+				(	complex<double>(0.,random(-1.,1.)),
+				 	complex<double>(0.,random(-1.,1.)),
+					complex<double>(random(-1.,1.),0.));
+			else
+				*field_hat_iterator=cat::tvector<complex<double>,3>
+				(complex<double>(random(-1.,1.),0.),
+				 complex<double>(random(-1.,1.),0.),
+				 complex<double>(0.,random(-1.,1.)));
+				 }				
+				 else
+					 *field_hat_iterator=0.;
+				 }
+				 	
+  //symmetry about z axis
+	//combining symmetry about the z axis and hermitian symmetry, we obtain that
+	//symetric fields are real and anti-symetric fields are imaginary;
+	//this condition is imposed above, as we generated the coefficients;
+	//any two of the above three conditions specify the symmetry completely;
+	//since only half of the harmonics are stored, 2 conditions are being used, except
+	//in the plane ky=0; therefore, we impose below the condition of symmetry
+	//about the z axis for that plane.
+				 for(int i=1;i<s1/2+1;++i)
+		for(int k=0;k<s3;++k)
+			field_hat(s1-i,0,k)=cat::tvector<bool,3>((sym?-1:1),(sym?-1:1),(sym?1:-1))*field_hat(i,0,k);
+	//for anti-simmetric fields the values at the line kx=0, ky=0 must all be zero.
+				 if (sym==0)
+					 for(int k=0;k<s3;++k)
+						 field_hat(0,0,k)[2]=0;
+				 else
+					 for(int k=0;k<s3;++k)
+					 {
+						 field_hat(0,0,k)[0]=0;
+						 field_hat(0,0,k)[1]=0;
+					 }
+  //Ensure that kz=0 terms are zero in sine representation
+	if (kind==0)
+		for(int i=0;i<s1;++i)
+			for(int j=0;j<s2;++j)
+			{
+				field_hat(i,j,0)[2]=0.;
+				field_hat(i,j,s3-1)[2]=0.;
+			}
+				 else
+					 for(int i=0;i<s1;++i)
+						 for(int j=0;j<s2;++j)
+						 {
+							 field_hat(i,j,0)[0]=0.;
+							 field_hat(i,j,s3-1)[0]=0.;
+							 field_hat(i,j,0)[1]=0.;
+							 field_hat(i,j,s3-1)[1]=0.;
+						 }
+	
+	 //Ensure that fields have zero average
+	field_hat(0,0,0)=0.;
 
 	//Make the field solenoidal
 	spectral_obj.remove_gradient(field_hat,kind);
@@ -168,12 +251,12 @@ gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	spectral_obj.dealias(field_hat);
 	
   //Eval spectrum between ki and kf
-	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat));
-	double wv2step(max(spectral_obj.wv2)/(energ_spec.size()-1));
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
+	wvstep=sqrt(max(spectral_obj.wv2))/(energ_spec.size()-1);
 	
   //Normalise to spectrum between ki and kf
-	cat::array<cat::tvector<complex<Real>,3>,3>::iterator field_hat_iterator(field_hat);
-	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
+	//cat::array<cat::tvector<complex<Real>,3>,3>::iterator field_hat_iterator(field_hat);
+	//cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
 	for(field_hat_iterator=field_hat.begin(),
 	    wv2_iterator=spectral_obj.wv2.begin();
 	    field_hat_iterator!=field_hat.end(),
@@ -181,7 +264,7 @@ gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	    ++field_hat_iterator,
 	    ++wv2_iterator)
 	{
-		int index=static_cast<int>((*wv2_iterator)/wv2step);
+		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
 		if(index>=ki && index<kf)
 		{
 			double power=pow(double(*wv2_iterator),-alpha);
@@ -190,13 +273,13 @@ gen_random_field_hat(aux,a,b,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	}
 	
   //Re-eval energ_spec
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
   //Normalise for RMS vel,mag,temp = p
 	field_hat*=(p/sqrt(2*sum(energ_spec)));
 	
   //Re-eval energ_spec
-	energ_spec=spectral_obj.eval_energ_spec(field_hat);
+	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
 }
 

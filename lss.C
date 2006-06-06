@@ -53,11 +53,25 @@ void lss::run(double & lambda_minimal,
 	double & l1=input_obj.l1;
 	double & l2=input_obj.l2;
 	double & l3=input_obj.l3;
+
+	cout << .5*sum(dot_product(basic.vel(),basic.vel()))*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
+	CVF vttt(n1,n2/2+1,n3);
+	spectral_obj.fft_ccs.direct_transform(vttt,basic.vel());
+	cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt) << endl;
+	cat::array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
+	cout << (l1*l2*l3)*sum(ves)*sqrt(max(spectral_obj.wv2))/(ves.size()-1) << endl;
 	
 	cout << .5*sum(dot_product(basic.mag(),basic.mag()))*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
-	CVF ttt(n1,n2/2+1,n3);
-	spectral_obj.fft_ccs.direct_transform(ttt,basic.mag());
-	cout << (l1*l2*l3)*sum(spectral_obj.eval_energ_spec(ttt)) << endl;
+	CVF httt(n1,n2/2+1,n3);
+	spectral_obj.fft_ccs.direct_transform(httt,basic.mag());
+	cat::array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
+	cout << (l1*l2*l3)*sum(hes)*sqrt(max(spectral_obj.wv2))/(hes.size()-1) << endl;
+	
+	cout << .5*sum(basic.temp()*basic.temp())*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
+	CSF tttt(n1,n2/2+1,n3);
+	spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
+	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
+	cout << (l1*l2*l3)*sum(tes)*sqrt(max(spectral_obj.wv2))/(tes.size()-1) << endl;
 	
   //save basic fields
 	basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
@@ -254,7 +268,7 @@ void lss::solve_zero(CBVF * s,
     poisson_hat(spectral_obj.div_hat( (a_nought_obj(s[i]) ).vel(),0));
   cout << "... done!" << endl;
   cout << "Printing energy spectrum" << endl;
-  cout << spectral_obj.eval_energ_spec(s[i].mag()) << endl;
+  cout << spectral_obj.eval_energ_spec(s[i].mag(),0) << endl;
   cout << "... done!" << endl;
 //   cout << "Printing non-vanishing harmonics in s" << endl;
 //   spectral_obj.pnvh(s[i]);
@@ -316,7 +330,7 @@ void lss::solve_one(CBVF & gamma,
   gamma+=grad_art_press;
   
   cout << "Energy spectrum" << endl;
-  cout << spectral_obj.eval_energ_spec(gamma.mag()) << endl; 
+  cout << spectral_obj.eval_energ_spec(gamma.mag(),0) << endl; 
 
 //   cout << "Printing non-vanishing harmonics in gamma" << endl;
 //   spectral_obj.pnvh(gamma);
