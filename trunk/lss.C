@@ -57,7 +57,7 @@ void lss::run(double & lambda_minimal,
 	cout << .5*sum(dot_product(basic.vel(),basic.vel()))*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
 	CVF vttt(n1,n2/2+1,n3);
 	spectral_obj.fft_ccs.direct_transform(vttt,basic.vel());
-	cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt) << endl;
+	//cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt) << endl;
 	cat::array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
 	cout << (l1*l2*l3)*sum(ves)*sqrt(max(spectral_obj.wv2))/(ves.size()-1) << endl;
 	
@@ -70,7 +70,8 @@ void lss::run(double & lambda_minimal,
 	cout << .5*sum(basic.temp()*basic.temp())*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
 	CSF tttt(n1,n2/2+1,n3);
 	spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
-	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
+	cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,1) << endl;
+	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,1));
 	cout << (l1*l2*l3)*sum(tes)*sqrt(max(spectral_obj.wv2))/(tes.size()-1) << endl;
 	
   //save basic fields

@@ -38,6 +38,7 @@ private:
 	gen_random(const gen_random &);
   //Private methods
 public:
+	void gen_random_scalar_field_hat(CSF & field_hat,const int & ki, const int & kf,const bool & kind,const bool & sym);
   //generate random fields
 	void gen_random_field_hat
 		(CSF & field_hat,
