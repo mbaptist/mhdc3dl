@@ -151,8 +151,6 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		double espec=	energ_spec(index);
 		if(espec!=0)
 			(*field_hat_iterator)*=sqrt(power/espec);
-		if(index==0)
-			(*field_hat_iterator)*=.5;
 	}
 	
   //Re-eval energ_spec
