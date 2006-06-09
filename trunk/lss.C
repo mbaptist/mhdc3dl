@@ -66,10 +66,16 @@ void lss::run(double & lambda_minimal,
 	spectral_obj.fft_ccs.direct_transform(httt,basic.mag());
 	cat::array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
 	cout << (l1*l2*l3)*sum(hes)*sqrt(max(spectral_obj.wv2))/(hes.size()-1) << endl;
+
+	double tmp=0;
+	for(int i=0;i<n1;++i)
+		for(int j=0;j<n2;++j)
+			for(int k=0;k<n3-1;++k)
+			tmp+=basic.temp()(i,j,k)*basic.temp()(i,j,k);
 	
-	cout << .5*sum(basic.temp()*basic.temp())*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
+	cout << .5*tmp*(l1*l2*l3)/(n1*n2*(n3-1)) << endl;
 	CSF tttt(n1,n2/2+1,n3);
-	spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
+	spectral_obj.sfft_c.direct_transform(tttt,basic.temp());
 	cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,1) << endl;
 	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,1));
 	cout << (l1*l2*l3)*sum(tes)*sqrt(max(spectral_obj.wv2))/(tes.size()-1) << endl;
