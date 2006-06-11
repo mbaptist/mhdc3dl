@@ -91,7 +91,7 @@ grad_temp_(n1,n2,n3)
       //generate fields
 		gen_random_obj->gen_random_field(vel_,-1.,1.,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(mag_,-1.,1.,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
-		gen_random_obj->gen_random_field(temp_,-1.,1.,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,1,input_obj.br_sym);
+		gen_random_obj->gen_random_field(temp_,-1.,1.,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		
 		delete gen_random_obj;
 		eval_derivatives();

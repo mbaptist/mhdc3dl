@@ -67,8 +67,8 @@ void gen_random::gen_random_scalar_field_hat(CSF & field_hat,const int & ki, con
 	    ++wv2_iterator)
 	{
 		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
-		//if(index>=ki && index<kf)
-		if((*wv2_iterator)<dl)
+		if(index>=ki && index<kf)
+			//if((*wv2_iterator)<dl)
 		{
 			if(sym==1)
 				*field_hat_iterator=complex<double>(random(-1.,1.),0.);
@@ -157,9 +157,9 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
   //Normalise for RMS vel,mag,temp = p
-	//field_hat*=(p/sqrt(2*sum(energ_spec)*wvstep));
-	double normfac=(p/sqrt((4*M_PI*M_PI*M_PI)*spectral_obj.scalar_prod(field_hat,field_hat,kind)));
-	field_hat*=normfac;
+	field_hat*=(p/sqrt(2*sum(energ_spec)*wvstep));
+// 	double normfac=(p/sqrt((4*M_PI*M_PI*M_PI)*spectral_obj.scalar_prod(field_hat,field_hat,kind)));
+// 	field_hat*=normfac;
 	
   //Re-eval energ_spec
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
@@ -227,9 +227,9 @@ void gen_random::gen_random_field_hat
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
 	
   //Normalise for RMS vel,mag,temp = p
-	//field_hat*=(p/sqrt(2*sum(energ_spec)));
-	double normfac=(p/sqrt((4*M_PI*M_PI*M_PI)*spectral_obj.scalar_prod(field_hat,field_hat)));
-	field_hat*=normfac;
+	field_hat*=(p/sqrt(2*sum(energ_spec)));
+// 	double normfac=(p/sqrt((4*M_PI*M_PI*M_PI)*spectral_obj.scalar_prod(field_hat,field_hat)));
+// 	field_hat*=normfac;
 	
 //Re-eval energ_spec
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
