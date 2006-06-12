@@ -79,7 +79,7 @@ void lss::run(double & lambda_minimal,
 			}
 	cout << .5*tmp*(l1*l2*l3)/(n1*n2*(n3-1))/2. << endl;
 	CSF tttt(n1,n2/2+1,n3);
-	spectral_obj.sfft_c.direct_transform(tttt,basic.temp());
+	spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
 	cout << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,1) << endl;
 	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,1));
 	cout << (l1*l2*l3)*sum(tes)*sqrt(max(spectral_obj.wv2))/(tes.size()-1) << endl;

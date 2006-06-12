@@ -42,21 +42,18 @@ public:
   //generate random fields
 	void gen_random_field_hat
 		(CSF & field_hat,
-		 const double & a,const double & b,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
 		 const bool & kind,const bool & sym);
   //fourier coefficients for vector field
 	void gen_random_field_hat
 		(CVF & field_hat,
-		 const double & a,const double & b,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
 		 const bool & kind,const bool & sym);
 //scalar field in real space
 	void gen_random_field
 		(RSF & field,
-		 const double & a,const double & b,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
 		 const bool & kind,const bool & sym);
