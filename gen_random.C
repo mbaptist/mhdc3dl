@@ -40,23 +40,32 @@ gen_random::~gen_random()
 {
 }
 
-//generate random scalar field in fourier space
-//generates random fourier coefficients for the required symmetry
-void gen_random::gen_random_scalar_field_hat(CSF & field_hat,const int & ki, const int & kf, const bool & kind, const bool & sym)
+void gen_random::gen_random_fourier_coeffs(CSF & field_hat,const bool & kind, const bool & sym)
 {
-	
-	const int s1(field_hat.shape()[0]);
-	const int s2(field_hat.shape()[1]);
-	const int s3(field_hat.shape()[2]);
-	
-//Eval energy spectrum
-	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
-	double wvstep(sqrt(max(spectral_obj.wv2))/(energ_spec.size()-1));
+	gen_random_fourier_coeffs(field_hat,0,spectral_obj.max_shell,kind,sym);
+}
 
-	double dl=4./9.*max(spectral_obj.wv2);
-	
-  //Randomly generate field components in Fourier space
-	//symmetry about the z axis is already partially imposed (see comment below)
+void gen_random::gen_random_fourier_coeffs(CSF & field_hat,const int & initial_shell, const int & final_shell, const bool & kind, const bool & sym)
+{
+	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
+	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
+	for(field_hat_iterator=field_hat.begin(),
+	    wv2_iterator=spectral_obj.wv2.begin();
+	    field_hat_iterator!=field_hat.end();
+	    ++field_hat_iterator,
+	    ++wv2_iterator)
+	{
+		if(index>=ki && index<kf)
+				*field_hat_iterator=complex<double>(random(-1.,1.),random(-1.,1.);
+		else
+			*field_hat_iterator=0.;
+	}
+}
+
+//Applies symmetry about the z-axis to a scalar field
+void gen_random::sym_scalar_field_hat(CSF & field_hat, const bool & kind, const bool & sym)
+{
+	// Imaginary(or real) parts must vanish
 	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
 	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
 	for(field_hat_iterator=field_hat.begin(),
@@ -66,24 +75,15 @@ void gen_random::gen_random_scalar_field_hat(CSF & field_hat,const int & ki, con
 	    ++field_hat_iterator,
 	    ++wv2_iterator)
 	{
-		int index=static_cast<int>(sqrt(*wv2_iterator)/wvstep);
-		if(index>=ki && index<kf)
-			//if((*wv2_iterator)<dl)
-		{
-			if(sym==1)
-				*field_hat_iterator=complex<double>(random(-1.,1.),0.);
-			else
-				*field_hat_iterator=complex<double>(0.,random(-1.,1.));
-		}
+		if(sym==1)
+			field_hat_iterator->imag()=0;
 		else
-			*field_hat_iterator=0.;
-	}
-	
-	  
+			field_hat_iterator->real()=0;
+} 
    //symmetry about z axis
 	//combining symmetry about the z axis and hermitian symmetry, we obtain that
 	//symetric fields are real and anti-symetric fields are imaginary;
-	//this condition is imposed above, as we generated the coefficients;
+	//this condition is imposed above;
 	//any two of the above three conditions specify the symmetry completely;
 	//since only half of the harmonics are stored, 2 conditions are being used, except
 	//in the plane ky=0; therefore, we impose below the condition of symmetry
@@ -95,7 +95,6 @@ void gen_random::gen_random_scalar_field_hat(CSF & field_hat,const int & ki, con
 	if (sym==0)
 		for(int k=0;k<s3;++k)
 			field_hat(0,0,k)=0;
-	
   //Ensure that kz=0 terms are zero in sine representation
 	if (kind==0)
 		for(int i=0;i<s1;++i)
