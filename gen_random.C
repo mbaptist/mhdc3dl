@@ -40,12 +40,12 @@ gen_random::~gen_random()
 {
 }
 
-void gen_random::gen_random_fourier_coeffs(CSF & field_hat,const bool & kind, const bool & sym)
+void gen_random::gen_random_fcoeffs_scalar_field_hat(CSF & field_hat)
 {
-	gen_random_fourier_coeffs(field_hat,0,spectral_obj.max_shell,kind,sym);
+	gen_random_fourier_coeffs(field_hat,0,spectral_obj.max_shell);
 }
 
-void gen_random::gen_random_fourier_coeffs(CSF & field_hat,const int & initial_shell, const int & final_shell, const bool & kind, const bool & sym)
+void gen_random::gen_random_fourier_coeffs(CSF & field_hat,const int & initial_shell, const int & final_shell)
 {
 	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
 	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
@@ -117,23 +117,14 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
                                       const bool & kind,
                                       const bool & sym)
 {
-	const int s1(field_hat.shape()[0]);
-	const int s2(field_hat.shape()[1]);
-	const int s3(field_hat.shape()[2]);
-	
-	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
-	double wvstep(sqrt(max(spectral_obj.wv2))/(energ_spec.size()-1));
-	
-	gen_random_scalar_field_hat(field_hat,ki,kf,kind,sym);
-	
+	gen_random_fcoeffs_scalar_field_hat(field);
+	sym_scalar_field_hat(field,kind,sym);
 	 //Ensure that fields have zero average
 	field_hat(0,0,0)=0.;
-	
   //dealiasing
 	spectral_obj.dealias(field_hat);
-	
-  //Eval spectrum between ki and kf
-	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind);
+	//Normalise to spectrum 
+	spectral_obj.normalise_to_spectrum(field,spectrum_function);
 	
   //Normalise to spectrum between ki and kf
 	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
