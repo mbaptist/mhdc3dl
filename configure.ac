@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT(mhdcl, 0.1b, mbaptist@fc.up.pt)
+AC_INIT(mhdc3dl, 0.1b, mbaptist@fc.up.pt)
 
 AC_CONFIG_SRCDIR([mhdc3dl.C])
 

@@ -88,7 +88,7 @@ br_spectrum="power"
 br_seed=102
 br_ki=0
 br_kf=5
-br_alpha=8.  #ramdom power spectrum mode
+br_alpha=4.  #ramdom power spectrum mode
 br_rms_norm=1
 br_kind=0
 br_sym=1
@@ -157,7 +157,7 @@ if (__name__=="__main__"):
   eddy=lss_run("__main__") #this line runs the lss code for the parameters defined so far
   output_line=str(br_seed)+" "+str(visc)+" "+str(diff)+" "+str(tcond)+" "+str(eddy[0])+" "+str(eddy[1])+"\n"
   print(output_line)
-#    ofile.write(line)
+#    ofile.write(output_line)
 #    ofile.flush()
 
 

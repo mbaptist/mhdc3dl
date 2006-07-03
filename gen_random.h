@@ -60,7 +60,6 @@ public:
   //vector field in real space
 	void gen_random_field
 		(RVF & field,
-		 const double & a,const double & b,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
 		 const bool & kind,const bool & sym);
