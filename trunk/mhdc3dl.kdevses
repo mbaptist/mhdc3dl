@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="14" >
+ <DocsAndViews NumberOfDocuments="13" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
    <View0 Type="Source" />
   </Doc0>
@@ -30,20 +30,17 @@
    <View0 Type="Source" />
   </Doc8>
   <Doc9 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/sss.C" >
-   <View0 line="137" Type="Source" />
+   <View0 Type="Source" />
   </Doc9>
   <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/sss.h" >
    <View0 Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/vzdeigen/vzdeigen.f" >
-   <View0 line="105" Type="Source" />
+   <View0 Type="Source" />
   </Doc11>
   <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
    <View0 line="55" Type="Source" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/Makefile.in" >
-   <View0 line="37" Type="Source" />
-  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
