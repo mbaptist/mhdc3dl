@@ -32,7 +32,7 @@ FLAGS = $(DEBUG) $(LIB)
 
 OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
 
-all:  limhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
+all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
 
 clean:
 	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so && $(MAKE) -C vzdeigen clean
