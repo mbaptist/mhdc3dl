@@ -63,13 +63,13 @@ Real spectral::scalar_prod(const CBVF & x,const CBVF & y) const
 }
 
 //block vector
-void spectral::pnvh(const CBVF & field)
+void spectral::pnvh_hat(const CBVF & field)
 {
   cout << "vel" << endl;
-	SpectralFourierLayer::pnvh(field.vel());
+	SpectralFourierLayer::pnvh_hat(field.vel());
   cout << "mag" << endl;
-  SpectralFourierLayer::pnvh(field.mag());
+  SpectralFourierLayer::pnvh_hat(field.mag());
   cout << "temp" << endl;
-  SpectralFourierLayer::pnvh(field.temp());
+  SpectralFourierLayer::pnvh_hat(field.temp());
 }
 

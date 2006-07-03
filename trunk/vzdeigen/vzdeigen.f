@@ -285,7 +285,7 @@ c     endif
 
 c Modified by Manuel Baptista (Apr2005)
 c
-        print *,"some comp v1: ",(v1(i),i=15,30)
+c        print *,"some comp v1: ",(v1(i),i=15,30)
 
         OPEN(3,STATUS='UNKNOWN',FILE=name,
      *    FORM='UNFORMATTED',ACCESS='DIRECT',RECL=8*m)

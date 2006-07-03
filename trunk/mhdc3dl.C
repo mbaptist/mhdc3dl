@@ -1,39 +1,36 @@
 #include "lss.h"
+#include "sss.h"
+#include <string>
+#include <cstring>
+using namespace std;
 
 int main(int argc,char * argv[])
-{
- 
+{ 
   //get input filename
-	////string inputfname("default.cfg");
 	string inputfname("mhdc3dl_run_default.py");
-  if (argc>1)
-    if (argv[1]!="")
-      inputfname=argv[1];
-  cout << inputfname << endl;
+	if (argc>1)
+		if (strcmp(argv[1],""))
+			inputfname=argv[1];
+	cout << inputfname << endl;
+	
+	input input_obj(inputfname);
 
-  double lambda_minimal,lambda_maximal;
+#if 0
+	lss lss_obj(input_obj);
+	
+	double lambda_min,lambda_max;
+	
+	lss_obj.run(lambda_min,lambda_max);
+	
+  //print maximum and minimum growth rates
+	cout << "  Maximum Lambda = " << lambda_max
+		<< "  Minimum Lambda = " << lambda_min
+		<< endl;
+#endif
 
-  input input_obj(inputfname);
+	sss sss_obj(input_obj);
+	sss_obj.run();
 
-  lss lss_obj(input_obj);
-
-  lss_obj.run(lambda_minimal,lambda_maximal);
-
-  //Output maximum growth rate
-  //To screen
-  cout << "  Maximum Lambda = " << lambda_maximal
-       << "  Minimum Lambda = " << lambda_minimal
-       << endl;
-  //Append to file
-//   if (input_obj->grfname!="")
-//     {
-//       ofstream ofs;
-//       ofs.open((input_obj->grfname).c_str(),ofstream::app);
-//       ofs << lambda_maximal 
-// 	  << " " << lambda_minimal
-// 	  << endl;
-//       ofs.close();
-//     }  
-
-  return 0;
+	
+	return 0;
 }

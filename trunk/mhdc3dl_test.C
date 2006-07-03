@@ -71,13 +71,13 @@ void test_adjoint()
 
   gen_random gr(*input_obj,*spectral_obj,1000);
 
-  gr.gen_random_field_hat(a.vel(),-1.,1.,1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.mag(),-1.,1.,1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.temp(),0.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.vel(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.mag(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(a.temp(),1,10,6,1,0,1);
   
-  gr.gen_random_field_hat(b.vel(),-1.,1.,1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.mag(),-1.,1.,1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.temp(),0.,1.,1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.vel(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.mag(),1,10,6,1,0,1);
+  gr.gen_random_field_hat(b.temp(),1,10,6,1,0,1);
 
 
 //   a=0;
@@ -205,7 +205,7 @@ void test_remove_gradient()
   spectral_obj->fft_ccs.direct_transform(v_hat,v);
 
   cout << "v_hat before: " << endl;
-  spectral_obj->pnvh(v_hat);
+  spectral_obj->pnvh_hat(v_hat);
 
   cout << "removing gradient... " << endl;
   CVF gv_hat(n1,n2/2+1,n3);
@@ -213,10 +213,10 @@ void test_remove_gradient()
   cout << "...done!" << endl;
 
   cout << "v_hat after: " << endl;
-  spectral_obj->pnvh(v_hat);
+  spectral_obj->pnvh_hat(v_hat);
 
   cout << "gradient: " << endl;
-  spectral_obj->pnvh(gv_hat);
+  spectral_obj->pnvh_hat(gv_hat);
 
 	
 

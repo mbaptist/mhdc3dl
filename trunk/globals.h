@@ -55,5 +55,6 @@ cat::tvector<int,3> unit_vector(const int & i);
 //Element i,j of Levi-Civita tensor (i,j=0,1,2)
 int levi_civita(const int & i,const int & j,const int & k);
 
+const complex<double> I(0.,1.);
 
 #endif

@@ -129,9 +129,9 @@ py_input_parser::~py_input_parser()
 {
   if(!python_initialised)
     {
-      Py_DECREF(dict);
-      Py_DECREF(module);
-      PyRun_SimpleString("if(imp.lock_held()):imp.release_lock()\n");
+	    Py_DECREF(dict);
+	    Py_DECREF(module);
+	    PyRun_SimpleString("if(imp.lock_held()):imp.release_lock()\n");
       Py_Finalize();
     }
 }

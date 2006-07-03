@@ -14,6 +14,14 @@
 
 class spectral : public SpectralFourierLayer
 {
+
+public:
+	using SpectralFourierLayer::wv;
+	using SpectralFourierLayer::wv2;	
+	using SpectralFourierLayer::wnmax;
+	using SpectralFourierLayer::nwn;
+	using SpectralFourierLayer::wnstep;
+	
  public:
   using SpectralFourierLayer::dealias;
   using SpectralFourierLayer::poisson_hat;
@@ -24,6 +32,8 @@ class spectral : public SpectralFourierLayer
   using SpectralFourierLayer::lap_hat;
   using SpectralFourierLayer::remove_gradient;
   using SpectralFourierLayer::scalar_prod;
+	using SpectralFourierLayer::eval_energ_spec;
+	using SpectralFourierLayer::pnvh_hat;
   using SpectralFourierLayer::pnvh;
 
  public:
@@ -43,7 +53,7 @@ class spectral : public SpectralFourierLayer
   
   Real scalar_prod(const CBVF & xx,const CBVF & yy) const ;
   
-  void pnvh(const CBVF & field);
+  void pnvh_hat(const CBVF & field);
 
 };
 
