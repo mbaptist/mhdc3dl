@@ -30,7 +30,7 @@ ARFLAGS = rcs
 IFLAGS = $(DEBUG) $(INCLUDE)
 FLAGS = $(DEBUG) $(LIB) 
 
-OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
+OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o vzdeigen/vzdeigen.o
 
 all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
 
@@ -41,22 +41,22 @@ distclean: clean
 	@rm -rfv *~ && $(MAKE) -C vzdeigen distclean
 
 libmhdc3dl: $(OBJECTS) libvzdeigen
-	$(CXX) $(FLAGS) -shared -o libmhdc3d.so $(OBJECTS) ./vzdeigen/libvzdeigen.a -L/opt/intel/fc/9.0/lib -lifcore -limf
+	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) -L/opt/intel/fc/9.0/lib -lifcore -limf
 
 libmhdc3dl_static: $(OBJECTS) libvzdeigen
-	$(AR) $(ARFLAGS) libmhdc3d.a $(OBJECTS) ./vzdeigen/libvzdeigen.a -L/opt/intel/fc/9.0/lib -lifcore -limf
+	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS) -static -L/opt/intel/fc/9.0/lib -lifcore -limf
 
 mhdc3dl_python: libmhdc3dl mhdc3dl_python.o
-	$(CXX)  $(FLAGS) -pthread -shared -o mhdc3dl_python.so mhdc3dl_python.o -lmhdc3dl -lfftw3 -lm -lgoops -lcat
+	$(CXX)  $(FLAGS) -pthread -shared -o mhdc3dl_python.so mhdc3dl_python.o -L. -lmhdc3dl
 
 mhdc3dl_python.o: mhdc3dl_python.C
 	$(CXX) $(IFLAGS) -pthread -fPIC -c mhdc3dl_python.C 
 
 mhdc3dl_test: libmhdc3dl mhdc3dl_test.o
-	$(CXX) $(FLAGS) -o mhdc3dl_test mhdc3dl_test.o -lfftw3 -lmhdc3dl
+	$(CXX) $(FLAGS) -o mhdc3dl_test mhdc3dl_test.o -L. -lmhdc3dl
 
 mhcd3dl: libmhdc3dl mhdc3dl.o
-	$(CXX) $(FLAGS) -o mhdc3dl mhdc3dl.o -lfftw3 -lmhdc3dl
+	$(CXX) $(FLAGS) -o mhdc3dl mhdc3dl.o -lfftw3 -L. -lmhdc3dl
 
 libvzdeigen:
 	$(MAKE) -C vzdeigen
