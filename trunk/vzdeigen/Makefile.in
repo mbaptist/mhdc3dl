@@ -8,7 +8,7 @@
 
 F90 = ifort
 
-F90FLAGS = -g
+F90FLAGS = -fast
 
 AR = ar
 
@@ -16,8 +16,7 @@ ARFLAGS = rcs
 
 ############################################################################
 
-all: libvzdeigen.a 
-#libvzdeigen.so
+all: vzdeigen.o 
 
 clean:
 	@rm -rfv *.o *.a *.so
@@ -27,13 +26,4 @@ distclean: clean
 
 vzdeigen.o: vzdeigen.f 
 	$(F90) $(F90FLAGS) -c vzdeigen.f -o vzdeigen.o
-
-libvzdeigen.so: vzdeigen.o
-	$(F90) $(F90FLAGS) -shared -o libvzdeigen.so vzdeigen.o
-
-vzdeigen_static.o: vzdeigen.f
-	$(F90) $(F90FLAGS) -o vzdeigen_static.o -c vzdeigen.f
-
-libvzdeigen.a: vzdeigen_static.o
-	$(AR) $(ARFLAGS) libvzdeigen.a vzdeigen_static.o
 
