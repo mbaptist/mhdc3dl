@@ -30,9 +30,10 @@ ARFLAGS = rcs
 IFLAGS = $(DEBUG) $(INCLUDE)
 FLAGS = $(DEBUG) $(LIB) 
 
-OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o vzdeigen/vzdeigen.o
+OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
 
 all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
+
 
 clean:
 	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so && $(MAKE) -C vzdeigen clean
@@ -40,29 +41,31 @@ clean:
 distclean: clean
 	@rm -rfv *~ && $(MAKE) -C vzdeigen distclean
 
-libmhdc3dl: $(OBJECTS) libvzdeigen
-	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) -L/opt/intel/fc/9.0/lib -lifcore -limf
 
-libmhdc3dl_static: $(OBJECTS) libvzdeigen
-	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS) -static -L/opt/intel/fc/9.0/lib -lifcore -limf
-
-mhdc3dl_python: libmhdc3dl mhdc3dl_python.o
-	$(CXX)  $(FLAGS) -pthread -shared -o mhdc3dl_python.so mhdc3dl_python.o -L. -lmhdc3dl
+%.o: %.C *.h
+	$(CXX) $(IFLAGS) -c $< 
 
 mhdc3dl_python.o: mhdc3dl_python.C
-	$(CXX) $(IFLAGS) -pthread -fPIC -c mhdc3dl_python.C 
+	$(CXX) $(IFLAGS) -pthread -fPIC -c mhdc3dl_python.C
 
-mhdc3dl_test: libmhdc3dl mhdc3dl_test.o
-	$(CXX) $(FLAGS) -o mhdc3dl_test mhdc3dl_test.o -L. -lmhdc3dl
-
-mhcd3dl: libmhdc3dl mhdc3dl.o
-	$(CXX) $(FLAGS) -o mhdc3dl mhdc3dl.o -lfftw3 -L. -lmhdc3dl
 
 libvzdeigen:
 	$(MAKE) -C vzdeigen
 
-%.o: %.C *.h
-	$(CXX) $(IFLAGS) -c $<
+libmhdc3dl: $(OBJECTS) libvzdeigen
+	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) -L./vzdeigen -static -lvzdeigen 
+	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS) ./vzdeigen/vzdeigen.o ./vzdeigen/libvzdeigen.a
+
+
+mhdc3dl_python: mhdc3dl_python.o libmhdc3dl
+	$(CXX)  $(FLAGS) -pthread -shared -o mhdc3dl_python.so mhdc3dl_python.o -L. -lmhdc3dl
+
+mhdc3dl_test: mhdc3dl_test.o libmhdc3dl
+	$(CXX) $(FLAGS) -o mhdc3dl_test mhdc3dl_test.o -L. -lmhdc3dl
+
+mhdc3dl: mhdc3dl.o libmhdc3dl
+	$(CXX) $(FLAGS) -o mhdc3dl mhdc3dl.o -lfftw3 -L. -lmhdc3dl
+
 
 install:
 	install -c -m 755 mhdc3dl $(INSTALL_ROOT)/bin
