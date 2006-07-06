@@ -26,11 +26,11 @@ distclean: clean
 	@rm -rfv *~
 
 vzdeigen.o: vzdeigen.f
-	$(F90) $(F90FLAGS) -c vzdeigen.f
+	$(F90) $(F90FLAGS) -static-libcxa -c vzdeigen.f
 
 libvzdeigen: vzdeigen.o
-	$(F90) $(F90FLAGS) -shared -o libvzdeigen.so vzdeigen.o -static -L/opt/intel/fc/9.0/lib -lifcore -limf -static-libcxa
-	$(AR) $(ARFLAGS) libvzdeigen.a vzdeigen.o /opt/intel/fc/9.0/lib/libifcore.a /opt/intel/fc/9.0/lib/libimf.a 
+	$(F90) $(F90FLAGS) -shared -o libvzdeigen.so vzdeigen.o
+	$(AR) $(ARFLAGS) libvzdeigen.a vzdeigen.o 
 
 
 #all: vzdeigen.o 
