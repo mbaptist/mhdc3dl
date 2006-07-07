@@ -16,7 +16,7 @@ DEBUG =
 PYTHON_VERSION=$(shell python -c "import sys ; print sys.version[:3]")
 
 INCLUDE = @CAT_CFLAGS@ @GOOPS_CFLAGS@ @LASS_CFLAGS@ -I/usr/include/python$(PYTHON_VERSION)
-LIB = @CAT_LIBS@ -lcat @GOOPS_LIBS@ -lgoops -lfftw3 -lpython$(PYTHON_VERSION) -lm
+LIB = @CAT_LIBS@ -lcat @GOOPS_LIBS@ -lgoops @LASS_LIBS@ -llass -lfftw3 -lpython$(PYTHON_VERSION) -lm
 
 INSTALL_ROOT = @prefix@
 
@@ -53,8 +53,8 @@ libvzdeigen:
 	$(MAKE) -C vzdeigen
 
 libmhdc3dl: $(OBJECTS) libvzdeigen
-	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) -L./vzdeigen -static -lvzdeigen 
-	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS) ./vzdeigen/vzdeigen.o ./vzdeigen/libvzdeigen.a
+	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) 
+	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS)
 
 
 mhdc3dl_python: mhdc3dl_python.o libmhdc3dl
