@@ -274,7 +274,7 @@ PACKAGE_STRING='mhdc3dl 0.1b'
 PACKAGE_BUGREPORT='mbaptist@fc.up.pt'
 
 ac_unique_file="mhdc3dl.C"
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA RANLIB ac_ct_RANLIB CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CC CFLAGS ac_ct_CC CPP CAT_PREFIX CAT_LIBS CAT_CFLAGS LASS_PREFIX LASS_CFLAGS GOOPS_PREFIX GOOPS_LIBS GOOPS_CFLAGS LIB@&t@OBJS LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA RANLIB ac_ct_RANLIB CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT CC CFLAGS ac_ct_CC CPP CAT_PREFIX CAT_LIBS CAT_CFLAGS LASS_PREFIX LASS_LIBS LASS_CFLAGS GOOPS_PREFIX GOOPS_LIBS GOOPS_CFLAGS LIB@&t@OBJS LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -3107,7 +3107,9 @@ echo "$as_me: error: You must call configure with the --with-lass option.
 
 fi; 
 
+LASS_LIBS="-L${LASS_PREFIX}"
 LASS_CFLAGS="-I${LASS_PREFIX}"
+
 
 
 # Check for goops
@@ -3316,7 +3318,7 @@ esac
 
 # Checks for library functions.
 
-                    ac_config_files="$ac_config_files Makefile vzdeigen/Makefile"
+          ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
@@ -3870,7 +3872,6 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-  "vzdeigen/Makefile" ) CONFIG_FILES="$CONFIG_FILES vzdeigen/Makefile" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}
    { (exit 1); exit 1; }; };;
@@ -3974,6 +3975,7 @@ s,@CAT_PREFIX@,$CAT_PREFIX,;t t
 s,@CAT_LIBS@,$CAT_LIBS,;t t
 s,@CAT_CFLAGS@,$CAT_CFLAGS,;t t
 s,@LASS_PREFIX@,$LASS_PREFIX,;t t
+s,@LASS_LIBS@,$LASS_LIBS,;t t
 s,@LASS_CFLAGS@,$LASS_CFLAGS,;t t
 s,@GOOPS_PREFIX@,$GOOPS_PREFIX,;t t
 s,@GOOPS_LIBS@,$GOOPS_LIBS,;t t

@@ -49,10 +49,7 @@ mhdc3dl_python.o: mhdc3dl_python.C
 	$(CXX) $(IFLAGS) -pthread -fPIC -c mhdc3dl_python.C
 
 
-libvzdeigen:
-	$(MAKE) -C vzdeigen
-
-libmhdc3dl: $(OBJECTS) libvzdeigen
+libmhdc3dl: $(OBJECTS) 
 	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) 
 	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS)
 

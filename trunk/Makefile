@@ -16,7 +16,7 @@ DEBUG =
 PYTHON_VERSION=$(shell python -c "import sys ; print sys.version[:3]")
 
 INCLUDE = -I/home/mbaptist/work/codes/devel/cat -I/home/mbaptist/work/codes/devel/goops -I/home/mbaptist/work/codes/devel/lass -I/usr/include/python$(PYTHON_VERSION)
-LIB = -L/home/mbaptist/work/codes/devel/cat -lcat -L/home/mbaptist/work/codes/devel/goops -lgoops -lfftw3 -lpython$(PYTHON_VERSION) -lm
+LIB = -L/home/mbaptist/work/codes/devel/cat -lcat -L/home/mbaptist/work/codes/devel/goops -lgoops -L/home/mbaptist/work/codes/devel/lass -llass -lfftw3 -lpython$(PYTHON_VERSION) -lm
 
 INSTALL_ROOT = /usr/local
 
@@ -49,12 +49,9 @@ mhdc3dl_python.o: mhdc3dl_python.C
 	$(CXX) $(IFLAGS) -pthread -fPIC -c mhdc3dl_python.C
 
 
-libvzdeigen:
-	$(MAKE) -C vzdeigen
-
-libmhdc3dl: $(OBJECTS) libvzdeigen
-	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) -L./vzdeigen -static -lvzdeigen 
-	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS) ./vzdeigen/vzdeigen.o ./vzdeigen/libvzdeigen.a
+libmhdc3dl: $(OBJECTS) 
+	$(CXX) $(FLAGS) -shared -o libmhdc3dl.so $(OBJECTS) 
+	$(AR) $(ARFLAGS) libmhdc3dl.a $(OBJECTS)
 
 
 mhdc3dl_python: mhdc3dl_python.o libmhdc3dl

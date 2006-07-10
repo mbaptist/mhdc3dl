@@ -43,7 +43,9 @@ AC_ARG_WITH(lass,
     e.g. --with-lass=/usr/local or --with-lass=/usr])
 )
 AC_SUBST(LASS_PREFIX)
+LASS_LIBS="-L${LASS_PREFIX}"
 LASS_CFLAGS="-I${LASS_PREFIX}"
+AC_SUBST(LASS_LIBS)
 AC_SUBST(LASS_CFLAGS)
 
 # Check for goops
