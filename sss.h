@@ -40,7 +40,7 @@ private:
 	//Public Methods
 public:
   //Run
-	void run();
+	void run(double & xp,double & eim);
 	void external_prodx(int * nit,double * vi, double * vo, int * m);
 	
 	//Private Methods

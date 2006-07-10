@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="15" >
+ <DocsAndViews NumberOfDocuments="14" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
    <View0 Type="Source" />
   </Doc0>
@@ -35,18 +35,15 @@
   <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/sss.h" >
    <View0 Type="Source" />
   </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/vzdeigen/vzdeigen.f" >
+  <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
    <View0 Type="Source" />
   </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
+  <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.C" >
    <View0 Type="Source" />
   </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.C" >
-   <View0 line="1" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.h" >
+  <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.h" >
    <View0 line="0" Type="Source" />
-  </Doc14>
+  </Doc13>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

@@ -41,7 +41,7 @@ sss::~sss()
 {
 }
 
-void sss::run()
+void sss::run(double & xp,double & eim)
 {
 
 	
@@ -51,8 +51,10 @@ void sss::run()
 
   int m=2*7*n1*(n2/2+1)*n3;
 
-  double xp=0;
-  double eim=0;
+	//double xp=0;
+	//double eim=0;
+	xp=0;
+	eim=0;
   double ep=input_obj.ep;
   double thr=input_obj.thr;
   int mp=input_obj.mp;

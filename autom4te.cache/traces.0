@@ -91,20 +91,21 @@ m4trace:configure.ac:31: -1- AC_SUBST([CAT_PREFIX])
 m4trace:configure.ac:34: -1- AC_SUBST([CAT_LIBS])
 m4trace:configure.ac:35: -1- AC_SUBST([CAT_CFLAGS])
 m4trace:configure.ac:45: -1- AC_SUBST([LASS_PREFIX])
-m4trace:configure.ac:47: -1- AC_SUBST([LASS_CFLAGS])
-m4trace:configure.ac:57: -1- AC_SUBST([GOOPS_PREFIX])
-m4trace:configure.ac:60: -1- AC_SUBST([GOOPS_LIBS])
-m4trace:configure.ac:61: -1- AC_SUBST([GOOPS_CFLAGS])
-m4trace:configure.ac:66: -1- AC_C_CONST
-m4trace:configure.ac:66: -1- AC_DEFINE_TRACE_LITERAL([const])
-m4trace:configure.ac:66: -1- AH_OUTPUT([const], [/* Define to empty if `const\' does not conform to ANSI C. */
+m4trace:configure.ac:48: -1- AC_SUBST([LASS_LIBS])
+m4trace:configure.ac:49: -1- AC_SUBST([LASS_CFLAGS])
+m4trace:configure.ac:59: -1- AC_SUBST([GOOPS_PREFIX])
+m4trace:configure.ac:62: -1- AC_SUBST([GOOPS_LIBS])
+m4trace:configure.ac:63: -1- AC_SUBST([GOOPS_CFLAGS])
+m4trace:configure.ac:68: -1- AC_C_CONST
+m4trace:configure.ac:68: -1- AC_DEFINE_TRACE_LITERAL([const])
+m4trace:configure.ac:68: -1- AH_OUTPUT([const], [/* Define to empty if `const\' does not conform to ANSI C. */
 #undef const])
-m4trace:configure.ac:67: -1- AC_C_INLINE
-m4trace:configure.ac:67: -1- AH_OUTPUT([inline], [/* Define to `__inline__\' or `__inline\' if that\'s what the C compiler
+m4trace:configure.ac:69: -1- AC_C_INLINE
+m4trace:configure.ac:69: -1- AH_OUTPUT([inline], [/* Define to `__inline__\' or `__inline\' if that\'s what the C compiler
    calls it, or to nothing if \'inline\' is not supported under any name.  */
 #ifndef __cplusplus
 #undef inline
 #endif])
-m4trace:configure.ac:71: -1- AC_CONFIG_FILES([Makefile vzdeigen/Makefile])
-m4trace:configure.ac:72: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
-m4trace:configure.ac:72: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])
+m4trace:configure.ac:73: -1- AC_CONFIG_FILES([Makefile])
+m4trace:configure.ac:74: -1- AC_SUBST([LIB@&t@OBJS], [$ac_libobjs])
+m4trace:configure.ac:74: -1- AC_SUBST([LTLIBOBJS], [$ac_ltlibobjs])

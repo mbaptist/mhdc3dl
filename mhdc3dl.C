@@ -15,7 +15,7 @@ int main(int argc,char * argv[])
 	
 	input input_obj(inputfname);
 
-#if 0
+
 	lss lss_obj(input_obj);
 	
 	double lambda_min,lambda_max;
@@ -26,10 +26,11 @@ int main(int argc,char * argv[])
 	cout << "  Maximum Lambda = " << lambda_max
 		<< "  Minimum Lambda = " << lambda_min
 		<< endl;
-#endif
+
 
 	sss sss_obj(input_obj);
-	sss_obj.run();
+	double xp,eim;
+	sss_obj.run(xp,eim);
 
 	
 	return 0;
