@@ -1,6 +1,6 @@
 #include <Python.h>
 
-#include "lss.h"
+#include "mhdc3dl.h"
 
 #include <string>
 
