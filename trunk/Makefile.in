@@ -16,7 +16,7 @@ DEBUG =
 PYTHON_VERSION=$(shell python -c "import sys ; print sys.version[:3]")
 
 INCLUDE = @CAT_CFLAGS@ @GOOPS_CFLAGS@ @LASS_CFLAGS@ -I/usr/include/python$(PYTHON_VERSION)
-LIB = @CAT_LIBS@ -lcat @GOOPS_LIBS@ -lgoops @LASS_LIBS@ -llass -lfftw3 -lpython$(PYTHON_VERSION) -lm
+LIB = @CAT_LIBS@ -lcat @GOOPS_LIBS@ -lgoops -lfftw3 -lpython$(PYTHON_VERSION) -lm @LASS_LIBS@ -llass
 
 INSTALL_ROOT = @prefix@
 
@@ -36,10 +36,10 @@ all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
 
 
 clean:
-	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so && $(MAKE) -C vzdeigen clean
+	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so 
 
 distclean: clean
-	@rm -rfv *~ && $(MAKE) -C vzdeigen distclean
+	@rm -rfv *~ 
 
 
 %.o: %.C *.h

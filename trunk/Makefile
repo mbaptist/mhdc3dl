@@ -16,7 +16,7 @@ DEBUG =
 PYTHON_VERSION=$(shell python -c "import sys ; print sys.version[:3]")
 
 INCLUDE = -I/home/mbaptist/work/codes/devel/cat -I/home/mbaptist/work/codes/devel/goops -I/home/mbaptist/work/codes/devel/lass -I/usr/include/python$(PYTHON_VERSION)
-LIB = -L/home/mbaptist/work/codes/devel/cat -lcat -L/home/mbaptist/work/codes/devel/goops -lgoops -L/home/mbaptist/work/codes/devel/lass -llass -lfftw3 -lpython$(PYTHON_VERSION) -lm
+LIB = -L/home/mbaptist/work/codes/devel/cat -lcat -L/home/mbaptist/work/codes/devel/goops -lgoops -lfftw3 -lpython$(PYTHON_VERSION) -lm -L/home/mbaptist/work/codes/devel/lass -llass
 
 INSTALL_ROOT = /usr/local
 
@@ -36,10 +36,10 @@ all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
 
 
 clean:
-	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so && $(MAKE) -C vzdeigen clean
+	@rm -rfv mhdc3dl mhdc3dl_test *.o *.so 
 
 distclean: clean
-	@rm -rfv *~ && $(MAKE) -C vzdeigen distclean
+	@rm -rfv *~ 
 
 
 %.o: %.C *.h
