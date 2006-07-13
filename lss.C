@@ -80,6 +80,8 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	
   //save basic fields
 	basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
+
+	basic.save("bf.vtk");
 	
   //define a block vector to contain the constants for
   //the rhs of auxiliary problems (AP)

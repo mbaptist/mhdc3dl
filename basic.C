@@ -283,4 +283,48 @@ void Basic::eval_derivatives()
 	spectral_obj.fft_ssc.inverse_transform(grad_temp_,aux);
 }
 
-
+void Basic::save(const string & filename)
+{
+	int n1(input_obj.n1);
+	int n2(input_obj.n2);
+	int n3(input_obj.n3);
+	Real l1(input_obj.l1);
+	Real l2(input_obj.l2);
+	Real l3(input_obj.l3);
+	ofstream ofs(filename.c_str());
+	ofs << "# vtk DataFile Version 2.0\n"
+		<< ".\n"
+		<< "ASCII"	<< endl;
+	ofs << "DATASET STRUCTURED_POINTS\n"
+		<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+		<< "ORIGIN 0 0 0\n"
+		<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+		<< "POINT_DATA " << this->vel_.size() << "\n"
+		<< "VECTORS velocity float" << endl;
+	for(int k=0;k<n3;++k)
+		for(int j=0;j<n2;++j)
+			for(int i=0;i<n1;++i)
+				ofs << this->vel_(i,j,k) << endl;
+	ofs << "DATASET STRUCTURED_POINTS\n"
+		<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+		<< "ORIGIN 0 0 0\n"
+		<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+		<< "POINT_DATA " << this->mag_.size() << "\n"
+		<< "VECTORS magnetic float" << endl;
+	for(int k=0;k<n3;++k)
+		for(int j=0;j<n2;++j)
+			for(int i=0;i<n1;++i)
+				ofs << this->mag_(i,j,k) << endl;
+	ofs << "DATASET STRUCTURED_POINTS\n"
+		<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+		<< "ORIGIN 0 0 0\n"
+		<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+		<< "POINT_DATA " << this->temp_.size() << "\n"
+		<< "SCALARS temperature float\n"
+		<< "LOOKUP_TABLE default" << endl;
+	for(int k=0;k<n3;++k)
+		for(int j=0;j<n2;++j)
+			for(int i=0;i<n1;++i)
+				ofs << this->temp_(i,j,k) << endl;
+	ofs.close();
+};

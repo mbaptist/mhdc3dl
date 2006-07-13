@@ -37,6 +37,47 @@ public:
 	const tvector<int,3> & shape() const {return this->temperature_.shape();}
 	
   //Public Methods
+
+// 	void save(const string & filename)
+// 	{
+// 		ofstream ofs(filename);
+// 		ofs << "# vtk DataFile Version 2.0\n"
+// 			<< ".\n"
+// 			<< "ASCII"	<< endl;
+// 			ofs << "DATASET STRUCTURED_POINTS\n"
+// 			<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+// 			<< "ORIGIN 0 0 0"
+// 			<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+// 			<< "POINT_DATA " << this->velocity_.size() << "\n"
+// 			<< "VECTORS velocity float" << endl;
+// 			for(int k=0;k<n3;++k)
+// 				for(int j=0;j<n2;++j)
+// 					for(int i=0;i<n1;++i)
+// 						ofs << this->velocity_(i,j,k) << endl;
+// 		ofs << "DATASET STRUCTURED_POINTS\n"
+// 			<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+// 			<< "ORIGIN 0 0 0"
+// 			<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+// 			<< "POINT_DATA " << this->magnetic_.size() << "\n"
+// 			<< "VECTORS magnetic float" << endl;
+// 		for(int k=0;k<n3;++k)
+// 			for(int j=0;j<n2;++j)
+// 				for(int i=0;i<n1;++i)
+// 					ofs << this->magnetic_(i,j,k) << endl;
+// 		ofs << "DATASET STRUCTURED_POINTS\n"
+// 			<< "DIMENSIONS " << n1 << " " << n2 << " " << n3 << "\n"
+// 			<< "ORIGIN 0 0 0"
+// 			<< "SPACING " << l1/n1 << " " << l2/n2 << " " << l3/n3 << "\n"
+// 			<< "POINT_DATA " << this->temperature_.size() << "\n"
+// 			<< "SCALARS temperature float\n"
+// 			<< "LOOKUP_TABLE default" << endl;
+// 		for(int k=0;k<n3;++k)
+// 			for(int j=0;j<n2;++j)
+// 				for(int i=0;i<n1;++i)
+// 					ofs << this->temperature_(i,j,k) << endl;
+// 	};		
+
+
 	
 	void enforce_sym()
 	{

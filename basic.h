@@ -60,7 +60,8 @@ public:
   //Public methods
 public:
   void load(const string & vel_fname,const string & mag_fname,const string & temp_fname);//loads basic fields
-  void save(const string & vel_fname,const string & mag_fname,const string & temp_fname);//saves basic fields  
+	void save(const string & vel_fname,const string & mag_fname,const string & temp_fname);//saves basic fields
+	void save(const string & filename);
   //Private methods
 protected:
   void eval_derivatives();//evaluates the derivatives of basic fields
