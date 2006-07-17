@@ -53,7 +53,8 @@ void lss::run(double & lambda_minimal,
 	double & l1=input_obj.l1;
 	double & l2=input_obj.l2;
 	double & l3=input_obj.l3;
-	
+
+#if 0	
 cout << "Basic Velocity:" << endl;
 cout << "energy in real space: " << spectral_obj.energy(basic.vel()) << endl;
 CVF vttt(n1,n2/2+1,n3);
@@ -77,6 +78,8 @@ cout << "energy in real space: " << spectral_obj.energy(basic.temp()) << endl;
 cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,0) << endl;
 	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
 cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(tes)*spectral_obj.wnstep << endl;
+#endif
+
 	
   //save basic fields
 	basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
@@ -163,24 +166,12 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 			{
 	  //Note that the average of the 3rd component is wrong
 	  //but it is not used in further evaluataions
-				
 	  //Velocity part
 				av_b_k_gamma_ij_vel[i][j][k]=
 					real((a_one_obj(g[i][j],k)).vel()(0,0,0));
-				
-			  //cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
-				
-	  //	  cout << "   <d_vel(" << i << "," << j << "," << k << ")>="
-	  //     << av_b_k_gamma_ij_vel[i][j][k] << endl;
-				
 	  //Magnetic part
 				av_b_k_gamma_ij_mag[i][j][k]=
 					real((a_one_obj(g[i][j],k)).mag()(0,0,0));
-				
-			  //cout << 			  (a_one_obj(g[i][j],k)).vel()(0,0,0)<< endl;
-				
-	  // cout << "   <d_mag(" << i << "," << j << "," << k << ")>="
-	 //     << av_b_k_gamma_ij_mag[i][j][k] << endl;
 			}
 	cout << "... done! " << endl;
 	
@@ -267,16 +258,23 @@ void lss::solve_zero(CBVF * s,
 	         input_obj.small_adj);
 	s[i]+=rhs_constant_zero;
 	cout << "... done!" << endl;
-	cout << "Saving s(" << i << ")..." << endl;
 	
-	cout << "... done!" << endl;
+	//	cout << "Saving s(" << i << ")..." << endl;
+	//	cout << "... done!" << endl;
+
 	cout << "Solving for pressure s_p(" << i << ")..." << endl;
 	s_p[i]=spectral_obj.
 		poisson_hat(spectral_obj.div_hat( (a_nought_obj(s[i]) ).vel(),0));
 	cout << "... done!" << endl;
-	cout << "Printing energy spectrum" << endl;
-	cout << spectral_obj.eval_energ_spec(s[i].mag(),0) << endl;
-	cout << "... done!" << endl;
+
+	cout << "Energy spectrum" << endl;
+	cat::array<double,1> energ_spec_vel(spectral_obj.eval_energ_spec(s[i].vel(),0));
+	cat::array<double,1> energ_spec_mag(spectral_obj.eval_energ_spec(s[i].mag(),0));
+	cat::array<double,1> energ_spec_temp(spectral_obj.eval_energ_spec(s[i].temp(),0));
+	cout << energ_spec_vel << endl;
+	cout << energ_spec_mag << endl;
+	cout << energ_spec_temp << endl;
+
 //   cout << "Printing non-vanishing harmonics in s" << endl;
 //   spectral_obj.pnvh(s[i]);
 	cout << "... done!" << endl;
@@ -337,13 +335,17 @@ void lss::solve_one(CBVF & gamma,
 	gamma+=grad_art_press;
 	
 	cout << "Energy spectrum" << endl;
-	cout << spectral_obj.eval_energ_spec(gamma.mag(),0) << endl;
+	cat::array<double,1> energ_spec_vel(spectral_obj.eval_energ_spec(gamma.vel(),0));
+	cat::array<double,1> energ_spec_mag(spectral_obj.eval_energ_spec(gamma.mag(),0));
+	cat::array<double,1> energ_spec_temp(spectral_obj.eval_energ_spec(gamma.temp(),0));
+	cout << energ_spec_vel << endl;
+	cout << energ_spec_mag << endl;
+	cout << energ_spec_temp << endl;
 	
 //   cout << "Printing non-vanishing harmonics in gamma" << endl;
 //   spectral_obj.pnvh(gamma);
 	
 	cout << "... done!" << endl;
-	
 }
 
 //Evaluate ep (2x2 matrix to be diagonalised)
