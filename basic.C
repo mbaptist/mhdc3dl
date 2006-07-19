@@ -293,7 +293,7 @@ void Basic::save(const string & filename)
 	double sp1=input_obj.l1/input_obj.n1;
 	double sp2=input_obj.l2/input_obj.n2;
 	double sp3=input_obj.l3/input_obj.n3;
-	save_vtk(filename+"_vel",this->vel(),or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_mag",this->mag(),or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_temp",this->temp(),or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_vel",this->vel(),"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_mag",this->mag(),"MagneticField",or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_temp",this->temp(),"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
 };
