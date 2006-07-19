@@ -62,6 +62,17 @@ Real spectral::scalar_prod(const CBVF & x,const CBVF & y) const
 	      SpectralFourierLayer::scalar_prod(x.temp(),y.temp()));
 }
 
+cat::array<cat::tvector<double,4>,1> spectral::eval_energ_spec(const CBVF & field,const bool & kind)
+{
+	cat::array<cat::tvector<double,4>,1> out(nwn);
+	out[1]=eval_energ_spec(field.vel(),kind);
+	out[2]=eval_energ_spec(field.mag(),kind);
+	out[3]=eval_energ_spec(field.temp(),kind);
+	for(int i=0;i<nwn;++i)
+		out(i)[0]=i*wnstep;
+	return out;
+}
+
 //block vector
 void spectral::pnvh_hat(const CBVF & field)
 {

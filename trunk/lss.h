@@ -59,6 +59,9 @@ private:
 
   void save_block_vector(CBVF & field,
 			 const string & fname);
+
+	void save_aux_field	(const string & fname,CBVF & field);
+	
   void solve_zero(CBVF * s,
 		  CSF * s_p,
 		  const CBVF & rhs_constant_zero,
