@@ -293,7 +293,21 @@ void Basic::save(const string & filename)
 	double sp1=input_obj.l1/input_obj.n1;
 	double sp2=input_obj.l2/input_obj.n2;
 	double sp3=input_obj.l3/input_obj.n3;
-	save_vtk(filename+"_vel",this->vel(),"VelocityField",or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_mag",this->mag(),"MagneticField",or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_temp",this->temp(),"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_basic_vel",this->vel(),"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_basic_mag",this->mag(),"MagneticField",or1,or2,or3,sp1,sp2,sp3);
+	save_vtk(filename+"_basic_temp",this->temp(),"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
 };
+
+void Basic::save_energ_spec(const string & filename)
+{
+	CBVF aux(n1,n2/2+1,n3);
+	spectral_obj.fft_ccs.direct_transform(aux.vel(),this->vel_);
+	spectral_obj.fft_ccs.direct_transform(aux.mag(),this->mag_);
+	spectral_obj.sfft_s.direct_transform(aux.temp(),this->temp_);
+	//Evaluate and save energy spectra
+	cout << "Energy spectrum (K Velocity Magnetic Temperature)" << endl;
+	cout << spectral_obj.eval_energ_spec(aux,0) << endl;
+	ofstream ofs(filename.c_str());
+	ofs << spectral_obj.eval_energ_spec(aux,0) << endl;
+	ofs.close();
+}

@@ -87,6 +87,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	//basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
 
 	basic.save(input_obj.runsname);
+	basic.save_energ_spec(input_obj.runsname+"_basic_spec.dat");
 	
   //define a block vector to contain the constants for
   //the rhs of auxiliary problems (AP)
@@ -111,36 +112,28 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	constant=0;
 	constant.vel()(0,0,0)=cat::tvector<double,3>(1,0,0);
 	solve_zero(s,s_p,constant,0);
-	save_aux_field(input_obj.runsname+"_s_0",s[0]);
   //s1
 	constant=0;
 	constant.vel()(0,0,0)=cat::tvector<double,3>(0,1,0);
 	solve_zero(s,s_p,constant,1);
-	save_aux_field(input_obj.runsname+"_s_0",s[1]);
   //s2
 	constant=0;
 	constant.mag()(0,0,0)=cat::tvector<double,3>(1,0,0);
 	solve_zero(s,s_p,constant,2);
-	save_aux_field(input_obj.runsname+"_s_0",s[2]);
   //s3
 	constant=0;
 	constant.mag()(0,0,0)=cat::tvector<double,3>(0,1,0);
 	solve_zero(s,s_p,constant,3);
-	save_aux_field(input_obj.runsname+"_s_0",s[3]);
 	
   //Order one
 	
   //solutions of order 1 APs
 	CBVF g[4][2]=
 	{
-		{CBVF(n1,n2/2+1,n3),
-				CBVF(n1,n2/2+1,n3)},
-		{CBVF(n1,n2/2+1,n3),
-				CBVF(n1,n2/2+1,n3)},
-		{CBVF(n1,n2/2+1,n3),
-				CBVF(n1,n2/2+1,n3)},
-		{CBVF(n1,n2/2+1,n3),
-				CBVF(n1,n2/2+1,n3)}
+		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)},
+		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)}
 	};
 	for(int i=0;i<4;++i)
 	{
@@ -258,9 +251,19 @@ void lss::solve_zero(CBVF * s,
 	s_p[i]=spectral_obj.
 		poisson_hat(spectral_obj.div_hat( (a_nought_obj(s[i]) ).vel(),0));
 	cout << "... done!" << endl;
-
+		
+//Save s
+	stringstream ss;
+	ss << input_obj.runsname << "_s_" << i;
+	save_aux_field(ss.str(),s[i]);
+	
+	//Evaluate and save energy spectra
 	cout << "Energy spectrum (K Velocity Magnetic Temperature)" << endl;
 	cout << spectral_obj.eval_energ_spec(s[i],0) << endl;
+	ss << "_spec.dat";
+	ofstream ofs(ss.str().c_str());
+	ofs << spectral_obj.eval_energ_spec(s[i],0) << endl;
+	ofs.close();
 
 //   cout << "Printing non-vanishing harmonics in s" << endl;
 //   spectral_obj.pnvh(s[i]);
@@ -330,8 +333,8 @@ void lss::solve_one(CBVF & gamma,
 	cout << "Energy spectrum (K Velocity Magnetic Temperature)" << endl;
 	cout << spectral_obj.eval_energ_spec(gamma,0) << endl;
 	ss << "_spec.dat";
-	ofstream ofs("ss");
-	ss << spectral_obj.eval_energ_spec(gamma,0) << endl;
+	ofstream ofs(ss.str().c_str());
+	ofs << spectral_obj.eval_energ_spec(gamma,0) << endl;
 	ofs.close();
 	
 //   cout << "Printing non-vanishing harmonics in gamma" << endl;
@@ -397,8 +400,8 @@ void lss::save_aux_field	(const string & filename,CBVF & field)
 	const double & or2 = 0;
 	const double & or3 = 0;
 	const double & sp1 = input_obj.l1/input_obj.n1;
-	const double & sp2 = 0; input_obj.l2/input_obj.n2;
-	const double & sp3 = 0; input_obj.l3/input_obj.n3;
+	const double & sp2 = input_obj.l2/input_obj.n2;
+	const double & sp3 = input_obj.l3/input_obj.n3;
 	RVF vf(n1,n2,n3);
 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());
 	save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
