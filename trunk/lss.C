@@ -139,6 +139,8 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	{
 		for(int j=0;j<2;++j)
 		{
+			if(i>0||j>0)
+				g[i][j]=g[0][0];				
 			solve_one(g[i][j],s,s_p,i,j);
 		}
 	}
@@ -311,7 +313,12 @@ void lss::solve_one(CBVF & gamma,
 	spectral_obj.remove_gradient(b,0);
 	
   //Solve the modified problem
-	gamma=0;
+	
+	//gamma=0;
+	if(i>0||j>0)
+		spectral_obj.remove_gradient(gamma,0);
+	else
+		gamma=0;
 	cgsolver(a_nought_obj,a_nought_adjoint_obj,
 	         precond_obj,precond_adjoint_obj,
 	         gamma,b,
