@@ -403,18 +403,44 @@ void lss::save_aux_field	(const string & filename,CBVF & field)
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
 	const int & n3 = input_obj.n3;
-	const double & or1 = 0;
-	const double & or2 = 0;
-	const double & or3 = 0;
-	const double & sp1 = input_obj.l1/input_obj.n1;
-	const double & sp2 = input_obj.l2/input_obj.n2;
-	const double & sp3 = input_obj.l3/input_obj.n3;
+	cat::tvector<int,3> dims(n1,n2,n3);
+	cat::tvector<double,3> ori(0,0,0);
+	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
 	RVF vf(n1,n2,n3);
+	vf=0;
 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());
-	save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFile(vf,dims,ori,sp,"VelocityField").save(filename+"_vel");
+	//save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+	vf=0;
 	spectral_obj.fft_ccs.inverse_transform(vf,field.mag());
-	save_vtk(filename+"_mag",vf,"MagneticField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFile(vf,dims,ori,sp,"MagneticField").save(filename+"_mag");
+	//save_vtk(filename+"_mag",vf,"MagneticField",or1,or2,or3,sp1,sp2,sp3);
 	RSF sf(n1,n2,n3);
+	sf=0;
 	spectral_obj.sfft_s.inverse_transform(sf,field.temp());
-	save_vtk(filename+"_temp",sf,"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFile(sf,dims,ori,sp,"TemperatureField").save(filename+"_temp");
+	//save_vtk(filename+"_temp",sf,"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
 }
+
+
+// void lss::load_aux_field	(const string & filename,CBVF & field)
+// {
+// 	const int & n1 = input_obj.n1;
+// 	const int & n2 = input_obj.n2;
+// 	const int & n3 = input_obj.n3;
+// 	const double & or1 = 0;
+// 	const double & or2 = 0;
+// 	const double & or3 = 0;
+// 	const double & sp1 = input_obj.l1/input_obj.n1;
+// 	const double & sp2 = input_obj.l2/input_obj.n2;
+// 	const double & sp3 = input_obj.l3/input_obj.n3;
+// 	RVF vf(n1,n2,n3);
+// 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());
+// 	save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+// 	spectral_obj.fft_ccs.inverse_transform(vf,field.mag());
+// 	save_vtk(filename+"_mag",vf,"MagneticField",or1,or2,or3,sp1,sp2,sp3);
+// 	RSF sf(n1,n2,n3);
+// 	spectral_obj.sfft_s.inverse_transform(sf,field.temp());
+// 	save_vtk(filename+"_temp",sf,"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
+// }
+
