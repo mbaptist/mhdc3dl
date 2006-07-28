@@ -30,7 +30,7 @@ ARFLAGS = rcs
 IFLAGS = $(DEBUG) $(INCLUDE)
 FLAGS = $(DEBUG) $(LIB) 
 
-OBJECTS = globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
+OBJECTS = vtkio_ti.o globals.o input.o spectral.o gen_random.o basic.o linops.o lss.o sss.o
 
 all:  libmhdc3dl mhdc3dl_python mhdc3dl_test mhdc3dl
 
