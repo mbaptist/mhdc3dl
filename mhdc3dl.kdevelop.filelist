@@ -35,3 +35,4 @@ mhdc3dl_run_default.py
 vzdeigen/vzdeigen.h
 vtkio.h
 vtkio.C
+vtkio_ti.C

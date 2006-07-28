@@ -285,17 +285,31 @@ void Basic::eval_derivatives()
 	spectral_obj.fft_ssc.inverse_transform(grad_temp_,aux);
 }
 
+void Basic::load(const string & filename)
+{
+	const int & n1 = input_obj.n1;
+	const int & n2 = input_obj.n2;
+	const int & n3 = input_obj.n3;
+	cat::tvector<int,3> dims(n1,n2,n3);
+	cat::tvector<double,3> ori(0,0,0);
+	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
+	vtkFile<RVF>(this->vel(),ori,sp,"VelocityField").save(filename+"_basic_vel");
+	vtkFile<RVF>(this->mag(),ori,sp,"MagneticField").save(filename+"_basic_mag");
+	vtkFile<RSF>(this->temp(),ori,sp,"TemperatureField").save(filename+"_basic_temp");
+}
+
 void Basic::save(const string & filename)
 {
-	double or1=0;
-	double or2=0;
-	double or3=0;
-	double sp1=input_obj.l1/input_obj.n1;
-	double sp2=input_obj.l2/input_obj.n2;
-	double sp3=input_obj.l3/input_obj.n3;
-	save_vtk(filename+"_basic_vel",this->vel(),"VelocityField",or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_basic_mag",this->mag(),"MagneticField",or1,or2,or3,sp1,sp2,sp3);
-	save_vtk(filename+"_basic_temp",this->temp(),"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
+
+	const int & n1 = input_obj.n1;
+	const int & n2 = input_obj.n2;
+	const int & n3 = input_obj.n3;
+	cat::tvector<int,3> dims(n1,n2,n3);
+	cat::tvector<double,3> ori(0,0,0);
+	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
+	vtkFile<RVF>(this->vel(),ori,sp,"VelocityField").save(filename+"_basic_vel");
+	vtkFile<RVF>(this->mag(),ori,sp,"MagneticField").save(filename+"_basic_mag");
+	vtkFile<RSF>(this->temp(),ori,sp,"TemperatureField").save(filename+"_basic_temp");
 };
 
 void Basic::save_energ_spec(const string & filename)
