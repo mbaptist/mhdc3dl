@@ -91,6 +91,7 @@ grad_temp_(n1,n2,n3)
 		else
 			gen_random_obj=new gen_random(input_obj,spectral_obj);
       //generate fields
+		//cout << input_obj.br_sym << endl;
 		gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
