@@ -49,6 +49,10 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
                                       const bool & sym)
 {
 
+	//	cout << ki << kf << kind <<sym << endl;
+	cout << spectral_obj.wnmax << endl;
+	cout << spectral_obj.wnstep << endl;
+		
 	const int s1(field_hat.shape()[0]);
 	const int s2(field_hat.shape()[1]);
 	const int s3(field_hat.shape()[2]);
@@ -57,14 +61,19 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	//symmetry about the z axis is already partially imposed (see comment below)
 	cat::array<Complex,3>::iterator field_hat_iterator(field_hat);
 	cat::array<Real,3>::iterator wv2_iterator(spectral_obj.wv2);
+	cat::array<cat::tvector<Real,3>,3>::iterator wv_iterator(spectral_obj.wv);
 	for(field_hat_iterator=field_hat.begin(),
-	    wv2_iterator=spectral_obj.wv2.begin();
+	    wv2_iterator=spectral_obj.wv2.begin(),
+	    wv_iterator=spectral_obj.wv.begin();
 	    field_hat_iterator!=field_hat.end(),
-	    wv2_iterator!=spectral_obj.wv2.end();
+	    wv2_iterator!=spectral_obj.wv2.end(),
+	    wv_iterator!=spectral_obj.wv.end();
 	    ++field_hat_iterator,
-	    ++wv2_iterator)
+	    ++wv2_iterator,
+	    ++wv_iterator)
 	{
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
+		cout << index << " " << *wv2_iterator  << " " << *wv_iterator << endl;
 		if(index>=ki && index<kf)
 		{
 			if(sym==1)
@@ -75,6 +84,10 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		else
 			*field_hat_iterator=0.;
 	}
+
+	cout	<< "pnvh" << endl;
+	spectral_obj.pnvh_hat(field_hat);
+	
   //symmetry about z axis
 	//combining symmetry about the z axis and hermitian symmetry, we obtain that
 	//symetric fields are real and anti-symetric fields are imaginary;
