@@ -294,9 +294,9 @@ void Basic::load(const string & filename)
 	cat::tvector<int,3> dims(n1,n2,n3);
 	cat::tvector<double,3> ori(0,0,0);
 	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
-	vtkFile<RVF>(this->vel(),ori,sp,"VelocityField").save(filename+"_basic_vel");
-	vtkFile<RVF>(this->mag(),ori,sp,"MagneticField").save(filename+"_basic_mag");
-	vtkFile<RSF>(this->temp(),ori,sp,"TemperatureField").save(filename+"_basic_temp");
+	this->vel()=vtkFileLoad(filename+"_basic_vel");
+	this->mag()=vtkFileLoad(filename+"_basic_mag");
+	this->temp()=vtkFileLoad(filename+"_basic_temp");
 }
 
 void Basic::save(const string & filename)
@@ -308,9 +308,9 @@ void Basic::save(const string & filename)
 	cat::tvector<int,3> dims(n1,n2,n3);
 	cat::tvector<double,3> ori(0,0,0);
 	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
-	vtkFile<RVF>(this->vel(),ori,sp,"VelocityField").save(filename+"_basic_vel");
-	vtkFile<RVF>(this->mag(),ori,sp,"MagneticField").save(filename+"_basic_mag");
-	vtkFile<RSF>(this->temp(),ori,sp,"TemperatureField").save(filename+"_basic_temp");
+	vtkFileSave(filename+"_basic_vel",this->vel(),ori,sp,"VelocityField");
+	vtkFileSave(filename+"_basic_mag",this->mag(),ori,sp,"MagneticField");
+	vtkFileSave(filename+"_basic_temp",this->temp(),ori,sp,"TemperatureField");
 };
 
 void Basic::save_energ_spec(const string & filename)
