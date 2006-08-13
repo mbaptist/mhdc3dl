@@ -62,6 +62,7 @@ void input::py_load_input(py_input_parser & parse)
   parse(basic_vel_fname,"basic_vel_fname");
   parse(basic_mag_fname,"basic_mag_fname");
   parse(basic_temp_fname,"basic_temp_fname");
+	parse(basic_fname,"basic_fname");
   //Random
   parse(br_seed,"br_seed");
 	parse(br_ki,"br_ki");

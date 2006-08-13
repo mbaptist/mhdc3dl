@@ -76,9 +76,8 @@ grad_temp_(n1,n2,n3)
   //Load from files
 	if (input_obj.basic_mode=="load")
 	{
-		load(input_obj.basic_vel_fname,
-		     input_obj.basic_mag_fname,
-		     input_obj.basic_temp_fname);
+		//cout << "mode=load" << endl;
+		load(input_obj.basic_fname);
 	}
   //Randomly generated
 	else if (input_obj.basic_mode=="random")
@@ -95,6 +94,12 @@ grad_temp_(n1,n2,n3)
 		gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
+	cout	<< "pnvh vel" << endl;
+		spectral_obj.pnvh(this->vel(),0);
+		cout	<< "pnvh mag" << endl;
+		spectral_obj.pnvh(this->mag(),0);
+		cout	<< "pnvh temp" << endl;
+		spectral_obj.pnvh(this->temp(),0);
 		
 		delete gen_random_obj;
 		eval_derivatives();
@@ -288,15 +293,46 @@ void Basic::eval_derivatives()
 
 void Basic::load(const string & filename)
 {
-	const int & n1 = input_obj.n1;
-	const int & n2 = input_obj.n2;
-	const int & n3 = input_obj.n3;
-	cat::tvector<int,3> dims(n1,n2,n3);
-	cat::tvector<double,3> ori(0,0,0);
-	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
-	this->vel()=vtkFileLoad(filename+"_basic_vel");
-	this->mag()=vtkFileLoad(filename+"_basic_mag");
-	this->temp()=vtkFileLoad(filename+"_basic_temp");
+	spectral so(32,32,16,2*M_PI,2*M_PI,M_PI);
+	RVF v32(32,32,16);
+	vtkFileLoad(filename+"_basic_vel",v32);
+	CVF v32_hat(32,32/2+1,16);
+	v32_hat=0;
+	so.fft_ccs.direct_transform(v32_hat,v32);
+	so.pnvh_hat(v32_hat);
+	CVF v64_hat(64,64/2+1,32);
+	v64_hat=0;
+	for(int i=0;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				v64_hat(i,j,k)=v32_hat(i,j,k);
+	spectral_obj.pnvh_hat(v64_hat);
+	spectral_obj.fft_ccs.inverse_transform(this->vel(),v64_hat);
+	v32=0;
+	vtkFileLoad(filename+"_basic_mag",v32);
+	v32_hat=0;
+	so.fft_ccs.direct_transform(v32_hat,v32);
+	v64_hat=0;
+	for(int i=0;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				v64_hat(i,j,k)=v32_hat(i,j,k);
+	spectral_obj.pnvh_hat(v64_hat);
+	spectral_obj.fft_ccs.inverse_transform(this->mag(),v64_hat);
+	RSF s32(32,32,16);
+	vtkFileLoad(filename+"_basic_temp",s32);
+	CSF s32_hat(32,32/2+1,16);
+	s32_hat=0;
+	so.sfft_s.direct_transform(s32_hat,s32);
+	CSF s64_hat(64,64/2+1,32);
+	s64_hat=0;
+	for(int i=0;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				s64_hat(i,j,k)=s32_hat(i,j,k);
+	spectral_obj.pnvh_hat(s64_hat);
+	spectral_obj.sfft_s.inverse_transform(this->temp(),s64_hat);
+	eval_derivatives();
 }
 
 void Basic::save(const string & filename)
