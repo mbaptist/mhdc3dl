@@ -47,6 +47,7 @@ public:
   std::string basic_vel_fname;
   std::string basic_mag_fname;
   std::string basic_temp_fname;
+	std::string basic_fname;
 	//Random Mode
 	int br_seed,br_ki,br_kf;
 	double 	br_alpha,br_rms_norm;

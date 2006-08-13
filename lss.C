@@ -409,17 +409,14 @@ void lss::save_aux_field	(const string & filename,CBVF & field)
 	RVF vf(n1,n2,n3);
 	vf=0;
 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());
-	vtkFile<RVF>(vf,ori,sp,"VelocityField").save(filename+"_vel");
-	//save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFileSave(filename+"_vel",vf,ori,sp,"VelocityField");
 	vf=0;
 	spectral_obj.fft_ccs.inverse_transform(vf,field.mag());
-	vtkFile<RVF>(vf,ori,sp,"MagneticField").save(filename+"_mag");
-	//save_vtk(filename+"_mag",vf,"MagneticField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFileSave(filename+"_mag",vf,ori,sp,"MagneticField");
 	RSF sf(n1,n2,n3);
 	sf=0;
 	spectral_obj.sfft_s.inverse_transform(sf,field.temp());
-	vtkFile<RSF>(sf,ori,sp,"TemperatureField").save(filename+"_temp");
-	//save_vtk(filename+"_temp",sf,"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
+	vtkFileSave(filename+"_temp",sf,ori,sp,"TemperatureField");
 }
 
 

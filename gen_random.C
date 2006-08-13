@@ -73,7 +73,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	    ++wv_iterator)
 	{
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
-		cout << index << " " << *wv2_iterator  << " " << *wv_iterator << endl;
+		//cout << index << " " << *wv2_iterator  << " " << *wv_iterator << endl;
 		if(index>=ki && index<kf)
 		{
 			if(sym==1)
@@ -85,8 +85,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 			*field_hat_iterator=0.;
 	}
 
-	cout	<< "pnvh" << endl;
-	spectral_obj.pnvh_hat(field_hat);
+	//cout	<< "pnvh" << endl;
+	//spectral_obj.pnvh_hat(field_hat);
 	
   //symmetry about z axis
 	//combining symmetry about the z axis and hermitian symmetry, we obtain that
