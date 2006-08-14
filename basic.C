@@ -302,10 +302,14 @@ void Basic::load(const string & filename)
 	so.pnvh_hat(v32_hat);
 	CVF v64_hat(64,64/2+1,32);
 	v64_hat=0;
-	for(int i=0;i<32;++i)
+	for(int i=0;i<32/2+1;++i)
 		for(int j=0;j<32/2+1;++j)
 			for(int k=0;k<16;++k)
 				v64_hat(i,j,k)=v32_hat(i,j,k);
+	for(int i=32/2+1;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				v64_hat(i+32,j,k)=v32_hat(i,j,k);
 	spectral_obj.pnvh_hat(v64_hat);
 	spectral_obj.fft_ccs.inverse_transform(this->vel(),v64_hat);
 	v32=0;
@@ -313,10 +317,14 @@ void Basic::load(const string & filename)
 	v32_hat=0;
 	so.fft_ccs.direct_transform(v32_hat,v32);
 	v64_hat=0;
-	for(int i=0;i<32;++i)
+	for(int i=0;i<32/2+1;++i)
 		for(int j=0;j<32/2+1;++j)
 			for(int k=0;k<16;++k)
 				v64_hat(i,j,k)=v32_hat(i,j,k);
+	for(int i=32/2+1;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				v64_hat(i+32,j,k)=v32_hat(i,j,k);
 	spectral_obj.pnvh_hat(v64_hat);
 	spectral_obj.fft_ccs.inverse_transform(this->mag(),v64_hat);
 	RSF s32(32,32,16);
@@ -326,10 +334,14 @@ void Basic::load(const string & filename)
 	so.sfft_s.direct_transform(s32_hat,s32);
 	CSF s64_hat(64,64/2+1,32);
 	s64_hat=0;
-	for(int i=0;i<32;++i)
+	for(int i=0;i<32/2+1;++i)
 		for(int j=0;j<32/2+1;++j)
 			for(int k=0;k<16;++k)
 				s64_hat(i,j,k)=s32_hat(i,j,k);
+	for(int i=32/2+1;i<32;++i)
+		for(int j=0;j<32/2+1;++j)
+			for(int k=0;k<16;++k)
+				s64_hat(i+32,j,k)=s32_hat(i,j,k);
 	spectral_obj.pnvh_hat(s64_hat);
 	spectral_obj.sfft_s.inverse_transform(this->temp(),s64_hat);
 	eval_derivatives();
