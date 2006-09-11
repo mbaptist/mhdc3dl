@@ -28,9 +28,9 @@ int main(int argc,char * argv[])
 		<< endl;
 
 
-	sss sss_obj(input_obj);
-	double xp,eim;
-	sss_obj.run(xp,eim);
+// 	sss sss_obj(input_obj);
+// 	double xp,eim;
+// 	sss_obj.run(xp,eim);
 
 	
 	return 0;
