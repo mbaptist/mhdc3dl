@@ -192,15 +192,15 @@ CBVF a_nought::operator()(const CBVF & w_hat)
   out.mag()=diff*spectral_obj.lap_hat(w_hat.mag())+spectral_obj.curl_hat(nonlinear_hat,1);
 
   //evaluate nonlinear term (s_nonlinear) for temperature
-	////  s_nonlinear=(-dot_product(vel,basic.grad_temp()));
+ s_nonlinear=(-dot_product(vel,basic.grad_temp()));
   //Joule term
   //RSF rsaux(s_nonlinear.shape());
   //rsaux=dot_product(basic.curl_mag(),curl_mag);
   // rsaux*=econd;
   //s_nonlinear+=rsaux;
-	////  s_nonlinear+=(-dot_product(basic.vel(),grad_temp));
+ s_nonlinear+=(-dot_product(basic.vel(),grad_temp));
 
-	s_nonlinear=-dot_product(vel,basic.grad_temp())-dot_product(basic.vel(),grad_temp);
+	//s_nonlinear=-dot_product(vel,basic.grad_temp())-dot_product(basic.vel(),grad_temp);
 
   //transform s_nonlinear into Fourier space
   spectral_obj.sfft_s.direct_transform(s_nonlinear_hat,s_nonlinear);
