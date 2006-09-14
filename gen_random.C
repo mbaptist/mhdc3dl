@@ -99,7 +99,9 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	for(int i=1;i<s1/2+1;++i)
 		for(int k=0;k<s3;++k)
 		{
-			field_hat(s1-i,0,k)=(sym?1:-1)*field_hat(i,0,k);
+			field_hat(s1-i,0,k)=field_hat(i,0,k);
+		field_hat(s1-i,0,k)*=(sym?1:-1);
+			//field_hat(s1-i,0,k)=(sym?1:-1)*field_hat(i,0,k);
 		}
 	//for anti-simmetric fields the values at the line kx=0, ky=0 must all be zero.
 	if (sym==0)

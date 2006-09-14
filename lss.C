@@ -294,9 +294,9 @@ void lss::solve_one(CBVF & gamma,
 	
   //Evaluate artificial pressures
 	CSF art_press_vel
-		(spectral_obj.poisson_hat(-(((s[i]).vel())[j])));
+		(spectral_obj.poisson_hat( CSF(-(((s[i]).vel())[j]))));
 	CSF art_press_mag
-		(spectral_obj.poisson_hat(-(((s[i]).mag())[j])));
+		(spectral_obj.poisson_hat( CSF(-(((s[i]).mag())[j]))));
   //Evaluate the RHS of the modified Auxiliary Problem
 	CBVF b(n1,n2/2+1,n3);
 	b=0;
