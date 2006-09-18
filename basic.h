@@ -13,7 +13,7 @@ using namespace std;
 using namespace cat;
 
 //Forward declarations
-class spectral;
+class Spectral;
 class Basic;
 class input;
 
@@ -30,7 +30,7 @@ class Basic
   //Members
 protected:
   const input  & input_obj;
-  spectral & spectral_obj;
+  Spectral & spectral_obj;
   const int & n1;
   const int & n2;
   const int & n3;
@@ -54,7 +54,7 @@ public:
   //Constructors/destructor
 public:
   //Constructors
-  Basic(const input & input_obj__,spectral & spectral_obj__);
+  Basic(const input & input_obj__,Spectral & spectral_obj__);
   //Destructor
   virtual ~Basic();
   //Public methods

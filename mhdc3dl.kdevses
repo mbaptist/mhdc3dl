@@ -1,18 +1,18 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="15" >
+ <DocsAndViews NumberOfDocuments="17" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.C" >
-   <View0 line="298" Type="Source" />
+   <View0 Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.C" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.h" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/vtkio.h" >
-   <View0 Type="Source" />
+   <View0 line="28" Type="Source" />
   </Doc3>
   <Doc4 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/vtkio.C" >
    <View0 Type="Source" />
@@ -33,20 +33,26 @@
    <View0 Type="Source" />
   </Doc9>
   <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
-   <View0 line="102" Type="Source" />
+   <View0 Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.C" >
-   <View0 line="0" Type="Source" />
+   <View0 Type="Source" />
   </Doc11>
   <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.h" >
-   <View0 line="1" Type="Source" />
+   <View0 Type="Source" />
   </Doc12>
   <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/linops.C" >
-   <View0 line="280" Type="Source" />
+   <View0 Type="Source" />
   </Doc13>
   <Doc14 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.C" >
-   <View0 line="32" Type="Source" />
+   <View0 Type="Source" />
   </Doc14>
+  <Doc15 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/block_vector.h" >
+   <View0 line="0" Type="Source" />
+  </Doc15>
+  <Doc16 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
+   <View0 line="9" Type="Source" />
+  </Doc16>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

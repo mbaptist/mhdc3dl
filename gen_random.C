@@ -21,7 +21,7 @@ using namespace cat;
 
 //Constructor (using timer value as seed)
 gen_random::gen_random(const input & input_obj__,
-                       spectral & spectral__):
+                       Spectral & spectral__):
 random(),
 spectral_obj(spectral__)
 {
@@ -29,7 +29,7 @@ spectral_obj(spectral__)
 
 //Constructor (using a specified seed)
 gen_random::gen_random(const input & input_obj__,
-                       spectral & spectral__,
+                       Spectral & spectral__,
                        const int & seed__):
 random(seed__),
 spectral_obj(spectral__)

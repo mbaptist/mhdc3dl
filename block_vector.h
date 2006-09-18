@@ -10,7 +10,7 @@ using namespace cat;
 
 
 template <class T>
-class block_vector
+class BlockVector
 {
   //Members
 private:
@@ -157,11 +157,11 @@ private:
   //Forbidden constructors
 private:
   //default constructor
-	block_vector(){};
+	BlockVector(){};
 	
 public:
   //constructor from size
-block_vector(int s1,int s2,int s3):
+BlockVector(int s1,int s2,int s3):
 	velocity_(s1,s2,s3),
 		magnetic_(s1,s2,s3),
 		temperature_(s1,s2,s3),
@@ -173,7 +173,7 @@ block_vector(int s1,int s2,int s3):
 	};
 	
   //constructor from shape
-block_vector(const tvector<int,3> & shape__):
+BlockVector(const tvector<int,3> & shape__):
 	velocity_(shape__),
 		magnetic_(shape__),
 		temperature_(shape__),
@@ -185,7 +185,7 @@ block_vector(const tvector<int,3> & shape__):
 	};
 	
   //contuctor from existing fields and symmetry (duplicates data)
-block_vector(const cat::array<cat::tvector<T,3>,3> & velocity__,const cat::array<cat::tvector<T,3>,3> & magnetic__,const cat::array<T,3> & temperature__,const int & sym__):
+BlockVector(const cat::array<cat::tvector<T,3>,3> & velocity__,const cat::array<cat::tvector<T,3>,3> & magnetic__,const cat::array<T,3> & temperature__,const int & sym__):
 	velocity_(velocity__),
 		magnetic_(magnetic__),
 		temperature_(temperature__),
@@ -193,7 +193,7 @@ block_vector(const cat::array<cat::tvector<T,3>,3> & velocity__,const cat::array
 	{};
 	
   //copy constructor
-block_vector(const block_vector & rhs):
+BlockVector(const BlockVector & rhs):
 	velocity_(rhs.vel()),
 		magnetic_(rhs.mag()),
 		temperature_(rhs.temp()),
@@ -201,7 +201,7 @@ block_vector(const block_vector & rhs):
 	{};
 	
   //destructor
-	~block_vector(){};
+	~BlockVector(){};
 	
 	
   //Public methods
@@ -209,18 +209,18 @@ public:
 	
   //IO
   //redefiniton of cout
-	friend std::ostream& operator<<(std::ostream& output,const block_vector& ovector)
+	friend std::ostream& operator<<(std::ostream& output,const BlockVector& ovector)
 	{
 		output << ovector.vel() << ovector.mag() << ovector.temp();
 		return output;
 	};
-	friend std::ostream& operator<<(std::ostream& output,block_vector& ovector)
+	friend std::ostream& operator<<(std::ostream& output,BlockVector& ovector)
 	{
 		output << ovector.vel() << ovector.mag() << ovector.temp();
 		return output;
 	};
   //redefiniton of cin
-	friend std::istream& operator>>(std::istream& input,block_vector& ivector)
+	friend std::istream& operator>>(std::istream& input,BlockVector& ivector)
 	{
 		input >> ivector.vel() >> ivector.mag() >> ivector.temp();
 		return input;
@@ -230,7 +230,7 @@ public:
   //operators
 	
   //assignment
-	block_vector & operator=(const block_vector & rhs)
+	BlockVector & operator=(const BlockVector & rhs)
 	{
 		velocity_=rhs.vel();
 		magnetic_=rhs.mag();
@@ -239,7 +239,7 @@ public:
 		return *this;
 	}
 	
-	block_vector & operator=(const T & rhs)
+	BlockVector & operator=(const T & rhs)
 	{
 		velocity_=rhs;
 		magnetic_=rhs;
@@ -250,8 +250,8 @@ public:
 	
 	
 #define SL_BLOCK_VECTOR_UPDATE(op)		\
-	inline block_vector &				\
-		operator op(const block_vector & rhs)		\
+	inline BlockVector &				\
+		operator op(const BlockVector & rhs)		\
 		{						\
 		this->velocity_ op rhs.vel();		\
 		this->magnetic_ op rhs.mag();		\
@@ -259,7 +259,7 @@ public:
 		return *this;				\
 }						\
 		template <class AT>				\
-		inline block_vector &			\
+		inline BlockVector &			\
 		operator op(const AT & rhs)			\
 		{						\
 		this->velocity_ op rhs;			\
@@ -278,10 +278,10 @@ public:
 
 //Declaration & definition of unary -
 template <class T>
-inline block_vector<T>
-operator -(const block_vector<T>& rhs)
+inline BlockVector<T>
+operator -(const BlockVector<T>& rhs)
 {   
-	block_vector<T> aux(rhs);
+	BlockVector<T> aux(rhs);
 	aux.vel()=-rhs.vel();
 	aux.mag()=-rhs.mag();
 	aux.temp()=-rhs.temp();
@@ -289,36 +289,36 @@ operator -(const block_vector<T>& rhs)
 };
 
 
-// Binary operators for block_vectors
+// Binary operators for BlockVectors
 //Needs working
 
 
 #define BLOCK_VECTOR_BINARY(op)						\
 template <class T1>							\
-inline block_vector<T1>						\
-operator op(const block_vector<T1> & lhs,const block_vector<T1> & rhs) \
+inline BlockVector<T1>						\
+operator op(const BlockVector<T1> & lhs,const BlockVector<T1> & rhs) \
 {									\
-block_vector<T1> out(lhs.shape());					\
+BlockVector<T1> out(lhs.shape());					\
 out.vel() = lhs.vel() op rhs.vel();					\
 out.mag() = lhs.mag() op rhs.mag();					\
 out.temp() = lhs.temp() op rhs.temp();				\
 return out;								\
 }									\
 template <class T1,class T2>						\
-inline block_vector<T1>						\
-operator op(const block_vector<T1> & lhs,const T2 & rhs)		\
+inline BlockVector<T1>						\
+operator op(const BlockVector<T1> & lhs,const T2 & rhs)		\
 {									\
-block_vector<T1> out(lhs.shape());					\
+BlockVector<T1> out(lhs.shape());					\
 out.vel() = lhs.vel() op rhs;					\
 out.mag() = lhs.mag() op rhs;					\
 out.temp() = lhs.temp() op rhs;					\
 return out;								\
 }									\
 template <class T1,class T2>						\
-inline block_vector<T2>						\
-operator op(const T1 & lhs,const block_vector<T2> & rhs)		\
+inline BlockVector<T2>						\
+operator op(const T1 & lhs,const BlockVector<T2> & rhs)		\
 {									\
-block_vector<T2> out(rhs.shape());					\
+BlockVector<T2> out(rhs.shape());					\
 out.vel() = lhs op rhs.vel();					\
 out.mag() = lhs op rhs.mag();					\
 out.temp() = lhs op rhs.temp();					\

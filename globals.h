@@ -22,7 +22,7 @@ typedef cat::array<Real,3> RSF;//Real Scalar Fields
 typedef cat::array<Complex,3> CSF;//Complex Scalar Fields
 typedef cat::array<RV,3> RVF;//Real Vector Fields
 typedef cat::array<CV,3> CVF;//Complex Vector Fields
-typedef block_vector<Complex > CBVF;//Complex Block Vector
+typedef BlockVector<Complex > CBVF;//Complex Block Vector
 
 //GLOBAL CONSTANTS
 

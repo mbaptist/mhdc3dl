@@ -12,7 +12,7 @@
 #include <cat.h>
 
 
-class spectral : public SpectralFourierLayer
+class Spectral : public SpectralFourierLayer
 {
 
 public:
@@ -38,17 +38,17 @@ public:
 
  public:
 
-  spectral(const int & n1__,const int & n2__,const int & n3__,
+  Spectral(const int & n1__,const int & n2__,const int & n3__,
 	   const Real & l1__,const Real & l2__,const Real & l3__);
 
-  ~spectral();
+  ~Spectral();
     
-  void dealias(CBVF & field)  const;//block_vector
+  void dealias(CBVF & field)  const;//BlockVector
 
-  ///Laplacian of block_vector
+  ///Laplacian of BlockVector
   CBVF lap_hat(const CBVF & field);
   
-  //remove gradient part after of a block_vector
+  //remove gradient part after of a BlockVector
   CBVF remove_gradient(CBVF & bfield,const bool kind);	
   
   Real scalar_prod(const CBVF & xx,const CBVF & yy) const ;

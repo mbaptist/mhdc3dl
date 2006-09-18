@@ -13,7 +13,7 @@ using namespace std;
 using namespace cat;
 
 //Forward declarations
-class spectral;
+class Spectral;
 class basic_fields;
 class input;
 
@@ -22,13 +22,13 @@ class gen_random
 private:
   //random number generator
 	random_generator random;
-	spectral & spectral_obj;
+	Spectral & spectral_obj;
 public:
   //Constructors
 	explicit gen_random(const input & input_obj__,
-	                    spectral & spectral__);
+	                    Spectral & spectral__);
 	explicit gen_random(const input & input_obj__,
-	                    spectral & spectral__,
+	                    Spectral & spectral__,
 	                    const int & seed_);
   //Destructor
 	~gen_random();
