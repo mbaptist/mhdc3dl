@@ -11,19 +11,19 @@
 using namespace cat;
 //using namespace goops;
 
-spectral::spectral(const int & n1__,const int & n2__,const int & n3__,
+Spectral::Spectral(const int & n1__,const int & n2__,const int & n3__,
 		   const Real & l1__,const Real & l2__,const Real & l3__):
   SpectralFourierLayer(n1__,n2__,n3__,
 			 l1__,l2__,l3__)
 {
 }
 
-spectral::~spectral()
+Spectral::~Spectral()
 {
 }
 
-//block_vectors
-void spectral::dealias(CBVF & field) const
+//BlockVectors
+void Spectral::dealias(CBVF & field) const
 {
   SpectralFourierLayer::dealias(field.vel());
   SpectralFourierLayer::dealias(field.mag());
@@ -31,8 +31,8 @@ void spectral::dealias(CBVF & field) const
 }
 
 
-//Laplacian of block_vector
-CBVF spectral::lap_hat(const CBVF & field)
+//Laplacian of BlockVector
+CBVF Spectral::lap_hat(const CBVF & field)
 {
   CBVF out(field);
   out.vel()=SpectralFourierLayer::lap_hat(field.vel());
@@ -41,8 +41,8 @@ CBVF spectral::lap_hat(const CBVF & field)
   return out;
 }
 
-//block_vector
-CBVF spectral::remove_gradient(CBVF & bfield,const bool kind)
+//BlockVector
+CBVF Spectral::remove_gradient(CBVF & bfield,const bool kind)
 {
   CBVF out(bfield);
   //Extract gradient part from velocity
@@ -55,14 +55,14 @@ CBVF spectral::remove_gradient(CBVF & bfield,const bool kind)
 }
 
 //block vectors kind ccs/ccs/s
-Real spectral::scalar_prod(const CBVF & x,const CBVF & y) const
+Real Spectral::scalar_prod(const CBVF & x,const CBVF & y) const
 {
   return Real(SpectralFourierLayer::scalar_prod(x.vel(),y.vel())+
 	      SpectralFourierLayer::scalar_prod(x.mag(),y.mag())+
 	      SpectralFourierLayer::scalar_prod(x.temp(),y.temp()));
 }
 
-cat::array<cat::tvector<double,4>,1> spectral::eval_energ_spec(const CBVF & field,const bool & kind)
+cat::array<cat::tvector<double,4>,1> Spectral::eval_energ_spec(const CBVF & field,const bool & kind)
 {
 	cat::array<cat::tvector<double,4>,1> out(nwn);
 	out[1]=eval_energ_spec(field.vel(),kind);
@@ -74,7 +74,7 @@ cat::array<cat::tvector<double,4>,1> spectral::eval_energ_spec(const CBVF & fiel
 }
 
 //block vector
-void spectral::pnvh_hat(const CBVF & field)
+void Spectral::pnvh_hat(const CBVF & field)
 {
   cout << "vel" << endl;
 	SpectralFourierLayer::pnvh_hat(field.vel());

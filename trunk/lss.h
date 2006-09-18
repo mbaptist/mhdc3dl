@@ -28,7 +28,7 @@ private:
   //Reference to input object
   input & input_obj;
 	
-  spectral spectral_obj;
+  Spectral spectral_obj;
   Basic basic;
   a_nought a_nought_obj;
   a_nought_adjoint a_nought_adjoint_obj;
@@ -57,7 +57,7 @@ public:
   
 private:
 
-  void save_block_vector(CBVF & field,
+  void save_BlockVector(CBVF & field,
 			 const string & fname);
 
 	void save_aux_field	(const string & fname,CBVF & field);

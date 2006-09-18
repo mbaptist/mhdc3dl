@@ -85,8 +85,8 @@ protected:
   //physical Parameters
   Real visc,omegaz,compress,g,diff,deltat,econd,tcond;
 
-  //reference to spectral object
-  spectral & spectral_obj;
+  //reference to Spectral object
+  Spectral & spectral_obj;
 
   //reference to basic fields
   Basic & basic;
@@ -119,7 +119,7 @@ protected:
 public:
   //Constructor
   linops_base(input & input_obj__,
-	      spectral & spectral_obj__,
+	      Spectral & spectral_obj__,
 	      Basic & basic__);
   //Destructor
   ~linops_base();
@@ -181,7 +181,7 @@ public:
 public:
   //Constructor
   a_nought(input & input_obj__,
-	   spectral & spectral_obj__,
+	   Spectral & spectral_obj__,
 	   Basic & basic__);
   //Destructor
   ~a_nought();
@@ -244,7 +244,7 @@ public:
 public:
   //Constructor
   a_nought_adjoint(input & input_obj__,
-	   spectral & spectral_obj__,
+	   Spectral & spectral_obj__,
 	   Basic & basic__);
   //Destructor
   ~a_nought_adjoint();
@@ -307,7 +307,7 @@ public:
 public:
   //Constructor
   a_one(input & input_obj__,
-	   spectral & spectral_obj__,
+	   Spectral & spectral_obj__,
 	   Basic & basic__);
   //Destructor
   ~a_one();
@@ -333,11 +333,11 @@ class precond
 {
   //Members
 private:
-  spectral & spectral_obj;
+  Spectral & spectral_obj;
   Real qq_;
 public:
   //Constructor
-	precond(spectral & spectral_obj__,float qq__);
+	precond(Spectral & spectral_obj__,float qq__);
   //Destructor
   ~precond();
 private:
@@ -375,8 +375,8 @@ private:
   //physical Parameters
   Real visc,omegaz,compress,g,diff,deltat,econd,tcond;
 
-  //reference to spectral object
-  spectral & spectral_obj;
+  //reference to Spectral object
+  Spectral & spectral_obj;
 
   //reference to basic fields
   Basic & basic;
@@ -402,7 +402,7 @@ private:
   CSF s_nonlinear_hat;
   CVF nonlinear_hat;
     
-  //block_vector to hold the gradient part of a_nought
+  //BlockVector to hold the gradient part of a_nought
   CBVF gradient_;
 
   //Symmetry subspace used
@@ -412,7 +412,7 @@ private:
   //Constructor/destructor
 public:
   //Constructor
-  linops(input & input_obj__,spectral & spectral_obj__,Basic & basic__);
+  linops(input & input_obj__,Spectral & spectral_obj__,Basic & basic__);
   //Destructor
   ~linops();
 
@@ -428,7 +428,7 @@ public:
   CBVF eval_b(const CBVF & field,const int & index);
 
   //Accessor to the gradient part of a_nought
-  CBVF & gradient();//accessor to block_vector that holds the gradient part of a_nought
+  CBVF & gradient();//accessor to BlockVector that holds the gradient part of a_nought
 
   //Test the adjoint by its definition
   void test_adjoint(CBVF & a,
@@ -450,7 +450,7 @@ public:
 class a_nought
 {
 public:
-  a_nought(linops & linops_obj_,spectral & spectral_obj_):linops_obj(linops_obj_),spectral_obj(spectral_obj_){};
+  a_nought(linops & linops_obj_,Spectral & spectral_obj_):linops_obj(linops_obj_),spectral_obj(spectral_obj_){};
   ~a_nought(){};
   CBVF apply_direct
   (const CBVF & xx) const;
@@ -462,14 +462,14 @@ public:
 					 Real & qq) const;
 private:
   linops & linops_obj;
-  spectral & spectral_obj;
+  Spectral & spectral_obj;
 };
 
 
 class a_nought_star
 {
 public:
-  a_nought_star(linops & linops_obj_,spectral & spectral_obj_):linops_obj(linops_obj_),spectral_obj(spectral_obj_){};
+  a_nought_star(linops & linops_obj_,Spectral & spectral_obj_):linops_obj(linops_obj_),spectral_obj(spectral_obj_){};
   ~a_nought_star(){};
   CBVF apply_direct
   (const CBVF & xx) const;
@@ -481,7 +481,7 @@ public:
 					 Real & qq) const;
 private:
   linops & linops_obj;
-  spectral & spectral_obj;
+  Spectral & spectral_obj;
 };
 
 #endif

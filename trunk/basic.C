@@ -59,7 +59,7 @@ RVF & Basic::grad_temp()
 }
 
 //Constructors
-Basic::Basic(const input & input_obj__,spectral & spectral_obj__):
+Basic::Basic(const input & input_obj__,Spectral & spectral_obj__):
 input_obj(input_obj__),
 spectral_obj(spectral_obj__),
 n1(input_obj__.n1),
@@ -293,7 +293,7 @@ void Basic::eval_derivatives()
 
 void Basic::load(const string & filename)
 {
-	spectral so(32,32,16,2*M_PI,2*M_PI,M_PI);
+	Spectral so(32,32,16,2*M_PI,2*M_PI,M_PI);
 	RVF v32(32,32,16);
 	vtkFileLoad(filename+"_basic_vel",v32);
 	CVF v32_hat(32,32/2+1,16);

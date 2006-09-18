@@ -21,7 +21,7 @@ using namespace cat;
 
 input * input_obj;
 
-spectral * spectral_obj;
+Spectral * spectral_obj;
 
 int n1,n2,n3;
 

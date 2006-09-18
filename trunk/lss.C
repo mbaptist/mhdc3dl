@@ -211,7 +211,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 
 
 
-void lss::save_block_vector(CBVF & field,
+void lss::save_BlockVector(CBVF & field,
                             const string & fname)
 {
 	ofstream ofs(fname.c_str());

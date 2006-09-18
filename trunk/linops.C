@@ -56,7 +56,7 @@ linops_tmp::~linops_tmp()
 
 //Constructor
 linops_base::linops_base(input & input_obj__,
-                         spectral & spectral_obj__,
+                         Spectral & spectral_obj__,
                          Basic & basic__):
   //references for input parameters
 n1(input_obj__.n1),
@@ -73,7 +73,7 @@ diff(input_obj__.diff),
 deltat(input_obj__.deltat),
 econd(input_obj__.econd),
 tcond(input_obj__.tcond),
-  //reference to spectral object
+  //reference to Spectral object
 spectral_obj(spectral_obj__),
   //refrence to basic fields
 basic(basic__),
@@ -131,7 +131,7 @@ Real linops_base::scalar_prod(const CBVF & xx,const CBVF & yy) const
 
 //Ctor
 a_nought::a_nought(input & input_obj__,
-                   spectral & spectral_obj__,
+                   Spectral & spectral_obj__,
                    Basic & basic__):
 linops_base(input_obj__,spectral_obj__,basic__)
 {
@@ -221,7 +221,7 @@ CBVF a_nought::operator()(const CBVF & w_hat)
 
 //Ctor
 a_nought_adjoint::a_nought_adjoint(input & input_obj__,
-                                   spectral & spectral_obj__,
+                                   Spectral & spectral_obj__,
                                    Basic & basic__):
 linops_base(input_obj__,spectral_obj__,basic__)
 {
@@ -337,7 +337,7 @@ CBVF a_nought_adjoint::operator()(const CBVF & w_hat)
 
 //Ctor
 a_one::a_one(input & input_obj__,
-             spectral & spectral_obj__,
+             Spectral & spectral_obj__,
              Basic & basic__):
 linops_base(input_obj__,spectral_obj__,basic__)
 {
@@ -451,7 +451,7 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
 // Preconditioner
 ////////////////////////////////
 
-precond::precond(spectral & spectral_obj__,float qq__):
+precond::precond(Spectral & spectral_obj__,float qq__):
 spectral_obj(spectral_obj__),
 qq_(qq__)
 {
