@@ -46,7 +46,7 @@ int main()
   l2=input_obj->l2;
   l3=input_obj->l3;
 
-  spectral_obj=new spectral(n1,n2,n3,l1,l2,l3);
+  spectral_obj=new Spectral(n1,n2,n3,l1,l2,l3);
   
   test_adjoint();
 
