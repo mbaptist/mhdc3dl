@@ -1,0 +1,61 @@
+
+// VTK File Format Header
+// # vtk DataFile Version 2.0
+// .
+// ASCII
+
+// VTK Scalar DATASET
+// DATASET STRUCTURED_POINTS
+// DIMENSIONS 32 32 16
+// ORIGIN 0 0 0
+// SPACING 0.19635 0.19635 0.19635
+// POINT_DATA 16384
+// SCALARS temperature float
+// LOOKUP_TABLE default
+
+// VTK Vector DATASET
+// DATASET STRUCTURED_POINTS
+// DIMENSIONS 32 32 16
+// ORIGIN 0 0 0
+// SPACING 0.19635 0.19635 0.19635
+// POINT_DATA 16384
+// VECTORS FieldName float
+
+#ifndef VTKIO_H
+#define VTKIO_H
+
+#include <string>
+#include <cat.h>
+#include "block_vector.h"
+
+template <class T>
+struct vtkFileTraits
+{
+	enum {fieldtype};
+};
+
+template <>
+struct vtkFileTraits<cat::array<double,3> >
+{
+	enum {fieldtype=0};
+};
+
+template <>
+struct vtkFileTraits<cat::array<cat::tvector<double,3>,3> >
+{
+	enum {fieldtype=1};
+};
+	                                     
+
+template <class T>
+void vtkFileLoad(const std::string & vtkfilename,T & data);
+
+template <class T>
+void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<double,3> _vtkfile_origin_,cat::tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_);
+
+
+#include "vtkio.C"
+
+#endif
+
+

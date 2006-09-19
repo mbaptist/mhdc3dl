@@ -33,6 +33,5 @@ testing/time_opt.txt
 mhdc3dl.C
 mhdc3dl_run_default.py
 vzdeigen/vzdeigen.h
-vtkio.h
-vtkio.C
-vtkio_ti.C
+io.C
+io.h
