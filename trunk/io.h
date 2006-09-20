@@ -53,8 +53,16 @@ void vtkFileLoad(const std::string & vtkfilename,T & data);
 template <class T>
 void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<double,3> _vtkfile_origin_,cat::tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_);
 
+template <class T>
+void rawFileLoad(const std::string & filename,T & data);
 
-#include "vtkio.C"
+template <class T>
+void rawFileLoad_hat(const std::string & filename,T & data,const int & lr_n1,const int & lr_n2,const int & lr_n3);
+
+template <class T>
+void rawFileSave(const std::string & filename,const T & data);
+
+#include "io.C"
 
 #endif
 
