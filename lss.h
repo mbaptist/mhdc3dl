@@ -59,8 +59,10 @@ private:
 
   void save_BlockVector(CBVF & field,
 			 const string & fname);
-
-	void save_aux_field	(const string & fname,CBVF & field);
+	
+	void rawsave_aux_field_hat	(const string & fname,CBVF & field);
+	void vtksave_aux_field_real	(const string & fname,CBVF & field);
+	void rawload_aux_field_hat(const string & filename,CBVF & field,const int & lr_n1,const int & lr_n2,const int & lr_n2);
 	
   void solve_zero(CBVF * s,
 		  CSF * s_p,

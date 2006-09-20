@@ -59,10 +59,10 @@ public:
   virtual ~Basic();
   //Public methods
 public:
-	void load(const string &);
-  void load(const string & vel_fname,const string & mag_fname,const string & temp_fname);//loads basic fields
-	void save(const string & vel_fname,const string & mag_fname,const string & temp_fname);//saves basic fields
-	void save(const string & filename);
+	void load(const string & fielname);
+	void rawload_hat(const string & filename,const int & lr_n1,const int & lr_n2,const int & lr_n3);
+	void rawsave_hat(const string & filename);
+	void vtksave_real(const string & filename);
 	void save_energ_spec(const string & filename);
   //Private methods
 protected:

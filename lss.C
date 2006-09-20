@@ -11,7 +11,7 @@
 
 #include "lss.h"
 
-#include "vtkio.h"
+#include "io.h"
 
 #include <cat.h>
 #include <lass.h>
@@ -82,13 +82,6 @@ cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)
 cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(tes)*spectral_obj.wnstep << endl;
 #endif
 
-	
-  //save basic fields
-	//basic.save(input_obj.basic_vel_fname,input_obj.basic_mag_fname,input_obj.basic_temp_fname);
-
-	basic.save(input_obj.runsname);
-	basic.save_energ_spec(input_obj.runsname+"_basic_spec.dat");
-	
   //define a block vector to contain the constants for
   //the rhs of auxiliary problems (AP)
 	CBVF constant(n1,n2/2+1,n3);
@@ -102,6 +95,17 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 			CBVF(n1,n2/2+1,n3),
 			CBVF(n1,n2/2+1,n3),
 			CBVF(n1,n2/2+1,n3)};
+
+	if(input_obj.refine||input_obj.resume)
+	{
+		for(int i=0;i<4;++i)
+		{
+			stringstream ss;
+			ss << input_obj.runsname << "_s_" << i;
+			rawload_aux_field_hat(ss.str(),s[i],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
+		}
+	}
+	
   //pressure part of order 0 APs
 	CSF s_p[4]=
 	{CSF(n1,n2/2+1,n3),
@@ -135,12 +139,24 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)},
 		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)}
 	};
+
+	if(input_obj.refine||input_obj.resume)
+	{
+		for(int i=0;i<4;++i)
+			for(int j=0;j<2;++j)
+			{
+				stringstream ss;
+				ss << input_obj.runsname << "_s_" << i << "_" << j;
+				rawload_aux_field_hat(ss.str(),g[i][j],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
+			}
+	}
+	
 	for(int i=0;i<4;++i)
 	{
 		for(int j=0;j<2;++j)
 		{
-			if(i>0||j>0)
-				g[i][j]=g[0][0];				
+// 			if(i>0||j>0)
+// 				g[i][j]=g[0][0];				
 			solve_one(g[i][j],s,s_p,i,j);
 		}
 	}
@@ -235,7 +251,7 @@ void lss::solve_zero(CBVF * s,
 	// cout << sum(rhs_zero.vel()) << endl;
 	
 	spectral_obj.remove_gradient(rhs_zero,0);
-	s[i]=0;
+	//s[i]=0;
 	cgsolver(a_nought_obj,a_nought_adjoint_obj,
 	         precond_obj,precond_adjoint_obj,
 	         s[i],rhs_zero,
@@ -257,7 +273,8 @@ void lss::solve_zero(CBVF * s,
 //Save s
 	stringstream ss;
 	ss << input_obj.runsname << "_s_" << i;
-	save_aux_field(ss.str(),s[i]);
+	rawsave_aux_field_hat(ss.str(),s[i]);
+	vtksave_aux_field_real(ss.str(),s[i]);
 	
 	//Evaluate and save energy spectra
 	cout << "Energy spectrum (K Velocity Magnetic Temperature)" << endl;
@@ -315,10 +332,10 @@ void lss::solve_one(CBVF & gamma,
   //Solve the modified problem
 	
 	//gamma=0;
-	if(i>0||j>0)
-		spectral_obj.remove_gradient(gamma,0);
-	else
-		gamma=0;
+// 	if(i>0||j>0)
+// 		spectral_obj.remove_gradient(gamma,0);
+// 	else
+// 		gamma=0;
 	cgsolver(a_nought_obj,a_nought_adjoint_obj,
 	         precond_obj,precond_adjoint_obj,
 	         gamma,b,
@@ -334,7 +351,8 @@ void lss::solve_one(CBVF & gamma,
 	//Save Gamma
 	stringstream ss;
 	ss << input_obj.runsname << "_gamma_" << i << "_" << j;
-	save_aux_field(ss.str(),gamma);
+	rawsave_aux_field_hat(ss.str(),gamma);
+	vtksave_aux_field_real(ss.str(),gamma);
 
 	//Evaluate and save energy spectra
 	cout << "Energy spectrum (K Velocity Magnetic Temperature)" << endl;
@@ -398,7 +416,15 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
 	lambda2=c/(a*lambda1);
 }
 
-void lss::save_aux_field	(const string & filename,CBVF & field)
+
+void lss::rawsave_aux_field_hat(const string & filename,CBVF & field)
+{
+	rawFileSave(filename+"_vel_hat",field.vel());
+	rawFileSave(filename+"_mag_hat",field.mag());
+	rawFileSave(filename+"_temp_hat",field.temp());
+}
+
+void lss::vtksave_aux_field_real	(const string & filename,CBVF & field)
 {
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
@@ -419,25 +445,9 @@ void lss::save_aux_field	(const string & filename,CBVF & field)
 	vtkFileSave(filename+"_temp",sf,ori,sp,"TemperatureField");
 }
 
-
-// void lss::load_aux_field	(const string & filename,CBVF & field)
-// {
-// 	const int & n1 = input_obj.n1;
-// 	const int & n2 = input_obj.n2;
-// 	const int & n3 = input_obj.n3;
-// 	const double & or1 = 0;
-// 	const double & or2 = 0;
-// 	const double & or3 = 0;
-// 	const double & sp1 = input_obj.l1/input_obj.n1;
-// 	const double & sp2 = input_obj.l2/input_obj.n2;
-// 	const double & sp3 = input_obj.l3/input_obj.n3;
-// 	RVF vf(n1,n2,n3);
-// 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());
-// 	save_vtk(filename+"_vel",vf,"VelocityField",or1,or2,or3,sp1,sp2,sp3);
-// 	spectral_obj.fft_ccs.inverse_transform(vf,field.mag());
-// 	save_vtk(filename+"_mag",vf,"MagneticField",or1,or2,or3,sp1,sp2,sp3);
-// 	RSF sf(n1,n2,n3);
-// 	spectral_obj.sfft_s.inverse_transform(sf,field.temp());
-// 	save_vtk(filename+"_temp",sf,"TemperatureField",or1,or2,or3,sp1,sp2,sp3);
-// }
-
+void lss::rawload_aux_field_hat(const string & filename,CBVF & field,const int & lr_n1,const int & lr_n2,const int & lr_n3)
+{
+	rawFileLoad_hat(filename+"_vel_hat",field.vel(),lr_n1,lr_n2,lr_n3);
+	rawFileLoad_hat(filename+"_mag_hat",field.mag(),lr_n1,lr_n2,lr_n3);
+	rawFileLoad_hat(filename+"_temp_hat",field.temp(),lr_n1,lr_n2,lr_n3);
+}

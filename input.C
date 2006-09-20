@@ -56,13 +56,17 @@ void input::py_load_input(py_input_parser & parse)
   parse(deltat,"deltat");
   parse(econd,"econd");
   parse(tcond,"tcond");
-
+	
+	//refine and resume
+	parse(refine,"refine");
+	parse(resume,"resume");
+	parse(lr_runsname,"lr_runsname");
+	parse(lr_n1,"lr_n1");
+	parse(lr_n2,"lr_n2");
+	parse(lr_n3,"lr_n3");
+	
+	//Basic Fields
   parse(basic_mode,"basic_mode");
-  //Load
-  parse(basic_vel_fname,"basic_vel_fname");
-  parse(basic_mag_fname,"basic_mag_fname");
-  parse(basic_temp_fname,"basic_temp_fname");
-	parse(basic_fname,"basic_fname");
   //Random
   parse(br_seed,"br_seed");
 	parse(br_ki,"br_ki");

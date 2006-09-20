@@ -41,13 +41,14 @@ public:
   double l1,l2,l3,ell1,ell2;//Spatial extent
   //physical Parameters
   double visc,omegaz,compress,g,diff,deltat,econd,tcond;
-  
+
+	//refine and resume
+	bool refine,resume;
+	std::string lr_runsname;	
+	int lr_n1,lr_n2,lr_n3;
+	
   //basic fields
   std::string basic_mode;
-  std::string basic_vel_fname;
-  std::string basic_mag_fname;
-  std::string basic_temp_fname;
-	std::string basic_fname;
 	//Random Mode
 	int br_seed,br_ki,br_kf;
 	double 	br_alpha,br_rms_norm;

@@ -1,4 +1,4 @@
-//#include "vtkio.h"
+//#include "io.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -99,5 +99,50 @@ void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<dou
 		for(int j=0;j<n2;++j)
 			for(int i=0;i<n1;++i)
 				ofs << data(i,j,k) << endl;
+}
+
+template <class T>
+void rawFileLoad(const std::string & filename,T & data)
+{
+	  //open input stream
+	ifstream ifs((filename+".raw").c_str());
+	//output the field
+	ifs >> data;
+	//close output stream
+	ifs.close();
+}
+
+template <class T>
+void rawFileLoad_hat(const std::string & filename,T & data,const int & lr_n1,const int & lr_n2,const int & lr_n3)
+{
+	cat::tvector<int,3> shape=cat::tvector<int,3>(lr_n1,lr_n2,lr_n3);
+	cout << shape << endl;
+	cout << data.shape() << endl;
+	if(shape==data.shape())
+		rawFileLoad(filename,data);
+	else
+	{
+		T aux(shape);
+		rawFileLoad(filename,aux);
+		for(int i=0;i<lr_n1/2+1;++i)
+			for(int j=0;j<lr_n2/2+1;++j)
+				for(int k=0;k<lr_n3;++k)
+					data(i,j,k)=aux(i,j,k);
+		for(int i=lr_n1/2+1;i<lr_n1;++i)
+			for(int j=0;j<lr_n2/2+1;++j)
+				for(int k=0;k<lr_n3;++k)
+					data(i+data.shape()[0]-lr_n1,j,k)=aux(i,j,k);
+	}
+}
+
+template <class T>
+void rawFileSave(const std::string & filename,const T & data)
+{
+  //open output stream
+	ofstream ofs((filename+".raw").c_str());
+	//output the field
+	ofs << data << endl;
+	//close output stream
+	ofs.close();
 }
 
