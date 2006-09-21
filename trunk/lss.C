@@ -96,15 +96,23 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 			CBVF(n1,n2/2+1,n3),
 			CBVF(n1,n2/2+1,n3)};
 
-	if(input_obj.refine||input_obj.resume)
-	{
+	//Initial condition	
 		for(int i=0;i<4;++i)
 		{
-			stringstream ss;
-			ss << input_obj.runsname << "_s_" << i;
-			rawload_aux_field_hat(ss.str(),s[i],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
+			if(input_obj.refine||input_obj.resume)
+			{
+				stringstream ss,lr_ss;
+				lr_ss << input_obj.lr_runsname << "_s_" << i;
+				rawload_aux_field_hat(lr_ss.str(),s[i],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
+				ss << input_obj.runsname << "_s_" << i << "_read_out";
+				rawsave_aux_field_hat(ss.str(),s[i]);
+				vtksave_aux_field_real(ss.str(),s[i]);
+			}
+			else
+			{
+				s[i]=0;
+			}
 		}
-	}
 	
   //pressure part of order 0 APs
 	CSF s_p[4]=
@@ -140,23 +148,22 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 		{CBVF(n1,n2/2+1,n3),CBVF(n1,n2/2+1,n3)}
 	};
 
-	if(input_obj.refine||input_obj.resume)
-	{
-		for(int i=0;i<4;++i)
-			for(int j=0;j<2;++j)
-			{
-				stringstream ss;
-				ss << input_obj.runsname << "_s_" << i << "_" << j;
-				rawload_aux_field_hat(ss.str(),g[i][j],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
-			}
-	}
-	
 	for(int i=0;i<4;++i)
 	{
 		for(int j=0;j<2;++j)
 		{
-// 			if(i>0||j>0)
-// 				g[i][j]=g[0][0];				
+			//Initial condition
+			if(input_obj.refine||input_obj.resume)
+			{
+				stringstream lr_ss;
+				lr_ss << input_obj.lr_runsname << "_gamma_" << i << "_" << j;
+				rawload_aux_field_hat(lr_ss.str(),g[i][j],input_obj.lr_n1,input_obj.lr_n2,input_obj.lr_n3);
+			}
+			else
+			{
+				g[i][j]=0;
+			}				
+// solve for gamma_i_j
 			solve_one(g[i][j],s,s_p,i,j);
 		}
 	}
@@ -251,7 +258,6 @@ void lss::solve_zero(CBVF * s,
 	// cout << sum(rhs_zero.vel()) << endl;
 	
 	spectral_obj.remove_gradient(rhs_zero,0);
-	//s[i]=0;
 	cgsolver(a_nought_obj,a_nought_adjoint_obj,
 	         precond_obj,precond_adjoint_obj,
 	         s[i],rhs_zero,
@@ -266,8 +272,7 @@ void lss::solve_zero(CBVF * s,
 	//	cout << "... done!" << endl;
 
 	cout << "Solving for pressure s_p(" << i << ")..." << endl;
-	s_p[i]=spectral_obj.
-		poisson_hat(spectral_obj.div_hat( (a_nought_obj(s[i]) ).vel(),0));
+	s_p[i]=spectral_obj.poisson_hat(spectral_obj.div_hat( (a_nought_obj(s[i]) ).vel(),0));
 	cout << "... done!" << endl;
 		
 //Save s
@@ -417,14 +422,14 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
 }
 
 
-void lss::rawsave_aux_field_hat(const string & filename,CBVF & field)
+void lss::rawsave_aux_field_hat(const string & filename,const CBVF & field)
 {
 	rawFileSave(filename+"_vel_hat",field.vel());
 	rawFileSave(filename+"_mag_hat",field.mag());
 	rawFileSave(filename+"_temp_hat",field.temp());
 }
 
-void lss::vtksave_aux_field_real	(const string & filename,CBVF & field)
+void lss::vtksave_aux_field_real	(const string & filename,const CBVF & field)
 {
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
@@ -447,7 +452,7 @@ void lss::vtksave_aux_field_real	(const string & filename,CBVF & field)
 
 void lss::rawload_aux_field_hat(const string & filename,CBVF & field,const int & lr_n1,const int & lr_n2,const int & lr_n3)
 {
-	rawFileLoad_hat(filename+"_vel_hat",field.vel(),lr_n1,lr_n2,lr_n3);
-	rawFileLoad_hat(filename+"_mag_hat",field.mag(),lr_n1,lr_n2,lr_n3);
-	rawFileLoad_hat(filename+"_temp_hat",field.temp(),lr_n1,lr_n2,lr_n3);
+	rawFileLoad(filename+"_vel_hat",field.vel(),lr_n1,lr_n2/2+1,lr_n3);
+	rawFileLoad(filename+"_mag_hat",field.mag(),lr_n1,lr_n2/2+1,lr_n3);
+rawFileLoad(filename+"_temp_hat",field.temp(),lr_n1,lr_n2/2+1,lr_n3);
 }

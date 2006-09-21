@@ -8,7 +8,7 @@
 #
 ################################################
 
-CXX = g++ -O3 -funroll-loops -fexpensive-optimizations   
+CXX = g++ -O3 -funroll-loops -fexpensive-optimizations  -mtune=opteron -fPIC 
 
 DEBUG = 
 #-g 

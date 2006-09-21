@@ -57,7 +57,7 @@ template <class T>
 void rawFileLoad(const std::string & filename,T & data);
 
 template <class T>
-void rawFileLoad_hat(const std::string & filename,T & data,const int & lr_n1,const int & lr_n2,const int & lr_n3);
+void rawFileLoad(const std::string & filename,T & data,const int & lr_n1,const int & lr_n2,const int & lr_n3);
 
 template <class T>
 void rawFileSave(const std::string & filename,const T & data);

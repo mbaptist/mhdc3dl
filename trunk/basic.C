@@ -258,16 +258,19 @@ void Basic::eval_derivatives()
 
 void Basic::rawload_hat(const string & filename,const int & lr_n1,const int & lr_n2,const int & lr_n3)
 {
-	CVF aux_hat(vel_.shape());
+	int n1=vel_.shape()[0];
+	int n2=vel_.shape()[1];
+	int n3=vel_.shape()[2];
+	CVF aux_hat(n1,n2/2+1,n3);
 	aux_hat=0;
-	rawFileLoad_hat(filename+"_basic_vel_hat",aux_hat,lr_n1,lr_n2,lr_n3);
+	rawFileLoad(filename+"_basic_vel_hat",aux_hat,lr_n1,lr_n2/2+1,lr_n3);
 	spectral_obj.fft_ccs.inverse_transform(vel_,aux_hat);
 	aux_hat=0;
-	rawFileLoad_hat(filename+"_basic_mag_hat",aux_hat,lr_n1,lr_n2,lr_n3);
+	rawFileLoad(filename+"_basic_mag_hat",aux_hat,lr_n1,lr_n2/2+1,lr_n3);
 	spectral_obj.fft_ccs.inverse_transform(mag_,aux_hat);
-	CSF saux_hat(temp_.shape());
+	CSF saux_hat(n1,n2/2+1,n3);
 	saux_hat=0;
-	rawFileLoad_hat(filename+"_basic_temp_hat",saux_hat,lr_n1,lr_n2,lr_n3);
+	rawFileLoad(filename+"_basic_temp_hat",saux_hat,lr_n1,lr_n2/2+1,lr_n3);
 	spectral_obj.sfft_s.inverse_transform(temp_,saux_hat);
 	eval_derivatives();
 }
@@ -275,14 +278,17 @@ void Basic::rawload_hat(const string & filename,const int & lr_n1,const int & lr
 
 void Basic::rawsave_hat(const string & filename)
 {
-	CVF aux_hat(vel_.shape());
+	int n1=vel_.shape()[0];
+	int n2=vel_.shape()[1];
+	int n3=vel_.shape()[2];
+	CVF aux_hat(n1,n2/2+1,n3);
 	aux_hat=0;
 	spectral_obj.fft_ccs.direct_transform(aux_hat,vel_);
 	rawFileSave(filename+"_basic_vel_hat",aux_hat);
 	aux_hat=0;
 	spectral_obj.fft_ccs.direct_transform(aux_hat,mag_);
 	rawFileSave(filename+"_basic_mag_hat",aux_hat);
-	CSF saux_hat(temp_.shape());
+	CSF saux_hat(n1,n2/2+1,n3);
 	saux_hat=0;
 	spectral_obj.sfft_s.direct_transform(saux_hat,temp_);
 	rawFileSave(filename+"_basic_temp_hat",saux_hat);
@@ -290,7 +296,6 @@ void Basic::rawsave_hat(const string & filename)
 
 void Basic::vtksave_real(const string & filename)
 {
-
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
 	const int & n3 = input_obj.n3;
@@ -300,7 +305,7 @@ void Basic::vtksave_real(const string & filename)
 	vtkFileSave(filename+"_basic_vel",this->vel(),ori,sp,"VelocityField");
 	vtkFileSave(filename+"_basic_mag",this->mag(),ori,sp,"MagneticField");
 	vtkFileSave(filename+"_basic_temp",this->temp(),ori,sp,"TemperatureField");
-};
+}
 
 void Basic::save_energ_spec(const string & filename)
 {
