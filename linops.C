@@ -116,9 +116,9 @@ const int & linops_base::sym_sub() const
 //Scalar Product
 Real linops_base::scalar_prod(const CBVF & xx,const CBVF & yy) const
 {
-	return spectral_obj.scalar_prod(xx.vel(),yy.vel())
+	return (spectral_obj.scalar_prod(xx.vel(),yy.vel())
 		+spectral_obj.scalar_prod(xx.mag(),yy.mag())
-		+spectral_obj.scalar_prod(xx.temp(),yy.temp());
+	        +spectral_obj.scalar_prod(xx.temp(),yy.temp()))/xx.size();
 }
 
 ////////////////////////////////////////////////////////////////////////

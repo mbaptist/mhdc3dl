@@ -35,6 +35,9 @@ public:
 	
 	tvector<int,3> & shape(){return this->temperature_.shape();}
 	const tvector<int,3> & shape() const {return this->temperature_.shape();}
+
+	int & size(){return this->temperature_.size();}
+	const int & size() const {return this->temperature_.size();}
 	
   //Public Methods
 
