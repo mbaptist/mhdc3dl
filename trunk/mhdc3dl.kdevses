@@ -1,58 +1,43 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="17" >
+ <DocsAndViews NumberOfDocuments="12" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.C" >
-   <View0 line="0" Type="Source" />
+   <View0 line="209" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.C" >
-   <View0 line="19" Type="Source" />
+   <View0 line="290" Type="Source" />
   </Doc1>
   <Doc2 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.h" >
-   <View0 Type="Source" />
+   <View0 line="62" Type="Source" />
   </Doc2>
   <Doc3 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.h" >
-   <View0 line="0" Type="Source" />
+   <View0 line="62" Type="Source" />
   </Doc3>
-  <Doc4 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/spectral.h" >
+  <Doc4 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.h" >
    <View0 Type="Source" />
   </Doc4>
-  <Doc5 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/spectral.C" >
-   <View0 Type="Source" />
+  <Doc5 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
+   <View0 line="0" Type="Source" />
   </Doc5>
-  <Doc6 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.h" >
-   <View0 line="0" Type="Source" />
+  <Doc6 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.C" >
+   <View0 line="63" Type="Source" />
   </Doc6>
-  <Doc7 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
-   <View0 line="0" Type="Source" />
+  <Doc7 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.h" >
+   <View0 line="47" Type="Source" />
   </Doc7>
-  <Doc8 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.C" >
+  <Doc8 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
    <View0 Type="Source" />
   </Doc8>
-  <Doc9 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/input.h" >
-   <View0 line="0" Type="Source" />
-  </Doc9>
-  <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/linops.C" >
-   <View0 line="0" Type="Source" />
-  </Doc10>
-  <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl.C" >
-   <View0 line="0" Type="Source" />
-  </Doc11>
-  <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/block_vector.h" >
-   <View0 line="0" Type="Source" />
-  </Doc12>
-  <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/globals.h" >
-   <View0 line="9" Type="Source" />
-  </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl_test.C" >
+  <Doc9 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/mhdc3dl_test.C" >
    <View0 line="48" Type="Source" />
-  </Doc14>
-  <Doc15 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/io.h" >
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/io.h" >
    <View0 line="59" Type="Source" />
-  </Doc15>
-  <Doc16 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/io.C" >
-   <View0 line="133" Type="Source" />
-  </Doc16>
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/io.C" >
+   <View0 line="106" Type="Source" />
+  </Doc11>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
