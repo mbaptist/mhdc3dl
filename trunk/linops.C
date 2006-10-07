@@ -336,97 +336,40 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
 	spectral_obj.sfft_s.inverse_transform(temp,field.temp());
 	
   //evaluate nonlinear term for velocity
-  //nonlinear=unit_vector(index);
-
 	nonlinear=0;
 	nonlinear[index]=dot_product(basic.vel(),vel)-dot_product(basic.mag(),mag);
 	nonlinear+=-basic.vel()[index]*vel+basic.mag()[index]*mag;
 
-		
-// 	nonlinear=0;
-// 	nonlinear[index]=1;
- 	RSF rsaux(nonlinear.shape());
-// 	rsaux=dot_product(basic.vel(),vel);
-// 	rsaux+=-dot_product(basic.mag(),mag);
-// 	nonlinear[index]*=rsaux;
-	RVF raux(nonlinear.shape());
-// 	raux=-vel;
-// 	raux*=basic.vel()[index];
-// 	nonlinear+=raux;
-// 	raux=mag;
-// 	raux*=basic.mag()[index];
-// 	nonlinear+=raux;
-	
-  //FFT nonlinear into Fourier space
+	//FFT nonlinear into Fourier space
 	spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
-	
-  //evaluate velocity component
-	
-// 	out.vel()=spectral_obj.d_dx_index_hat(field.vel(),index);
-// 	out.vel()*=visc;
-// 	out.vel()*=2;
-// 	out.vel()+=nonlinear_hat;
 
+  //evaluate velocity component
 	out.vel()=2*visc*spectral_obj.d_dx_index_hat(field.vel(),index)+nonlinear_hat;
 	
   //evaluate nonlinear term for magnetic field
-
 	nonlinear=0;
 	nonlinear=-basic.mag()*vel[index]+basic.mag()[index]*vel+basic.vel()*mag[index]-basic.vel()[index]*mag;
-	
-// 	nonlinear=0;
-// 	nonlinear=-basic.mag();
-// 	nonlinear*=vel[index];
-// 	raux=vel;
-// 	raux*=basic.mag()[index];
-// 	nonlinear+=raux;
-// 	raux=basic.vel();
-// 	raux*=mag[index];
-// 	nonlinear+=raux;
-// 	raux=-mag;
-// 	raux*=basic.vel()[index];
-// 	nonlinear+=raux;
 	
   //FFT nonlinear into Fourier space
 	spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 	
   //evaluate magnetic component
-
-// 	out.mag()=spectral_obj.d_dx_index_hat(field.mag(),index);
-// 	out.mag()*=diff;
-// 	out.mag()*=2;
-// 	out.mag()+=nonlinear_hat;
-
 	out.mag()=2*diff*spectral_obj.d_dx_index_hat(field.mag(),index)+nonlinear_hat;
 	
   //evaluate nonlinear term (s_nonlinear) for temperature
+	s_nonlinear=0;
   //Joule term
   //for(int o=0;o<3;++o)
   //  for(int k=0;k<3;++k)
-  //    {
-  //      rsaux=basic.curl_mag()[k];
-  //      rsaux*=mag[o];
-  //      rsaux*=levi_civita(index,o,k);
-  //      s_nonlinear+=rsaux;
-  //    }
+  //      s_nonlinear+=basic.curl_mag()[k]*mag[o]*levi_civita(index,o,k);
   //s_nonlinear*=econd;
-	
-// 	rsaux=-temp;
-// 	rsaux*=basic.vel()[index];
-// 	s_nonlinear+=rsaux;
-
+	//s_nonlinear+=-basic.vel()[index]*temp;
 	s_nonlinear=-basic.vel()[index]*temp;
 	
   //FFT s_nonlinear into Fourier space
 	spectral_obj.sfft_s.direct_transform(s_nonlinear_hat,s_nonlinear);
 	
   //evaluate temperature component
-
-// 	out.temp()=spectral_obj.d_dx_index_hat(field.temp(),index);
-// 	out.temp()*=tcond;
-// 	out.temp()*=2;
-// 	out.temp()+=s_nonlinear_hat;
-
 	out.temp()=2*tcond*spectral_obj.d_dx_index_hat(field.temp(),index)+s_nonlinear_hat;
 	
   //dealiasing
