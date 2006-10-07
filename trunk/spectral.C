@@ -55,11 +55,11 @@ CBVF Spectral::remove_gradient(CBVF & bfield,const bool kind)
 }
 
 //block vectors kind ccs/ccs/s
-Real Spectral::scalar_prod(const CBVF & x,const CBVF & y) const
+Real Spectral::scalar_prod(const CBVF & x,const CBVF & y,const bool & kind) const
 {
-  return Real(SpectralFourierLayer::scalar_prod(x.vel(),y.vel())+
-	      SpectralFourierLayer::scalar_prod(x.mag(),y.mag())+
-	      SpectralFourierLayer::scalar_prod(x.temp(),y.temp()));
+  return Real(SpectralFourierLayer::scalar_prod(x.vel(),y.vel(),kind)+
+	      SpectralFourierLayer::scalar_prod(x.mag(),y.mag(),kind)+
+	      SpectralFourierLayer::scalar_prod(x.temp(),y.temp(),kind));
 }
 
 cat::array<cat::tvector<double,4>,1> Spectral::eval_energ_spec(const CBVF & field,const bool & kind)

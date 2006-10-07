@@ -28,6 +28,14 @@ private:
   //Reference to input object
   input & input_obj;
 	
+	int & n1;
+	int & n2;
+	int & n3;
+	
+	double & l1;
+	double & l2;
+	double & l3;
+	
   Spectral spectral_obj;
   Basic basic;
   a_nought a_nought_obj;
@@ -49,37 +57,22 @@ private:
   lss();
   lss(const lss &);
 
-
 public:
   //Run
-  void run(double & lambda_minimal,
-	   double & lambda_maximal);
+	void run(double & theta_min,double & lambda_min,double & theta_max,double & lambda_max);
   
 private:
-
-  void save_BlockVector(CBVF & field,
-			 const string & fname);
+  
+	void solve_zero(CBVF * s,CSF * s_p,const CBVF & rhs_constant_zero,const int & i);
+  void solve_one(CBVF & gamma,CBVF * s,CSF * s_p,const int & i,const int & j);
+  cat::array<double,2> eval_ep(const cat::tvector<double,2> & q);
+  cat::array<double,2> eval_e(const cat::tvector<double,2> & q);
+  void diag(double & lambda1,double & lambda2,const cat::array<double,2> & matrix);
 	
 	void rawsave_aux_field_hat	(const string & fname,const CBVF & field);
 	void vtksave_aux_field_real	(const string & fname,const CBVF & field);
 	void rawload_aux_field_hat(const string & filename,CBVF & field,const int & lr_n1,const int & lr_n2,const int & lr_n3);
-	
-  void solve_zero(CBVF * s,
-		  CSF * s_p,
-		  const CBVF & rhs_constant_zero,
-		  const int & i);
-  void solve_one(CBVF & gamma,
-		 CBVF * s,
-		 CSF * s_p,
-		 const int & i,const int & j);
-  cat::array<double,2> eval_ep(const cat::tvector<double,2> & q);
-  cat::array<double,2> eval_e(const cat::tvector<double,2> & q);
-  void diag(double & lambda1,
-	    double & lambda2,
-	    const cat::array<double,2> & matrix);
-  
+
 };
-
-
 
 #endif

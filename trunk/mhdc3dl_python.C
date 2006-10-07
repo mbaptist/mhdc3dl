@@ -19,25 +19,27 @@ using namespace std;
 PyObject *
 mhdc3dl_python_lss_run(PyObject *self, PyObject *args)
 {
-  double lambda_min,lambda_max;
+  double theta_min,lambda_min,theta_max,lambda_max;
   char * input_module_name;
-  if (!PyArg_ParseTuple(args, "s", &input_module_name ))
-    return NULL; 
-	input input_obj(PyImport_ImportModule(input_module_name));
+	PyObject * dict;
+	if (!PyArg_ParseTuple(args, "O", &dict ))
+		return NULL;
+	input input_obj(dict);
 	lss lss_obj(input_obj);
-	lss_obj.run(lambda_min,lambda_max);
-  return Py_BuildValue("dd",lambda_min,lambda_max);
+	lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
+  return Py_BuildValue("dddd",theta_min,lambda_min,theta_max,lambda_max);
 };
 
-//Launch the lss code
+//Launch the sss code
 PyObject *
 mhdc3dl_python_sss_run(PyObject *self, PyObject *args)
 {
 	double xp,eim;
 	char * input_module_name;
-	if (!PyArg_ParseTuple(args, "s", &input_module_name ))
+	PyObject * dict;
+	if (!PyArg_ParseTuple(args, "O", &dict ))
 		return NULL;
-	input input_obj(PyImport_ImportModule(input_module_name));
+	input input_obj(dict);
 	sss sss_obj(input_obj);
 	sss_obj.run(xp,eim);
 	return Py_BuildValue("dd",xp,eim);

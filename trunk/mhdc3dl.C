@@ -12,26 +12,20 @@ int main(int argc,char * argv[])
 		if (strcmp(argv[1],""))
 			inputfname=argv[1];
 	cout << inputfname << endl;
-	
+	//load input paarmeters	
 	input input_obj(inputfname);
-
-
+	//create lss object
 	lss lss_obj(input_obj);
-	
-	double lambda_min,lambda_max;
-	
-	lss_obj.run(lambda_min,lambda_max);
-	
+	//evaluate large-scale maximum and minimum eigenvalues
+	double theta_min,lambda_min,theta_max,lambda_max;
+	lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
   //print maximum and minimum growth rates
-	cout << "  Maximum Lambda = " << lambda_max
-		<< "  Minimum Lambda = " << lambda_min
-		<< endl;
-
-
+	cout << "  Minimum Lambda = " << lambda_min << " for theta=" << theta_min << endl;
+	cout << "  Maximum Lambda = " << lambda_max << " for theta=" << theta_max << endl;
+		
 // 	sss sss_obj(input_obj);
 // 	double xp,eim;
 // 	sss_obj.run(xp,eim);
 
-	
 	return 0;
 }

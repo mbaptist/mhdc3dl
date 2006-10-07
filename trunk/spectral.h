@@ -51,7 +51,7 @@ public:
   //remove gradient part after of a BlockVector
   CBVF remove_gradient(CBVF & bfield,const bool kind);	
   
-  Real scalar_prod(const CBVF & xx,const CBVF & yy) const ;
+	Real scalar_prod(const CBVF & xx,const CBVF & yy,const bool & kind) const ;
 	
 	cat::array<cat::tvector<double,4>,1> eval_energ_spec(const CBVF & field,const bool & kind);
 		
