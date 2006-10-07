@@ -37,7 +37,7 @@ void test_remove_gradient();
 int main()
 {
 
-  input_obj= new input("default.cfg");
+	input_obj= new input("mhdc3dl_run_default.py");
 
   n1=input_obj->n1;
   n2=input_obj->n2;
@@ -69,15 +69,22 @@ void test_adjoint()
 
   CBVF a(n1,n2/2+1,n3),b(a),c(a),d(a);
 
-  gen_random gr(*input_obj,*spectral_obj,1000);
+  gen_random gr(*input_obj,*spectral_obj,555);
 
-  gr.gen_random_field_hat(a.vel(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.mag(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(a.temp(),1,10,6,1,0,1);
+	const int skmin=0;
+	const int skmax=10;
+	const double decay=3;
+	const double nnn=1;
+	const bool kkk=0;
+	const bool sss=1;
+	
+  gr.gen_random_field_hat(a.vel(),skmin,skmax,decay,nnn,kkk,sss);
+	gr.gen_random_field_hat(a.mag(),skmin,skmax,decay,nnn,kkk,sss);
+	gr.gen_random_field_hat(a.temp(),skmin,skmax,decay,nnn,kkk,sss);
   
-  gr.gen_random_field_hat(b.vel(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.mag(),1,10,6,1,0,1);
-  gr.gen_random_field_hat(b.temp(),1,10,6,1,0,1);
+	gr.gen_random_field_hat(b.vel(),skmin,skmax,decay,nnn,kkk,sss);
+	gr.gen_random_field_hat(b.mag(),skmin,skmax,decay,nnn,kkk,sss);
+	gr.gen_random_field_hat(b.temp(),skmin,skmax,decay,nnn,kkk,sss);
 
 
 //   a=0;
@@ -86,11 +93,19 @@ void test_adjoint()
 //   a.mag()(1,1,1)=cat::tvector<complex<double>,3>(2.,2.,3.);
 //   a.temp()(1,1,1)=4;
 
+// 	a.vel()=0;
+// 
+// 	a.temp()=0;	
+	
 //   b=0;
 
 //   b.vel()(1,1,1)=cat::tvector<complex<double>,3>(1.,1.,8.);
 //   b.mag()(1,1,1)=cat::tvector<complex<double>,3>(2.,3.,3.);
 //   b.temp()(1,1,1)=5;
+
+// 	b.vel()=0;	
+// 	
+// 	b.temp()=0;
 
    c=a_nought_obj(b);
    d=a_nought_adj_obj(a);
@@ -103,8 +118,8 @@ void test_adjoint()
 
   double sp1,sp2;
 
-  sp1=spectral_obj->scalar_prod(a,c);
-  sp2=spectral_obj->scalar_prod(d,b);
+  sp1=spectral_obj->scalar_prod(a,c,kkk);
+  sp2=spectral_obj->scalar_prod(d,b,kkk);
 
   cout << "<a,a_nought(b)>= " << sp1 << endl;
   cout << "<a_nought_star(a),b>= " << sp2 << endl;
@@ -112,6 +127,8 @@ void test_adjoint()
 
   cout << endl;
 
+	c=0;
+	d=0;
   
   c=a_nought_obj(a);
   d=a_nought_adj_obj(b);
@@ -122,8 +139,8 @@ void test_adjoint()
   //   cout << "d=A*b" << endl;
   //   spectral_obj.pnvh(d);
 
-  sp1=spectral_obj->scalar_prod(b,c);
-  sp2=spectral_obj->scalar_prod(d,a);
+  sp1=spectral_obj->scalar_prod(b,c,kkk);
+  sp2=spectral_obj->scalar_prod(d,a,kkk);
 
   cout << "<b,a_nought(a)>= " << sp1 << endl;
   cout << "<a_nought_star(b),a>= " << sp2 << endl;
@@ -132,14 +149,6 @@ void test_adjoint()
   cout << endl;
 
 }
-
-
-
-
-
-
-
-
 
 #if 0
 void test_cross_product()

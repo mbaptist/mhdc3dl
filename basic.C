@@ -89,16 +89,15 @@ grad_temp_(n1,n2,n3)
 		else
 			gen_random_obj=new gen_random(input_obj,spectral_obj);
       //generate fields
-		//cout << input_obj.br_sym << endl;
 		gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
 		gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
-		cout	<< "pnvh vel" << endl;
-		spectral_obj.pnvh(this->vel(),0);
-		cout	<< "pnvh mag" << endl;
-		spectral_obj.pnvh(this->mag(),0);
-		cout	<< "pnvh temp" << endl;
-		spectral_obj.pnvh(this->temp(),0);
+// 		cout	<< "pnvh vel" << endl;
+// 		spectral_obj.pnvh(this->vel(),0);
+// 		cout	<< "pnvh mag" << endl;
+// 		spectral_obj.pnvh(this->mag(),0);
+// 		cout	<< "pnvh temp" << endl;
+// 		spectral_obj.pnvh(this->temp(),0);
 		delete gen_random_obj;
 	}
   //Plan forms
@@ -264,13 +263,18 @@ void Basic::rawload_hat(const string & filename,const int & lr_n1,const int & lr
 	CVF aux_hat(n1,n2/2+1,n3);
 	aux_hat=0;
 	rawFileLoad(filename+"_basic_vel_hat",aux_hat,lr_n1,lr_n2/2+1,lr_n3);
+/*	spectral_obj.dealias(aux_hat);
+	spectral_obj.remove_gradient(aux_hat,0);*/
 	spectral_obj.fft_ccs.inverse_transform(vel_,aux_hat);
 	aux_hat=0;
 	rawFileLoad(filename+"_basic_mag_hat",aux_hat,lr_n1,lr_n2/2+1,lr_n3);
+// 	spectral_obj.dealias(aux_hat);
+// 	spectral_obj.remove_gradient(aux_hat,0);
 	spectral_obj.fft_ccs.inverse_transform(mag_,aux_hat);
 	CSF saux_hat(n1,n2/2+1,n3);
 	saux_hat=0;
 	rawFileLoad(filename+"_basic_temp_hat",saux_hat,lr_n1,lr_n2/2+1,lr_n3);
+// 	spectral_obj.dealias(saux_hat);
 	spectral_obj.sfft_s.inverse_transform(temp_,saux_hat);
 	eval_derivatives();
 }

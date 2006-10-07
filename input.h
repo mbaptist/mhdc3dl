@@ -63,10 +63,6 @@ public:
   int kk;
   double small;
   double small_adj;
-
-  std::string apbfname;
-
-  std::string grfname;
   
   //short scale stability
   int sym_sub,mp,nseq,sss_seed,sss_basic_restore_seed;

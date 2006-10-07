@@ -50,8 +50,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 {
 
 	//	cout << ki << kf << kind <<sym << endl;
-	cout << spectral_obj.wnmax << endl;
-	cout << spectral_obj.wnstep << endl;
+	//cout << spectral_obj.wnmax << endl;
+	//cout << spectral_obj.wnstep << endl;
 		
 	const int s1(field_hat.shape()[0]);
 	const int s2(field_hat.shape()[1]);
@@ -189,14 +189,14 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 		double power=pow(sqrt(*wv2_iterator),-alpha);
 		double espec=energ_spec(index);
 		if(espec!=0)
-			(*field_hat_iterator)*=sqrt(power/espec);
+			(*field_hat_iterator)*=sqrt(power/espec);	
 	}
 	
 		//renormalise to RMS(field)=p - in fact for total energy equal to p/2
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
 	double tenerg=sum(energ_spec)*spectral_obj.wnstep;
 	field_hat*=sqrt(p/(2.*tenerg));
-	
+
 }
 
 

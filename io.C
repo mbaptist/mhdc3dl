@@ -1,6 +1,7 @@
 //#include "io.h"
 #include <string>
 #include <iostream>
+#include<iomanip>
 #include <fstream>
 
 #include <cat.h>
@@ -111,19 +112,28 @@ void rawFileLoad(const std::string & filename,T & data)
 	ifs >> data;
 	//close output stream
 	ifs.close();
+	
+// 	Spectral so(data.shape()[0],2*(data.shape()[1]-1),data.shape()[2],2*M_PI,2*M_PI,M_PI);
+// 	so.pnvh_hat(so.div_hat(data,0));
+// 	exit(0);
 }
 
 template <class T>
 void rawFileLoad(const std::string & filename,T & data,const int & lr_s1,const int & lr_s2,const int & lr_s3)
 {
 	cat::tvector<int,3> lr_shape=cat::tvector<int,3>(lr_s1,lr_s2,lr_s3);
-	cout << lr_shape << endl;
-	cout << data.shape() << endl;
+// 	cout << lr_shape << endl;
+// 	cout << data.shape() << endl;
+	data=0;
+
+	T aux(lr_shape);
 	if(lr_shape==data.shape())
 		rawFileLoad(filename,data);
 	else
 	{
-		T aux(lr_shape);
+		cout << lr_shape << endl;
+		cout << data.shape() << endl;
+		//T aux(lr_shape);
 		rawFileLoad(filename,aux);
 		for(int i=0;i<lr_s1/2+1;++i)
 			for(int j=0;j<lr_s2;++j)
@@ -134,15 +144,27 @@ void rawFileLoad(const std::string & filename,T & data,const int & lr_s1,const i
 				for(int k=0;k<lr_s3;++k)
 					data(i+data.shape()[0]-lr_s1,j,k)=aux(i,j,k);
 	}
+// 	Spectral solr(lr_s1,2*(lr_s2-1),lr_s3,2*M_PI,2*M_PI,M_PI);
+// 	Spectral so(data.shape()[0],2*(data.shape()[1]-1),data.shape()[2],2*M_PI,2*M_PI,M_PI);
+// 	cout << lr_shape << endl;
+// 	solr.pnvh_hat(solr.div_hat(aux,0));
+// 	cout << data.shape() << endl;
+// 	so.pnvh_hat(so.div_hat(data,0));
+// 	exit(0);
 }
 
 template <class T>
 void rawFileSave(const std::string & filename,const T & data)
 {
+
+// 	Spectral so(data.shape()[0],2*(data.shape()[1]-1),data.shape()[2],2*M_PI,2*M_PI,M_PI);
+// 	so.pnvh_hat(so.div_hat(data,0));
+// 	exit(0);
+// 	
   //open output stream
 	ofstream ofs((filename+".raw").c_str());
 	//output the field
-	ofs << data << endl;
+	ofs << setprecision(16) << data << endl;
 	//close output stream
 	ofs.close();
 }

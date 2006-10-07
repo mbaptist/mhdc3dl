@@ -36,7 +36,8 @@ void input::py_load_input(py_input_parser & parse)
 {
 
   parse(runsname,"runsname");
-
+	cout << runsname << endl;
+		
   parse(n1,"n1");
   parse(n2,"n2");
   parse(n3,"n3");
@@ -50,7 +51,10 @@ void input::py_load_input(py_input_parser & parse)
 
   parse(visc,"visc");
   parse(omegaz,"omegaz");
-  parse(compress,"compress");
+  parse(compress,"compresss");
+
+	cout << visc << " " << compress << endl;
+	
   parse(g,"g");
   parse(diff,"diff");
   parse(deltat,"deltat");
@@ -82,10 +86,6 @@ void input::py_load_input(py_input_parser & parse)
   parse(kk,"kk");
   parse(small,"small");
   parse(small_adj,"small_adj");
-
-  parse(apbfname,"apbfname");
-
-  parse(grfname,"grfname");
 
   parse(ep,"ep");
   parse(thr,"thr");
@@ -123,11 +123,10 @@ py_input_parser::py_input_parser(string filename_):
   dict=PyModule_GetDict(module);
 }
 
-py_input_parser::py_input_parser(PyObject * module_):
-  module(module_),
-  dict(PyModule_GetDict(module)),
+py_input_parser::py_input_parser(PyObject * dict_):
   python_initialised(Py_IsInitialized())
 {
+	dict=dict_;
 }
 
 py_input_parser::~py_input_parser()
