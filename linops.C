@@ -376,7 +376,7 @@ CBVF a_one::operator()(const CBVF & field,const int & index)
 	spectral_obj.dealias(out);
 	
   //remove gradient
-	spectral_obj.remove_gradient(out,0);
+	//spectral_obj.remove_gradient(out,0);
 	
 	return out;
 	

@@ -170,6 +170,9 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	  //Magnetic part
 				av_b_k_gamma_ij_mag[i][j][k]=
 					real((a_one_obj(g[i][j],k)).mag()(0,0,0));
+
+				cout << 				av_b_k_gamma_ij_vel[i][j][k] << "\n" << av_b_k_gamma_ij_mag[i][j][k] << endl;
+				
 			}
 	cout << "... done! " << endl;
 	
@@ -177,23 +180,34 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	
   //Build and diagonalise matrix
 	cout << "Finding minimal and maximal growthrates..." << endl;
-	cat::tvector<double,2> q(1.,0.);
+	double theta=0.;
+	cat::tvector<double,2> q(cos(theta),sin(theta));
 	cat::array<double,2> ep=eval_ep(q);
 	double lambda1,lambda2;
 	diag(lambda1,lambda2,ep);
-  lambda_max=(lambda1>lambda2 ? lambda1 : lambda2);
-	theta_max=0.;
-  lambda_min=(lambda1<lambda2 ? lambda1 : lambda2);
+	cout << lambda1 << " " << lambda2 << endl;
+	cout << ep << endl;
 	theta_min=0.;
-	double theta=0.;
-	//double increment=input_obj.ls_eps/2.;
+  lambda_min=(lambda1<lambda2 ? lambda1 : lambda2);
+	theta_max=0.;
+  lambda_max=(lambda1>lambda2 ? lambda1 : lambda2);
 	double increment=.5e-6;
-	while(theta<=2*M_PI)
+	while(theta<=2.*M_PI)
 	{
 		theta+=increment;
 		q=tvector<double,2>(cos(theta),sin(theta));
 		cat::array<double,2> ep=eval_ep(q);
 		diag(lambda1,lambda2,ep);
+		if(lambda1<lambda_min)
+		{
+			lambda_min=lambda1;
+			theta_min=theta;
+		}
+		if(lambda2<lambda_min)
+		{
+			lambda_min=lambda2;
+			theta_min=theta;
+		}		
 		if(lambda1>lambda_max)
 		{
 			lambda_max=lambda1;
@@ -204,16 +218,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 			lambda_max=lambda2;
 			theta_max=theta;
 		}
-		if(lambda1<lambda_min)
-		{
-			lambda_min=lambda1;
-			theta_min=theta;
-		}
-		if(lambda2<lambda_min)
-		{
-			lambda_min=lambda2;
-			theta_min=theta;
-		}
+
 	}
 	cout << "...done!" << endl;
 }
@@ -370,6 +375,10 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
 	double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
 	lambda1=-b/(2.*a)*(1.+sqrt(1.-4.*a*c/(b*b)));
 	lambda2=c/(a*lambda1);
+
+	cout << a << " " << b << " " << c << " " << lambda1 << " " << lambda2 << endl;
+	exit(0);
+	
 }
 
 
