@@ -375,9 +375,6 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
 	double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
 	lambda1=-b/(2.*a)*(1.+sqrt(1.-4.*a*c/(b*b)));
 	lambda2=c/(a*lambda1);
-
-	cout << a << " " << b << " " << c << " " << lambda1 << " " << lambda2 << endl;
-	exit(0);
 	
 }
 
