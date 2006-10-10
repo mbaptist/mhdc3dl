@@ -373,9 +373,18 @@ void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & ma
 	double a=1.;
 	double b=-matrix(0,0)-matrix(1,1);
 	double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
-	lambda1=-b/(2.*a)*(1.+sqrt(1.-4.*a*c/(b*b)));
+	double delta;
+	delta=1.-4.*a*c/(b*b);
+	if (delta<0)
+	{
+		lambda1=-b/(2.*a);
+		//cout << -b/(2.*a)*complex<double>(1.,sqrt(-delta));
+	}
+	else
+	{
+		lambda1=-b/(2.*a)*(1.+sqrt(delta));
+	}
 	lambda2=c/(a*lambda1);
-	
 }
 
 
