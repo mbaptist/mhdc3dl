@@ -12,6 +12,8 @@
 #include <string>
 #include <fstream>
 
+#include <iomanip>
+
 #include <cat.h>
 
 #include "spectral.h"
@@ -125,6 +127,16 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
   //Eval spectrum between ki and kf
 	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
 	
+	cout << setprecision(20) << "Before" << "\n" << energ_spec << endl;
+
+// 	field_hat*=2;
+// 	
+// 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
+// 	
+// 	cout << "After" << "\n" << energ_spec << endl;
+// 
+// 	exit(0);
+	
   //Normalise to spectrum between ki and kf
 	for(field_hat_iterator=field_hat.begin(),
 	    wv2_iterator=spectral_obj.wv2.begin();
@@ -134,14 +146,29 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 	    ++wv2_iterator)
 	{
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
-		double power=pow(sqrt(*wv2_iterator),-alpha);
-		double espec=energ_spec(index);
-		if(espec!=0)
-			(*field_hat_iterator)*=sqrt(power/espec);
+	if(index<spectral_obj.nwn)
+ 		{
+	 		//double power=pow(sqrt(*wv2_iterator),-alpha);
+	 		double power=pow(*wv2_iterator,-alpha/2.);
+			double espec=energ_spec(index);
+			if(espec!=0)
+			{
+				(*field_hat_iterator)*=2.;
+				//(*field_hat_iterator)*=sqrt(power/espec);
+				cout << sqrt(power/espec) << endl;
+			}
+		}
 	}
-		
+	
+		//dealiasing
+	spectral_obj.dealias(field_hat);
+	
 // //renormalise to RMS(field)=p - in fact for total energy equal to p/2
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
+
+	cout << "After" << "\n" << energ_spec << endl;
+	exit(0);
+	
 	double tenerg=sum(energ_spec)*spectral_obj.wnstep;
 	field_hat*=sqrt(p/(2.*tenerg));
 	
@@ -186,11 +213,17 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 	    ++wv2_iterator)
 	{
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
-		double power=pow(sqrt(*wv2_iterator),-alpha);
-		double espec=energ_spec(index);
-		if(espec!=0)
-			(*field_hat_iterator)*=sqrt(power/espec);	
+		if(index<spectral_obj.nwn)
+		{
+			double power=pow(sqrt(*wv2_iterator),-alpha);
+			double espec=energ_spec(index);
+			if(espec!=0)
+				(*field_hat_iterator)*=sqrt(power/espec);
+		}
 	}
+	
+	//dealiasing
+	spectral_obj.dealias(field_hat);
 	
 		//renormalise to RMS(field)=p - in fact for total energy equal to p/2
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
