@@ -22,6 +22,7 @@ class gen_random
 private:
   //random number generator
 	random_generator random;
+	const input & input_obj;
 	Spectral & spectral_obj;
 public:
   //Constructors

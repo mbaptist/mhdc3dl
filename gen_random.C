@@ -25,6 +25,7 @@ using namespace cat;
 gen_random::gen_random(const input & input_obj__,
                        Spectral & spectral__):
 random(),
+input_obj(input_obj__),
 spectral_obj(spectral__)
 {
 }
@@ -34,6 +35,7 @@ gen_random::gen_random(const input & input_obj__,
                        Spectral & spectral__,
                        const int & seed__):
 random(seed__),
+input_obj(input_obj__),
 spectral_obj(spectral__)
 {
 }
@@ -127,7 +129,7 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
   //Eval spectrum between ki and kf
 	cat::array<Real,1> energ_spec(spectral_obj.eval_energ_spec(field_hat,kind));
 	
-	cout << setprecision(20) << "Before" << "\n" << energ_spec << endl;
+	//cout << setprecision(20) << "Before" << "\n" << energ_spec << endl;
 
 // 	field_hat*=2;
 // 	
@@ -148,14 +150,13 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
 	if(index<spectral_obj.nwn)
  		{
-	 		//double power=pow(sqrt(*wv2_iterator),-alpha);
-	 		double power=pow(*wv2_iterator,-alpha/2.);
-			double espec=energ_spec(index);
-			if(espec!=0)
+	 		if(energ_spec(index)!=0)
 			{
-				(*field_hat_iterator)*=2.;
-				//(*field_hat_iterator)*=sqrt(power/espec);
-				cout << sqrt(power/espec) << endl;
+				//double factor=sqrt(pow(sqrt(*wv2_iterator),-alpha)/energ_spec(index));
+				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
+				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
+				//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
+				(*field_hat_iterator)*=factor;
 			}
 		}
 	}
@@ -166,11 +167,11 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 // //renormalise to RMS(field)=p - in fact for total energy equal to p/2
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
 
-	cout << "After" << "\n" << energ_spec << endl;
-	exit(0);
+	//cout << "After" << "\n" << energ_spec << endl;
+	//exit(0);
 	
-	double tenerg=sum(energ_spec)*spectral_obj.wnstep;
-	field_hat*=sqrt(p/(2.*tenerg));
+	double av_energ=sum(energ_spec)*spectral_obj.wnstep;
+	field_hat*=p/sqrt(2.*av_energ);
 	
 }
 
@@ -215,21 +216,26 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 		int index=static_cast<int>(sqrt(*wv2_iterator)/spectral_obj.wnstep);
 		if(index<spectral_obj.nwn)
 		{
-			double power=pow(sqrt(*wv2_iterator),-alpha);
-			double espec=energ_spec(index);
-			if(espec!=0)
-				(*field_hat_iterator)*=sqrt(power/espec);
+			if(energ_spec(index)!=0)
+			{
+				//double factor=sqrt(pow(sqrt(*wv2_iterator),-alpha)/energ_spec(index));
+				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
+				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
+				//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
+				(*field_hat_iterator)*=factor;
+			}
 		}
+
+		
 	}
 	
 	//dealiasing
 	spectral_obj.dealias(field_hat);
 	
-		//renormalise to RMS(field)=p - in fact for total energy equal to p/2
+		//renormalise to RMS(field)=p
 	energ_spec=spectral_obj.eval_energ_spec(field_hat,kind); //re-eval spectrum
-	double tenerg=sum(energ_spec)*spectral_obj.wnstep;
-	field_hat*=sqrt(p/(2.*tenerg));
-
+	double av_energ=sum(energ_spec)*spectral_obj.wnstep;
+	field_hat*=p/sqrt(2.*av_energ);
 }
 
 

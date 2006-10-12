@@ -51,7 +51,7 @@ lss::~lss()
 //Evaluate eddy viscosity
 void lss::run(double & theta_min,double & lambda_min,double & theta_max,double & lambda_max)
 {	
-#if 0	
+#if 0
 cout << "Basic Velocity:" << endl;
 cout << "energy in real space: " << spectral_obj.energy(basic.vel()) << endl;
 CVF vttt(n1,n2/2+1,n3);
