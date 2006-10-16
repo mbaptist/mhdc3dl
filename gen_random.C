@@ -154,7 +154,12 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 			{
 				//double factor=sqrt(pow(sqrt(*wv2_iterator),-alpha)/energ_spec(index));
 				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
+
+				
 				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
+
+				//double factor=sqrt(exp(-index*alpha)/energ_spec(index));
+				
 				//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
 				(*field_hat_iterator)*=factor;
 			}
@@ -220,8 +225,12 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 			{
 				//double factor=sqrt(pow(sqrt(*wv2_iterator),-alpha)/energ_spec(index));
 				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
+				
 				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
-				//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
+
+				//double factor=sqrt(exp(-index*alpha)/energ_spec(index));
+				
+//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
 				(*field_hat_iterator)*=factor;
 			}
 		}
