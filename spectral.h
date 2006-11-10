@@ -53,7 +53,7 @@ public:
   
 	Real scalar_prod(const CBVF & xx,const CBVF & yy,const bool & kind) const ;
 	
-	cat::array<cat::tvector<double,4>,1> eval_energ_spec(const CBVF & field,const bool & kind);
+	cat::Array<cat::tvector<double,4>,1> eval_energ_spec(const CBVF & field,const bool & kind);
 		
   void pnvh_hat(const CBVF & field);
 

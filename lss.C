@@ -57,7 +57,7 @@ cout << "energy in real space: " << spectral_obj.energy(basic.vel()) << endl;
 CVF vttt(n1,n2/2+1,n3);
 spectral_obj.fft_ccs.direct_transform(vttt,basic.vel());
 cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt,0) << endl;
-cat::array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
+cat::Array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
 cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(ves)*spectral_obj.wnstep << endl;
 	
 cout << "Basic Magnetic Field:" << endl;
@@ -65,7 +65,7 @@ cout << "energy in real space: " << spectral_obj.energy(basic.mag()) << endl;
 CVF httt(n1,n2/2+1,n3);
 spectral_obj.fft_ccs.direct_transform(httt,basic.mag());
 cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(httt,httt,0) << endl;
-	cat::array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
+	cat::Array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
 cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(hes)*spectral_obj.wnstep << endl;
 	
 cout << "Basic Temperature:" << endl;
@@ -73,7 +73,7 @@ cout << "energy in real space: " << spectral_obj.energy(basic.temp()) << endl;
 	CSF tttt(n1,n2/2+1,n3);
 	spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
 cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,0) << endl;
-	cat::array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
+	cat::Array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
 cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(tes)*spectral_obj.wnstep << endl;
 #endif
 	
@@ -182,7 +182,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	cout << "Finding minimal and maximal growthrates..." << endl;
 	double theta=0.;
 	cat::tvector<double,2> q(cos(theta),sin(theta));
-	cat::array<double,2> ep=eval_ep(q);
+	cat::Array<double,2> ep=eval_ep(q);
 	double lambda1,lambda2;
 	diag(lambda1,lambda2,ep);
 	cout << lambda1 << " " << lambda2 << endl;
@@ -196,7 +196,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	{
 		theta+=increment;
 		q=tvector<double,2>(cos(theta),sin(theta));
-		cat::array<double,2> ep=eval_ep(q);
+		cat::Array<double,2> ep=eval_ep(q);
 		diag(lambda1,lambda2,ep);
 		if(lambda1<lambda_min)
 		{
@@ -330,10 +330,10 @@ void lss::solve_one(CBVF & gamma,CBVF * s,CSF * s_p,const int & i,const int & j)
 }
 
 //Evaluate ep (2x2 matrix to be diagonalised)
-cat::array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
+cat::Array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
 {
-	cat::array<double,2> out(2,2);
-	cat::array<double,2> e=eval_e(q);
+	cat::Array<double,2> out(2,2);
+	cat::Array<double,2> e=eval_e(q);
 	out(0,0)=e(0,0)*q[1]*q[1]-e(0,1)*q[0]*q[1]-e(1,0)*q[1]*q[0]+e(1,1)*q[0]*q[0];
 	out(0,1)=e(0,2)*q[1]*q[1]-e(0,3)*q[0]*q[1]-e(1,2)*q[1]*q[0]+e(1,3)*q[0]*q[0];
 	out(1,0)=e(2,0)*q[1]*q[1]-e(2,1)*q[0]*q[1]-e(3,0)*q[1]*q[0]+e(3,1)*q[0]*q[0];
@@ -342,9 +342,9 @@ cat::array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
 }
 
 //Evaluate e (4x4 matrix to be reduced to 2x2)
-cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
+cat::Array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 {
-	cat::array<double,2> out(4,4);
+	cat::Array<double,2> out(4,4);
 	for(int i=0;i<4;++i)
 	{
 		out(0,i)=0;
@@ -368,7 +368,7 @@ cat::array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
 	return out;
 }
 
-void lss::diag(double & lambda1,double & lambda2,const cat::array<double,2> & matrix)
+void lss::diag(double & lambda1,double & lambda2,const cat::Array<double,2> & matrix)
 {
 	double a=1.;
 	double b=-matrix(0,0)-matrix(1,1);
