@@ -18,10 +18,10 @@ typedef double Real;//Real scalars
 typedef std::complex<Real> Complex;//Complex scalars
 typedef cat::tvector<Real,3> RV;//Real vectors
 typedef cat::tvector<Complex,3> CV;//Complex Vectors
-typedef cat::array<Real,3> RSF;//Real Scalar Fields
-typedef cat::array<Complex,3> CSF;//Complex Scalar Fields
-typedef cat::array<RV,3> RVF;//Real Vector Fields
-typedef cat::array<CV,3> CVF;//Complex Vector Fields
+typedef cat::Array<Real,3> RSF;//Real Scalar Fields
+typedef cat::Array<Complex,3> CSF;//Complex Scalar Fields
+typedef cat::Array<RV,3> RVF;//Real Vector Fields
+typedef cat::Array<CV,3> CVF;//Complex Vector Fields
 typedef BlockVector<Complex > CBVF;//Complex Block Vector
 
 //GLOBAL CONSTANTS

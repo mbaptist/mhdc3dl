@@ -65,9 +65,9 @@ private:
   
 	void solve_zero(CBVF * s,CSF * s_p,const CBVF & rhs_constant_zero,const int & i);
   void solve_one(CBVF & gamma,CBVF * s,CSF * s_p,const int & i,const int & j);
-  cat::array<double,2> eval_ep(const cat::tvector<double,2> & q);
-  cat::array<double,2> eval_e(const cat::tvector<double,2> & q);
-  void diag(double & lambda1,double & lambda2,const cat::array<double,2> & matrix);
+  cat::Array<double,2> eval_ep(const cat::tvector<double,2> & q);
+  cat::Array<double,2> eval_e(const cat::tvector<double,2> & q);
+  void diag(double & lambda1,double & lambda2,const cat::Array<double,2> & matrix);
 	
 	void rawsave_aux_field_hat	(const string & fname,const CBVF & field);
 	void vtksave_aux_field_real	(const string & fname,const CBVF & field);

@@ -62,9 +62,9 @@ Real Spectral::scalar_prod(const CBVF & x,const CBVF & y,const bool & kind) cons
 	      SpectralFourierLayer::scalar_prod(x.temp(),y.temp(),kind));
 }
 
-cat::array<cat::tvector<double,4>,1> Spectral::eval_energ_spec(const CBVF & field,const bool & kind)
+cat::Array<cat::tvector<double,4>,1> Spectral::eval_energ_spec(const CBVF & field,const bool & kind)
 {
-	cat::array<cat::tvector<double,4>,1> out(nwn);
+	cat::Array<cat::tvector<double,4>,1> out(nwn);
 	out[1]=eval_energ_spec(field.vel(),kind);
 	out[2]=eval_energ_spec(field.mag(),kind);
 	out[3]=eval_energ_spec(field.temp(),kind);

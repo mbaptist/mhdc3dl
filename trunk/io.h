@@ -35,13 +35,13 @@ struct vtkFileTraits
 };
 
 template <>
-struct vtkFileTraits<cat::array<double,3> >
+struct vtkFileTraits<cat::Array<double,3> >
 {
 	enum {fieldtype=0};
 };
 
 template <>
-struct vtkFileTraits<cat::array<cat::tvector<double,3>,3> >
+struct vtkFileTraits<cat::Array<cat::tvector<double,3>,3> >
 {
 	enum {fieldtype=1};
 };
