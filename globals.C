@@ -8,10 +8,10 @@ using namespace cat;
 //GLOBAL FUNCTIONS (IMPLEMENTATION)
 
 //Unit vector along direction i (i=0,1,2)
-cat::tvector<int,3> unit_vector(const int & i)
+cat::Tvector<int,3> unit_vector(const int & i)
 {
   //assert(i>=0&&i<3)
-  cat::tvector<int,3> aux;
+  cat::Tvector<int,3> aux;
   aux=0;
   aux[i]=1;
   return aux;

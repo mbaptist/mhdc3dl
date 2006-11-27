@@ -174,9 +174,9 @@ CBVF a_nought::operator()(const CBVF & w_hat)
 	spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 	
   //evaluate velocity component
-	out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())-compress*cat::tvector<Complex,3>(0,0,g)*w_hat.temp()+nonlinear_hat;
+	out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())-compress*cat::Tvector<Complex,3>(0,0,g)*w_hat.temp()+nonlinear_hat;
 	//Coriolis term
-  //out.vel()+=(-cross_product(cat::tvector<Real,3>(0,0,omegaz),w_hat.vel()));
+  //out.vel()+=(-cross_product(cat::Tvector<Real,3>(0,0,omegaz),w_hat.vel()));
 	
   //evaluate nonlinear term for magnetic field
 	nonlinear=cross_product(basic.vel(),mag)-cross_product(basic.mag(),vel);
@@ -256,7 +256,7 @@ CBVF a_nought_adjoint::operator()(const CBVF & w_hat)
 	spectral_obj.fft_ccs.direct_transform(nonlinear_hat,nonlinear);
 	
   //evaluate velocity component (first part)
-	out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())-cat::tvector<Complex,3>(0,0,deltat)*w_hat.temp()+nonlinear_hat;
+	out.vel()=visc*spectral_obj.lap_hat(w_hat.vel())-cat::Tvector<Complex,3>(0,0,deltat)*w_hat.temp()+nonlinear_hat;
 
   //evaluate nonlinear term for velocity (second part)
 	nonlinear=cross_product(basic.vel(),vel);

@@ -41,7 +41,7 @@ struct vtkFileTraits<cat::Array<double,3> >
 };
 
 template <>
-struct vtkFileTraits<cat::Array<cat::tvector<double,3>,3> >
+struct vtkFileTraits<cat::Array<cat::Tvector<double,3>,3> >
 {
 	enum {fieldtype=1};
 };
@@ -51,7 +51,7 @@ template <class T>
 void vtkFileLoad(const std::string & vtkfilename,T & data);
 
 template <class T>
-void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<double,3> _vtkfile_origin_,cat::tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_);
+void vtkFileSave(const std::string & vtkfilename,const T & data,cat::Tvector<double,3> _vtkfile_origin_,cat::Tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_);
 
 template <class T>
 void rawFileLoad(const std::string & filename,T & data);

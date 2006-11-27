@@ -125,7 +125,7 @@ grad_temp_(n1,n2,n3)
 			{
 				for(int k=0;k<n3;++k)
 				{
-					pot(i,j,k)=cat::tvector<double,3>
+					pot(i,j,k)=cat::Tvector<double,3>
 						(
 						  0,
 						  0,
@@ -193,17 +193,17 @@ grad_temp_(n1,n2,n3)
 					double x=i*l1/n1;
 					double y=j*l2/n2;
 					double z=k*l3/(n3-1);
-// 	      vel_(i,j,k)=cat::tvector<double,3>(sin(x)*cos(z),
+// 	      vel_(i,j,k)=cat::Tvector<double,3>(sin(x)*cos(z),
 // 						 sin(y)*cos(z),
 // 						 -(cos(x)+cos(y))*sin(z));
-// 	      mag_(i,j,k)=cat::tvector<double,3>(sin(x+y)*cos(z),
+// 	      mag_(i,j,k)=cat::Tvector<double,3>(sin(x+y)*cos(z),
 // 						 sin(x+y)*cos(z),
 // 						 (-2.*cos(x+y))*sin(z));
 // 	      temp_(i,j,k)=sin(z);
-					vel_(i,j,k)=cat::tvector<double,3>(sin(10*x)*cos(10*z),
+					vel_(i,j,k)=cat::Tvector<double,3>(sin(10*x)*cos(10*z),
 					                                   sin(10*y)*cos(10*z),
 					                                   -(cos(10*x)+cos(10*y))*sin(10*z));
-					mag_(i,j,k)=cat::tvector<double,3>(sin(10*x+10*y)*cos(10*z),
+					mag_(i,j,k)=cat::Tvector<double,3>(sin(10*x+10*y)*cos(10*z),
 					                                   sin(10*x+10*y)*cos(10*z),
 					                                   (-2.*cos(10*x+10*y))*sin(10*z));
 					temp_(i,j,k)=sin(10*z);
@@ -303,9 +303,9 @@ void Basic::vtksave_real(const string & filename)
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
 	const int & n3 = input_obj.n3;
-	cat::tvector<int,3> dims(n1,n2,n3);
-	cat::tvector<double,3> ori(0,0,0);
-	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
+	cat::Tvector<int,3> dims(n1,n2,n3);
+	cat::Tvector<double,3> ori(0,0,0);
+	cat::Tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
 	vtkFileSave(filename+"_basic_vel",this->vel(),ori,sp,"VelocityField");
 	vtkFileSave(filename+"_basic_mag",this->mag(),ori,sp,"MagneticField");
 	vtkFileSave(filename+"_basic_temp",this->temp(),ori,sp,"TemperatureField");

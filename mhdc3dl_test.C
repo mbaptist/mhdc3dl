@@ -89,8 +89,8 @@ void test_adjoint()
 
 //   a=0;
 
-//   a.vel()(1,1,1)=cat::tvector<complex<double>,3>(1.,2.,3.);
-//   a.mag()(1,1,1)=cat::tvector<complex<double>,3>(2.,2.,3.);
+//   a.vel()(1,1,1)=cat::Tvector<complex<double>,3>(1.,2.,3.);
+//   a.mag()(1,1,1)=cat::Tvector<complex<double>,3>(2.,2.,3.);
 //   a.temp()(1,1,1)=4;
 
 // 	a.vel()=0;
@@ -99,8 +99,8 @@ void test_adjoint()
 	
 //   b=0;
 
-//   b.vel()(1,1,1)=cat::tvector<complex<double>,3>(1.,1.,8.);
-//   b.mag()(1,1,1)=cat::tvector<complex<double>,3>(2.,3.,3.);
+//   b.vel()(1,1,1)=cat::Tvector<complex<double>,3>(1.,1.,8.);
+//   b.mag()(1,1,1)=cat::Tvector<complex<double>,3>(2.,3.,3.);
 //   b.temp()(1,1,1)=5;
 
 // 	b.vel()=0;	
@@ -162,8 +162,8 @@ void test_cross_product()
   a_hat=0;
   b_hat=0;
 
-  a_hat(0,1,0)=cat::tvector<complex<double>,3>(1,0,0);
-  b_hat(0,1,0)=cat::tvector<complex<double>,3>(0,1,0);
+  a_hat(0,1,0)=cat::Tvector<complex<double>,3>(1,0,0);
+  b_hat(0,1,0)=cat::Tvector<complex<double>,3>(0,1,0);
   
   spectral_obj->fft_ccs.inverse_transform(a,a_hat);
   spectral_obj->fft_ccs.inverse_transform(b,b_hat);
@@ -205,7 +205,7 @@ void test_remove_gradient()
   for(int i=0;i<n1;++i)
     for(int j=0;j<n2;++j)
       for(int k=0;k<n3;++k)
-	v(i,j,k)=cat::tvector<double,3>
+	v(i,j,k)=cat::Tvector<double,3>
 	  (cos(l1/n1*i)*cos(l3/(n3-1)*k),
 	   cos(l2/n2*j)*cos(l3/(n3-1)*k),
 	   sin(l1/n1*i+l2/n2*j)*sin(l3/(n3-1)*k));

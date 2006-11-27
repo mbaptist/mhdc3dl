@@ -16,8 +16,8 @@
 typedef double Real;//Real scalars
 //typedef long double Real;//Real scalars
 typedef std::complex<Real> Complex;//Complex scalars
-typedef cat::tvector<Real,3> RV;//Real vectors
-typedef cat::tvector<Complex,3> CV;//Complex Vectors
+typedef cat::Tvector<Real,3> RV;//Real vectors
+typedef cat::Tvector<Complex,3> CV;//Complex Vectors
 typedef cat::Array<Real,3> RSF;//Real Scalar Fields
 typedef cat::Array<Complex,3> CSF;//Complex Scalar Fields
 typedef cat::Array<RV,3> RVF;//Real Vector Fields
@@ -50,7 +50,7 @@ const int VASYM=SSA;
 //GLOBAL FUNCTIONS
 
 //Unit vector along direction i (i=0,1,2)
-cat::tvector<int,3> unit_vector(const int & i);
+cat::Tvector<int,3> unit_vector(const int & i);
 
 //Element i,j of Levi-Civita tensor (i,j=0,1,2)
 int levi_civita(const int & i,const int & j,const int & k);
