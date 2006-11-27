@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="14" >
+ <DocsAndViews NumberOfDocuments="15" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.C" >
    <View0 Type="Source" />
   </Doc0>
@@ -44,6 +44,9 @@
   <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/spectral.C" >
    <View0 line="16" Type="Source" />
   </Doc13>
+  <Doc14 NumberOfViews="1" URL="file:///tmp/kde-mbaptist/kdevelopXlRl9t/html/dirs.html" >
+   <View0 Type="Documentation" />
+  </Doc14>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>

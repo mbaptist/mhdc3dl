@@ -45,8 +45,8 @@ private:
   precond precond_adjoint_obj;
 
   //averages
-  cat::tvector<double,3> av_b_k_gamma_ij_vel[4][2][2];
-  cat::tvector<double,3> av_b_k_gamma_ij_mag[4][2][2];
+  cat::Tvector<double,3> av_b_k_gamma_ij_vel[4][2][2];
+  cat::Tvector<double,3> av_b_k_gamma_ij_mag[4][2][2];
 
 public:
   //Ctor
@@ -65,8 +65,8 @@ private:
   
 	void solve_zero(CBVF * s,CSF * s_p,const CBVF & rhs_constant_zero,const int & i);
   void solve_one(CBVF & gamma,CBVF * s,CSF * s_p,const int & i,const int & j);
-  cat::Array<double,2> eval_ep(const cat::tvector<double,2> & q);
-  cat::Array<double,2> eval_e(const cat::tvector<double,2> & q);
+  cat::Array<double,2> eval_ep(const cat::Tvector<double,2> & q);
+  cat::Array<double,2> eval_e(const cat::Tvector<double,2> & q);
   void diag(double & lambda1,double & lambda2,const cat::Array<double,2> & matrix);
 	
 	void rawsave_aux_field_hat	(const string & fname,const CBVF & field);

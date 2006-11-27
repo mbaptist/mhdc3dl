@@ -14,27 +14,27 @@ class BlockVector
 {
   //Members
 private:
-	cat::Array<cat::tvector<T,3>,3> velocity_;
-	cat::Array<cat::tvector<T,3>,3> magnetic_;
+	cat::Array<cat::Tvector<T,3>,3> velocity_;
+	cat::Array<cat::Tvector<T,3>,3> magnetic_;
 	cat::Array<T,3> temperature_;
 	int sym_;
 	
   //Accessors
 public:
 	
-	cat::Array<cat::tvector<T,3>,3> & vel(){return velocity_;}
-	cat::Array<cat::tvector<T,3>,3> & mag(){return magnetic_;}
+	cat::Array<cat::Tvector<T,3>,3> & vel(){return velocity_;}
+	cat::Array<cat::Tvector<T,3>,3> & mag(){return magnetic_;}
 	cat::Array<T,3> & temp(){return temperature_;}
 	
-	const cat::Array<cat::tvector<T,3>,3> & vel() const {return velocity_;}
-	const cat::Array<cat::tvector<T,3>,3> & mag() const {return magnetic_;}
+	const cat::Array<cat::Tvector<T,3>,3> & vel() const {return velocity_;}
+	const cat::Array<cat::Tvector<T,3>,3> & mag() const {return magnetic_;}
 	const cat::Array<T,3> & temp() const {return temperature_;}
 	
 	int & sym(){return sym_;}
 	const int & sym() const {return sym_;}
 	
-	tvector<int,3> & shape(){return this->temperature_.shape();}
-	const tvector<int,3> & shape() const {return this->temperature_.shape();}
+	Tvector<int,3> & shape(){return this->temperature_.shape();}
+	const Tvector<int,3> & shape() const {return this->temperature_.shape();}
 
 	int & size(){return this->temperature_.size();}
 	const int & size() const {return this->temperature_.size();}
@@ -100,8 +100,8 @@ public:
 private:
 	void enforce_sym_()
 	{
-		typename cat::Array<cat::tvector<T,3>,3>::iterator vel_it(this->vel());
-		typename cat::Array<cat::tvector<T,3>,3>::iterator mag_it(this->mag());
+		typename cat::Array<cat::Tvector<T,3>,3>::iterator vel_it(this->vel());
+		typename cat::Array<cat::Tvector<T,3>,3>::iterator mag_it(this->mag());
 		typename cat::Array<T,3>::_iterator temp_it(this->temp());
 		for(vel_it=(this->vel()).begin(),
 		    mag_it=(this->mag()).begin(),
@@ -176,7 +176,7 @@ BlockVector(int s1,int s2,int s3):
 	};
 	
   //constructor from shape
-BlockVector(const tvector<int,3> & shape__):
+BlockVector(const Tvector<int,3> & shape__):
 	velocity_(shape__),
 		magnetic_(shape__),
 		temperature_(shape__),
@@ -188,7 +188,7 @@ BlockVector(const tvector<int,3> & shape__):
 	};
 	
   //contuctor from existing fields and symmetry (duplicates data)
-BlockVector(const cat::Array<cat::tvector<T,3>,3> & velocity__,const cat::Array<cat::tvector<T,3>,3> & magnetic__,const cat::Array<T,3> & temperature__,const int & sym__):
+BlockVector(const cat::Array<cat::Tvector<T,3>,3> & velocity__,const cat::Array<cat::Tvector<T,3>,3> & magnetic__,const cat::Array<T,3> & temperature__,const int & sym__):
 	velocity_(velocity__),
 		magnetic_(magnetic__),
 		temperature_(temperature__),

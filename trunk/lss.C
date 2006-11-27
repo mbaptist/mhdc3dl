@@ -109,19 +109,19 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	CSF s_p[4]={CSF(n1,n2/2+1,n3),CSF(n1,n2/2+1,n3),CSF(n1,n2/2+1,n3),CSF(n1,n2/2+1,n3)};
   //s0
 	constant=0;
-	constant.vel()(0,0,0)=cat::tvector<double,3>(1,0,0);
+	constant.vel()(0,0,0)=cat::Tvector<double,3>(1,0,0);
 	solve_zero(s,s_p,constant,0);
   //s1
 	constant=0;
-	constant.vel()(0,0,0)=cat::tvector<double,3>(0,1,0);
+	constant.vel()(0,0,0)=cat::Tvector<double,3>(0,1,0);
 	solve_zero(s,s_p,constant,1);
   //s2
 	constant=0;
-	constant.mag()(0,0,0)=cat::tvector<double,3>(1,0,0);
+	constant.mag()(0,0,0)=cat::Tvector<double,3>(1,0,0);
 	solve_zero(s,s_p,constant,2);
   //s3
 	constant=0;
-	constant.mag()(0,0,0)=cat::tvector<double,3>(0,1,0);
+	constant.mag()(0,0,0)=cat::Tvector<double,3>(0,1,0);
 	solve_zero(s,s_p,constant,3);
 	
   //Order one
@@ -181,7 +181,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
   //Build and diagonalise matrix
 	cout << "Finding minimal and maximal growthrates..." << endl;
 	double theta=0.;
-	cat::tvector<double,2> q(cos(theta),sin(theta));
+	cat::Tvector<double,2> q(cos(theta),sin(theta));
 	cat::Array<double,2> ep=eval_ep(q);
 	double lambda1,lambda2;
 	diag(lambda1,lambda2,ep);
@@ -195,7 +195,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 	while(theta<=2.*M_PI)
 	{
 		theta+=increment;
-		q=tvector<double,2>(cos(theta),sin(theta));
+		q=Tvector<double,2>(cos(theta),sin(theta));
 		cat::Array<double,2> ep=eval_ep(q);
 		diag(lambda1,lambda2,ep);
 		if(lambda1<lambda_min)
@@ -330,7 +330,7 @@ void lss::solve_one(CBVF & gamma,CBVF * s,CSF * s_p,const int & i,const int & j)
 }
 
 //Evaluate ep (2x2 matrix to be diagonalised)
-cat::Array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
+cat::Array<double,2> lss::eval_ep(const cat::Tvector<double,2> & q)
 {
 	cat::Array<double,2> out(2,2);
 	cat::Array<double,2> e=eval_e(q);
@@ -342,7 +342,7 @@ cat::Array<double,2> lss::eval_ep(const cat::tvector<double,2> & q)
 }
 
 //Evaluate e (4x4 matrix to be reduced to 2x2)
-cat::Array<double,2> lss::eval_e(const cat::tvector<double,2> & q)
+cat::Array<double,2> lss::eval_e(const cat::Tvector<double,2> & q)
 {
 	cat::Array<double,2> out(4,4);
 	for(int i=0;i<4;++i)
@@ -400,9 +400,9 @@ void lss::vtksave_aux_field_real	(const string & filename,const CBVF & field)
 	const int & n1 = input_obj.n1;
 	const int & n2 = input_obj.n2;
 	const int & n3 = input_obj.n3;
-	cat::tvector<int,3> dims(n1,n2,n3);
-	cat::tvector<double,3> ori(0,0,0);
-	cat::tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
+	cat::Tvector<int,3> dims(n1,n2,n3);
+	cat::Tvector<double,3> ori(0,0,0);
+	cat::Tvector<double,3> sp(input_obj.l1/input_obj.n1,input_obj.l2/input_obj.n2,input_obj.l3/input_obj.n3);
 	RVF vf(n1,n2,n3);
 	vf=0;
 	spectral_obj.fft_ccs.inverse_transform(vf,field.vel());

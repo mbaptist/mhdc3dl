@@ -20,7 +20,7 @@ void vtkFileLoad(const std::string & vtkfilename,T & data)
 	ifs >> stmp;
 	ifs >> stmp;
 	ifs >> stmp;ifs >> stmp;
-	cat::tvector<int,3> dimensions;
+	cat::Tvector<int,3> dimensions;
 	ifs >> stmp;
 	ifs >> dimensions;
 	ifs >> stmp;ifs >> stmp;ifs >> stmp;ifs >> stmp;
@@ -59,7 +59,7 @@ void vtkFileLoad(const std::string & vtkfilename,T & data)
 
 
 template <class T>
-void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<double,3> _vtkfile_origin_,cat::tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_)
+void vtkFileSave(const std::string & vtkfilename,const T & data,cat::Tvector<double,3> _vtkfile_origin_,cat::Tvector<double,3> _vtkfile_spacing_,std::string _vtkfile_fieldname_)
 {
    //output stream
 	ofstream ofs((vtkfilename+".vtk").c_str());
@@ -68,10 +68,10 @@ void vtkFileSave(const std::string & vtkfilename,const T & data,cat::tvector<dou
 	std::string vtkfile_creator=".";
 	std::string vtkfile_encoding="ASCII";
 	std::string	vtkfile_datasettype="STRUCTURED_POINTS";
-	cat::tvector<int,3>	vtkfile_dimensions=data.shape();
+	cat::Tvector<int,3>	vtkfile_dimensions=data.shape();
 	int	vtkfile_size=data.size();
-	cat::tvector<double,3> vtkfile_origin=_vtkfile_origin_;
-	cat::tvector<double,3> vtkfile_spacing=_vtkfile_spacing_;
+	cat::Tvector<double,3> vtkfile_origin=_vtkfile_origin_;
+	cat::Tvector<double,3> vtkfile_spacing=_vtkfile_spacing_;
 	std::string vtkfile_fieldtype;
 	if (vtkFileTraits<T>::fieldtype==0)
 			vtkfile_fieldtype="SCALARS";
@@ -121,7 +121,7 @@ void rawFileLoad(const std::string & filename,T & data)
 template <class T>
 void rawFileLoad(const std::string & filename,T & data,const int & lr_s1,const int & lr_s2,const int & lr_s3)
 {
-	cat::tvector<int,3> lr_shape=cat::tvector<int,3>(lr_s1,lr_s2,lr_s3);
+	cat::Tvector<int,3> lr_shape=cat::Tvector<int,3>(lr_s1,lr_s2,lr_s3);
 // 	cout << lr_shape << endl;
 // 	cout << data.shape() << endl;
 	data=0;
