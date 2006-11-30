@@ -198,6 +198,7 @@ cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)
 		q=Tvector<double,2>(cos(theta),sin(theta));
 		cat::Array<double,2> ep=eval_ep(q);
 		diag(lambda1,lambda2,ep);
+		cout << theta << " " << q << " " << lambda1 << " " << lambda2 << endl;
 		if(lambda1<lambda_min)
 		{
 			lambda_min=lambda1;
