@@ -115,7 +115,7 @@ grad_temp_(n1,n2,n3)
 		double alpha2=0.;
 		double ell2=2*M_PI/l2;
 		double ell1=2*M_PI/l1;
-		double gamma=2;
+		double gamma=ell1/ell2;
 		double gm=gamma*gamma+1;
 		double pp=sqrt(gm);
 		
