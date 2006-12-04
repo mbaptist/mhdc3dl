@@ -1,9 +1,9 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
 <!DOCTYPE KDevPrjSession>
 <KDevPrjSession>
- <DocsAndViews NumberOfDocuments="15" >
+ <DocsAndViews NumberOfDocuments="14" >
   <Doc0 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.C" >
-   <View0 Type="Source" />
+   <View0 line="192" Type="Source" />
   </Doc0>
   <Doc1 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/lss.h" >
    <View0 Type="Source" />
@@ -30,23 +30,20 @@
    <View0 Type="Source" />
   </Doc8>
   <Doc9 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.C" >
-   <View0 Type="Source" />
+   <View0 line="22" Type="Source" />
   </Doc9>
   <Doc10 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/basic.h" >
    <View0 Type="Source" />
   </Doc10>
   <Doc11 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.h" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc11>
   <Doc12 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/gen_random.C" >
-   <View0 Type="Source" />
+   <View0 line="178" Type="Source" />
   </Doc12>
   <Doc13 NumberOfViews="1" URL="file:///home/mbaptist/work/codes/devel/mhdc3dl/spectral.C" >
-   <View0 Type="Source" />
+   <View0 line="0" Type="Source" />
   </Doc13>
-  <Doc14 NumberOfViews="1" URL="file:///tmp/kde-mbaptist/kdevelopXlRl9t/html/dirs.html" >
-   <View0 Type="Documentation" />
-  </Doc14>
  </DocsAndViews>
  <pluginList>
   <kdevdebugger>
