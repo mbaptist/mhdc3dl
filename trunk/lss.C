@@ -369,13 +369,15 @@ cat::Array<double,2> lss::eval_e(const cat::Tvector<double,2> & q)
     return out;
 }
 
-void lss::diag(double & lambda1,double & lambda2,const cat::Array<double,2> & matrix)
+void lss::diag(std::complex<double> & lambda1,std:complex<double> & lambda2,const cat::Array<double,2> & matrix)
 {
     double a=1.;
     double b=-matrix(0,0)-matrix(1,1);
     double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
-    double delta;
-    delta=1.-4.*a*c/(b*b);
+    double delta=1.-4.*a*c/(b*b);
+    
+    
+    
     if (delta<0)
     {
 	lambda1=-b/(2.*a);
