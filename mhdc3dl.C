@@ -17,7 +17,8 @@ int main(int argc,char * argv[])
 	//create lss object
 	lss lss_obj(input_obj);
 	//evaluate large-scale maximum and minimum eigenvalues
-	double theta_min,lambda_min,theta_max,lambda_max;
+	double theta_min,theta_max;
+	std::complex<double> lambda_min,lambda_max;
 	lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
   //print maximum and minimum growth rates
 	cout << "  Minimum Lambda = " << lambda_min << " for theta=" << theta_min << endl;

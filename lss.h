@@ -59,7 +59,8 @@ class lss
     
     public:
     //Run
-    void run(double & theta_min,double & lambda_min,double & theta_max,double & lambda_max);
+    void run(double & theta_min,std::complex<double> & lambda_min,double & theta_max,std::complex<double> & lambda_max);
+    //void run(double & theta_min,double & lambda_min,double & theta_max,double & lambda_max);
     
     private:	
     

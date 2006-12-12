@@ -6,6 +6,8 @@
 
 #include <iostream>
 
+#include <complex>
+
 #include <cat.h>
 
 
@@ -19,15 +21,21 @@ using namespace std;
 PyObject *
 mhdc3dl_python_lss_run(PyObject *self, PyObject *args)
 {
-  double theta_min,lambda_min,theta_max,lambda_max;
-  char * input_module_name;
-	PyObject * dict;
-	if (!PyArg_ParseTuple(args, "O", &dict ))
-		return NULL;
-	input input_obj(dict);
-	lss lss_obj(input_obj);
-	lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
-  return Py_BuildValue("dddd",theta_min,lambda_min,theta_max,lambda_max);
+  double theta_min,theta_max;
+  std::complex<double> lambda_min,lambda_max;
+  char * input_module_name;	
+  PyObject * dict;	
+  if (!PyArg_ParseTuple(args, "O", &dict ))
+      return NULL;
+  input input_obj(dict);
+  lss lss_obj(input_obj);
+  lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
+  Py_complex plmin,plmax;		
+  plmin.real=lambda_min.real();
+  plmin.imag=lambda_min.imag();
+  plmax.real=lambda_max.real();
+  plmax.imag=lambda_max.imag();
+  return Py_BuildValue("dDdD",theta_min,&plmin,theta_max,&plmax);
 };
 
 //Launch the sss code

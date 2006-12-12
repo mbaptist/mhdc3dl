@@ -49,7 +49,7 @@ lss::~lss()
 }
 
 //Evaluate eddy viscosity
-void lss::run(double & theta_min,double & lambda_min,double & theta_max,double & lambda_max)
+void lss::run(double & theta_min,std::complex<double> & lambda_min,double & theta_max,std::complex<double> & lambda_max)
 {	
 #if 0
     cout << "Basic Velocity:" << endl;
@@ -183,38 +183,38 @@ void lss::run(double & theta_min,double & lambda_min,double & theta_max,double &
     double theta=0.;
     cat::Tvector<double,2> q(cos(theta),sin(theta));
     cat::Array<double,2> ep=eval_ep(q);
-    double lambda1,lambda2;
+    std::complex<double> lambda1,lambda2;
     diag(lambda1,lambda2,ep);
-    cout << lambda1 << " " << lambda2 << endl;
-    cout << ep << endl;
+    //cout << lambda1 << " " << lambda2 << endl;
+    //cout << ep << endl;
     theta_min=0.;
-    lambda_min=(lambda1<lambda2 ? lambda1 : lambda2);
+    lambda_min=(lambda1.real()<lambda2.real() ? lambda1 : lambda2);
     theta_max=0.;
-    lambda_max=(lambda1>lambda2 ? lambda1 : lambda2);
+    lambda_max=(lambda1.real()>lambda2.real() ? lambda1 : lambda2);
     double increment=.5e-6;
     while(theta<=2.*M_PI)
     {
 	theta+=increment;
-	q=Tvector<double,2>(cos(theta),sin(theta));
+	q=cat::Tvector<double,2>(cos(theta),sin(theta));
 	cat::Array<double,2> ep=eval_ep(q);
 	diag(lambda1,lambda2,ep);
-	cout << theta << " " << q << " " << lambda1 << " " << lambda2 << endl;
-	if(lambda1<lambda_min)
+	//cout << theta << " " << q << " " << lambda1 << " " << lambda2 << endl;
+	if(lambda1.real()<lambda_min.real())
 	{
 	    lambda_min=lambda1;
 	    theta_min=theta;
 	}
-	if(lambda2<lambda_min)
+	if(lambda2.real()<lambda_min.real())
 	{
 	    lambda_min=lambda2;
 	    theta_min=theta;
 	}		
-	if(lambda1>lambda_max)
+	if(lambda1.real()>lambda_max.real())
 	{
 	    lambda_max=lambda1;
 	    theta_max=theta;
 	}
-	if(lambda2>lambda_max)
+	if(lambda2.real()>lambda_max.real())
 	{
 	    lambda_max=lambda2;
 	    theta_max=theta;
@@ -369,25 +369,17 @@ cat::Array<double,2> lss::eval_e(const cat::Tvector<double,2> & q)
     return out;
 }
 
-void lss::diag(std::complex<double> & lambda1,std:complex<double> & lambda2,const cat::Array<double,2> & matrix)
+void lss::diag(std::complex<double> & lambda1,std::complex<double> & lambda2,const cat::Array<double,2> & matrix)
 {
     double a=1.;
     double b=-matrix(0,0)-matrix(1,1);
     double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
     double delta=1.-4.*a*c/(b*b);
-    
-    
-    
-    if (delta<0)
-    {
-	lambda1=-b/(2.*a);
-	//cout << -b/(2.*a)*complex<double>(1.,sqrt(-delta));
-    }
+    lambda1=-b/(2.*a)*(1.+sqrt(delta));
+    if(delta==0)
+	lambda2=lambda1;
     else
-    {
-	lambda1=-b/(2.*a)*(1.+sqrt(delta));
-    }
-    lambda2=c/(a*lambda1);
+	lambda2=c/(a*lambda1);
 }
 
 
