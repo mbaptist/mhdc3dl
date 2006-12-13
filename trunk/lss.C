@@ -231,6 +231,7 @@ void lss::solve_zero(CBVF * s,CSF * s_p,const CBVF & rhs_constant_zero,const int
     //Solving for s
     cout << "Solving for s(" << i << ")..." << endl;
     CBVF rhs_zero=-a_nought_obj(rhs_constant_zero);//eval RHS
+     spectral_obj.remove_gradient(rhs_zero,0);
     if(input_obj.refine||input_obj.resume)
 	s[i]-=rhs_constant_zero;
     cgsolver(a_nought_obj,a_nought_adjoint_obj,
