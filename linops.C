@@ -279,7 +279,7 @@ CBVF a_nought_adjoint::operator()(const CBVF & w_hat)
     out.mag()=diff*spectral_obj.lap_hat(w_hat.mag())+nonlinear_hat;
     
     //evaluate nonlinear term for magnetic field (second part)
-    nonlinear=cross_product(basic.mag(),vel);
+    nonlinear=cross_product(basic.mag(),vel);	
     
     //FFT nonlinear into Fourier space (second part)
     spectral_obj.fft_ssc.direct_transform(nonlinear_hat,nonlinear);
