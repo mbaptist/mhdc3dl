@@ -222,6 +222,12 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
 	
     }
     cout << "...done!" << endl;
+    
+    q=cat::Tvector<double,2>(cos(2.3560),sin(2.3560));
+    ep=eval_ep(q);
+    diag(lambda1,lambda2,ep);
+    cout << lambda1 << " " << lambda2 << endl;
+    
 }
 
 
@@ -361,20 +367,22 @@ cat::Array<double,2> lss::eval_e(const cat::Tvector<double,2> & q)
 	    out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
 	    out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
 	}
-	out(0,i)+=(input_obj.visc)*(0==i);
-	out(1,i)+=(input_obj.visc)*(1==i);
-	out(2,i)+=(input_obj.diff)*(2==i);
-	out(3,i)+=(input_obj.diff)*(3==i);
+	//out(0,i)+=(input_obj.visc)*(0==i);
+	//out(1,i)+=(input_obj.visc)*(1==i);
+	//out(2,i)+=(input_obj.diff)*(2==i);
+	//out(3,i)+=(input_obj.diff)*(3==i);
     }
-    out*=-1;
+    //out*=-1;
     return out;
 }
 
 void lss::diag(std::complex<double> & lambda1,std::complex<double> & lambda2,const cat::Array<double,2> & matrix)
 {
     double a=1.;
-    double b=-matrix(0,0)-matrix(1,1);
-    double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
+    //double b=-matrix(0,0)-matrix(1,1);
+    //double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
+    double b=input_obj.visc+input_obj.diff+matrix(0,0)+matrix(1,1);
+    double c=input_obj.visc*input_obj.diff+input_obj.visc*matrix(1,1)+input_obj.diff*matrix(0,0)+matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);		
     double delta=1.-4.*a*c/(b*b);
     lambda1=-b/(2.*a)*(1.+sqrt(delta));
     if(delta==0)
