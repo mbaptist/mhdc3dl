@@ -289,4 +289,28 @@ void linops::test_adjoint(CBVF & a,CBVF & b)
 
 #endif
 
-
+#if 0
+    cout << "Basic Velocity:" << endl;
+    cout << "energy in real space: " << spectral_obj.energy(basic.vel()) << endl;
+    CVF vttt(n1,n2/2+1,n3);
+    spectral_obj.fft_ccs.direct_transform(vttt,basic.vel());
+    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt,0) << endl;
+    cat::Array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
+    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(ves)*spectral_obj.wnstep << endl;
+    
+    cout << "Basic Magnetic Field:" << endl;
+    cout << "energy in real space: " << spectral_obj.energy(basic.mag()) << endl;
+    CVF httt(n1,n2/2+1,n3);
+    spectral_obj.fft_ccs.direct_transform(httt,basic.mag());
+    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(httt,httt,0) << endl;
+    cat::Array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
+    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(hes)*spectral_obj.wnstep << endl;
+    
+    cout << "Basic Temperature:" << endl;
+    cout << "energy in real space: " << spectral_obj.energy(basic.temp()) << endl;
+    CSF tttt(n1,n2/2+1,n3);
+    spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
+    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,0) << endl;
+    cat::Array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
+    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(tes)*spectral_obj.wnstep << endl;
+#endif
