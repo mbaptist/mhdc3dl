@@ -50,33 +50,7 @@ lss::~lss()
 
 //Evaluate eddy viscosity
 void lss::run(double & theta_min,std::complex<double> & lambda_min,double & theta_max,std::complex<double> & lambda_max)
-{	
-#if 0
-    cout << "Basic Velocity:" << endl;
-    cout << "energy in real space: " << spectral_obj.energy(basic.vel()) << endl;
-    CVF vttt(n1,n2/2+1,n3);
-    spectral_obj.fft_ccs.direct_transform(vttt,basic.vel());
-    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(vttt,vttt,0) << endl;
-    cat::Array<double,1> ves(spectral_obj.eval_energ_spec(vttt,0));
-    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(ves)*spectral_obj.wnstep << endl;
-    
-    cout << "Basic Magnetic Field:" << endl;
-    cout << "energy in real space: " << spectral_obj.energy(basic.mag()) << endl;
-    CVF httt(n1,n2/2+1,n3);
-    spectral_obj.fft_ccs.direct_transform(httt,basic.mag());
-    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(httt,httt,0) << endl;
-    cat::Array<double,1> hes(spectral_obj.eval_energ_spec(httt,0));
-    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(hes)*spectral_obj.wnstep << endl;
-    
-    cout << "Basic Temperature:" << endl;
-    cout << "energy in real space: " << spectral_obj.energy(basic.temp()) << endl;
-    CSF tttt(n1,n2/2+1,n3);
-    spectral_obj.sfft_s.direct_transform(tttt,basic.temp());
-    cout <<  "energy in fourier space (using the scalar product): " << .5*(l1*l2*l3)*spectral_obj.scalar_prod(tttt,tttt,0) << endl;
-    cat::Array<double,1> tes(spectral_obj.eval_energ_spec(tttt,0));
-    cout << "energy in fourier space (as sum of the enery spectrum): " << (l1*l2*l3)*sum(tes)*spectral_obj.wnstep << endl;
-#endif
-    
+{
     //define a block vector to contain the constants for
     //the rhs of order 0 auxiliary problems (AP)
     CBVF constant(n1,n2/2+1,n3);
@@ -180,13 +154,10 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
     
     //Build and diagonalise matrix
     cout << "Finding minimal and maximal growthrates..." << endl;
-    double theta=0.;
-    cat::Tvector<double,2> q(cos(theta),sin(theta));
-    cat::Array<double,2> ep=eval_ep(q);
     std::complex<double> lambda1,lambda2;
-    diag(lambda1,lambda2,ep);
+    double theta=0.;
+    diag(lambda1,lambda2,theta);
     //cout << lambda1 << " " << lambda2 << endl;
-    //cout << ep << endl;
     theta_min=0.;
     lambda_min=(lambda1.real()<lambda2.real() ? lambda1 : lambda2);
     theta_max=0.;
@@ -195,10 +166,8 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
     while(theta<=2.*M_PI)
     {
 	theta+=increment;
-	q=cat::Tvector<double,2>(cos(theta),sin(theta));
-	cat::Array<double,2> ep=eval_ep(q);
-	diag(lambda1,lambda2,ep);
-	//cout << theta << " " << q << " " << lambda1 << " " << lambda2 << endl;
+	diag(lambda1,lambda2,theta);
+	//cout << theta << " " << lambda1 << " " << lambda2 << endl;
 	if(lambda1.real()<lambda_min.real())
 	{
 	    lambda_min=lambda1;
@@ -223,11 +192,8 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
     }
     cout << "...done!" << endl;
     
-    q=cat::Tvector<double,2>(cos(2.3560),sin(2.3560));
-    ep=eval_ep(q);
-    diag(lambda1,lambda2,ep);
-    cout << lambda1 << " " << lambda2 << endl;
-    
+    diag(lambda1,lambda2,2.3560);
+    cout << setprecision(20) << lambda1 << " " << lambda2 << endl;
 }
 
 
@@ -355,40 +321,38 @@ cat::Array<double,2> lss::eval_e(const cat::Tvector<double,2> & q)
     cat::Array<double,2> out(4,4);
     for(int i=0;i<4;++i)
     {
-	out(0,i)=0;
-	out(1,i)=0;
-	out(2,i)=0;
-	out(3,i)=0;
-	for(int k=0;k<2;++k)
-	    for(int j=0;j<2;++j)
-	    {
-	    out(0,i)+=(av_b_k_gamma_ij_vel[i][j][k])[0]*q[j]*q[k];
-	    out(1,i)+=(av_b_k_gamma_ij_vel[i][j][k])[1]*q[j]*q[k];
-	    out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
-	    out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
-	}
-	//out(0,i)+=(input_obj.visc)*(0==i);
-	//out(1,i)+=(input_obj.visc)*(1==i);
-	//out(2,i)+=(input_obj.diff)*(2==i);
-	//out(3,i)+=(input_obj.diff)*(3==i);
-    }
-    //out*=-1;
+			out(0,i)=0;
+			out(1,i)=0;
+			out(2,i)=0;
+			out(3,i)=0;
+			for(int k=0;k<2;++k)
+				for(int j=0;j<2;++j)
+					{
+						out(0,i)+=(av_b_k_gamma_ij_vel[i][j][k])[0]*q[j]*q[k];
+						out(1,i)+=(av_b_k_gamma_ij_vel[i][j][k])[1]*q[j]*q[k];
+						out(2,i)+=(av_b_k_gamma_ij_mag[i][j][k])[0]*q[j]*q[k];
+						out(3,i)+=(av_b_k_gamma_ij_mag[i][j][k])[1]*q[j]*q[k];
+					}
+		}
     return out;
 }
 
-void lss::diag(std::complex<double> & lambda1,std::complex<double> & lambda2,const cat::Array<double,2> & matrix)
+void lss::diag(std::complex<double> & lambda1,std::complex<double> & lambda2,const double & theta)
 {
+    cat::Tvector<double,2> q(cos(theta),sin(theta));
+    cat::Array<double,2> matrix=eval_ep(q);
     double a=1.;
-    //double b=-matrix(0,0)-matrix(1,1);
-    //double c=matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);
     double b=input_obj.visc+input_obj.diff+matrix(0,0)+matrix(1,1);
-    double c=input_obj.visc*input_obj.diff+input_obj.visc*matrix(1,1)+input_obj.diff*matrix(0,0)+matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);		
+    double c=input_obj.visc*input_obj.diff+input_obj.visc*matrix(1,1)+input_obj.diff*matrix(0,0)
+							+matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);		
     double delta=1.-4.*a*c/(b*b);
     lambda1=-b/(2.*a)*(1.+sqrt(delta));
     if(delta==0)
-	lambda2=lambda1;
+				lambda2=lambda1;
+    else if(delta<0)
+				lambda2=-b/(2.*a)*(1.-sqrt(delta));
     else
-	lambda2=c/(a*lambda1);
+				lambda2=c/(a*lambda1);
 }
 
 
