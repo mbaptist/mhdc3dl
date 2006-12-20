@@ -30,12 +30,12 @@ mhdc3dl_python_lss_run(PyObject *self, PyObject *args)
   input input_obj(dict);
   lss lss_obj(input_obj);
   lss_obj.run(theta_min,lambda_min,theta_max,lambda_max);
-  Py_complex plmin,plmax;		
+/*  Py_complex plmin,plmax;		
   plmin.real=lambda_min.real();
   plmin.imag=lambda_min.imag();
   plmax.real=lambda_max.real();
-  plmax.imag=lambda_max.imag();
-  return Py_BuildValue("dDdD",theta_min,&plmin,theta_max,&plmax);
+  plmax.imag=lambda_max.imag();*/
+  return Py_BuildValue("dddddd",theta_min,lambda_min.real(),lambda_min.imag(),theta_max,lambda_max.real(),lambda_max.imag());
 };
 
 //Launch the sss code
