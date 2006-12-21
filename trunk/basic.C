@@ -89,9 +89,9 @@ grad_temp_(n1,n2,n3)
     else
       gen_random_obj=new gen_random(input_obj,spectral_obj);
 																//generate fields
-    gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
-    gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
-    gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym);
+    gen_random_obj->gen_random_field(vel_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym,input_obj.br_spectrum);
+    gen_random_obj->gen_random_field(mag_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym,input_obj.br_spectrum);
+    gen_random_obj->gen_random_field(temp_,input_obj.br_ki,input_obj.br_kf,input_obj.br_alpha,input_obj.br_rms_norm,input_obj.br_kind,input_obj.br_sym,input_obj.br_spectrum);
 																// 		cout	<< "pnvh vel" << endl;
 																// 		spectral_obj.pnvh(this->vel(),0);
 																// 		cout	<< "pnvh mag" << endl;
@@ -193,6 +193,7 @@ grad_temp_(n1,n2,n3)
           double x=i*l1/n1;
           double y=j*l2/n2;
           double z=k*l3/(n3-1);
+          #if 1
           vel_(i,j,k)=cat::Tvector<double,3>(sin(x)*cos(z),
                                              sin(y)*cos(z),
                                              -(cos(x)+cos(y))*sin(z));
@@ -200,13 +201,17 @@ grad_temp_(n1,n2,n3)
                                              sin(x+y)*cos(z),
                                              (-2.*cos(x+y))*sin(z));
           temp_(i,j,k)=sin(z);
-																// 					vel_(i,j,k)=cat::Tvector<double,3>(sin(10*x)*cos(10*z),
-																// 					                                   sin(10*y)*cos(10*z),
-																// 					                                   -(cos(10*x)+cos(10*y))*sin(10*z));
-																// 					mag_(i,j,k)=cat::Tvector<double,3>(sin(10*x+10*y)*cos(10*z),
-																// 					                                   sin(10*x+10*y)*cos(10*z),
-																// 					                                   (-2.*cos(10*x+10*y))*sin(10*z));
-																// 					temp_(i,j,k)=sin(10*z);
+          #endif
+          #if 1
+          int mm=10;
+          vel_(i,j,k)+=cat::Tvector<double,3>(sin(mm*x)*cos(mm*z),
+																					   sin(mm*y)*cos(mm*z),
+																					   -(cos(mm*x)+cos(mm*y))*sin(mm*z));
+					mag_(i,j,k)+=cat::Tvector<double,3>(sin(mm*x+mm*y)*cos(mm*z),
+																					   sin(mm*x+mm*y)*cos(mm*z),
+																					   (-2.*cos(mm*x+mm*y))*sin(mm*z));
+					temp_(i,j,k)+=sin(mm*z);
+					#endif
         }
   }
 																//Save basic fields in fourier space as a raw file

@@ -124,9 +124,9 @@ void sss::gen_random_v(double * v,const int & sym,const int & seed)
 
   gen_random b(input_obj,spectral_obj,seed);
 
-  b.gen_random_field_hat(bv.vel(),0,5,4,1,0,sym);
-  b.gen_random_field_hat(bv.mag(),0,5,4,1,0,sym);
-  b.gen_random_field_hat(bv.temp(),0,5,4,1,0,sym);
+  b.gen_random_field_hat(bv.vel(),0,5,4,1,0,sym,"power");
+  b.gen_random_field_hat(bv.mag(),0,5,4,1,0,sym,"power");
+  b.gen_random_field_hat(bv.temp(),0,5,4,1,0,sym,"power");
 
   bv2v(v,bv);
 

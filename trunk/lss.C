@@ -152,12 +152,15 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
     
     
     
+    //ofstream thofs("theta.dat");
+    
     //Build and diagonalise matrix
     cout << "Finding minimal and maximal growthrates..." << endl;
     std::complex<double> lambda1,lambda2;
     double theta=0.;
     diag(lambda1,lambda2,theta);
-    //cout << lambda1 << " " << lambda2 << endl;
+    //thofs << theta << " " << lambda1 << " " << lambda2 << endl;
+    //cout << theta << " " << lambda1 << " " << lambda2 << endl;
     theta_min=0.;
     lambda_min=(lambda1.real()<lambda2.real() ? lambda1 : lambda2);
     theta_max=0.;
@@ -166,7 +169,8 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
     while(theta<=2.*M_PI)
     {
 	theta+=increment;
-	diag(lambda1,lambda2,theta);
+  diag(lambda1,lambda2,theta);
+  //thofs << theta << " " << lambda1 << " " << lambda2 << endl;
 	//cout << theta << " " << lambda1 << " " << lambda2 << endl;
 	if(lambda1.real()<lambda_min.real())
 	{
@@ -191,9 +195,9 @@ void lss::run(double & theta_min,std::complex<double> & lambda_min,double & thet
 	
     }
     cout << "...done!" << endl;
+
+    //thofs.close();
     
-    diag(lambda1,lambda2,2.3560);
-    cout << setprecision(20) << lambda1 << " " << lambda2 << endl;
 }
 
 

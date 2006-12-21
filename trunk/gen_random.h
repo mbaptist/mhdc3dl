@@ -44,25 +44,29 @@ public:
 		(CSF & field_hat,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
-		 const bool & kind,const bool & sym);
+		 const bool & kind,const bool & sym,
+    const std::string & br_spectrum);
   //fourier coefficients for vector field
 	void gen_random_field_hat
 		(CVF & field_hat,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
-		 const bool & kind,const bool & sym);
+     const bool & kind,const bool & sym,
+     const std::string & br_spectrum);
 //scalar field in real space
 	void gen_random_field
 		(RSF & field,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
-		 const bool & kind,const bool & sym);
+     const bool & kind,const bool & sym,
+     const std::string & br_spectrum);
   //vector field in real space
 	void gen_random_field
 		(RVF & field,
 		 const int & ki, const int & kf,
 		 const double & alpha,const double & p,
-		 const bool & kind,const bool & sym);
+     const bool & kind,const bool & sym,
+     const std::string & br_spectrum);
 };
 
 #endif

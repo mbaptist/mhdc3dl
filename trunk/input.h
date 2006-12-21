@@ -50,6 +50,7 @@ public:
   //basic fields
   std::string basic_mode;
 	//Random Mode
+  std::string br_spectrum;
 	int br_seed,br_ki,br_kf;
 	double 	br_alpha,br_rms_norm;
 	bool	br_kind,br_sym;
