@@ -50,7 +50,8 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
                                       const int & ki, const int & kf,
                                       const double & alpha,const double & p,
                                       const bool & kind,
-                                      const bool & sym)
+                                      const bool & sym,
+    const std::string & br_spectrum)
 {
 
 	//	cout << ki << kf << kind <<sym << endl;
@@ -156,8 +157,12 @@ void gen_random::gen_random_field_hat(CSF & field_hat,
 				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
 
 				
-				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
-
+        double factor;
+        if (br_spectrum=="power")
+          factor=sqrt(pow(index,-alpha)/energ_spec(index));
+        else if (br_spectrum=="exp")
+          factor=sqrt(exp(-alpha*index)/energ_spec(index));
+        
 				//double factor=sqrt(exp(-index*alpha)/energ_spec(index));
 				
 				//cout << "||wv||^2=" << (*wv2_iterator) << " ||wv||=" << sqrt(*wv2_iterator) << "SphSh= " << index << " factor=" << factor << endl;
@@ -186,17 +191,18 @@ void gen_random::gen_random_field_hat
 (CVF & field_hat,
  const int & ki, const int & kf,
  const double & alpha,const double & p,
- const bool & kind,const bool & sym)
+ const bool & kind,const bool & sym,
+ const std::string & br_spectrum)
 {
 	CSF aux(field_hat.shape());
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
+  gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1),br_spectrum);
 	field_hat[0]=aux;
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1));
+  gen_random_field_hat(aux,ki,kf,alpha,p,(kind?0:1),(sym?0:1),br_spectrum);
 	field_hat[1]=aux;
 	aux=0;
-gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
+  gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0),br_spectrum);
 	field_hat[2]=aux;
 
 	//Make the field solenoidal
@@ -226,7 +232,11 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 				//double factor=sqrt(pow(sqrt(*wv2_iterator),-alpha)/energ_spec(index));
 				//double factor=sqrt(pow((*wv2_iterator),-alpha/2.)/energ_spec(index));
 				
-				double factor=sqrt(pow(index,-alpha)/energ_spec(index));
+        double factor;
+        if (br_spectrum=="power")
+          factor=sqrt(pow(index,-alpha)/energ_spec(index));
+        else if (br_spectrum=="exp")
+          factor=sqrt(exp(-alpha*index)/energ_spec(index));
 
 				//double factor=sqrt(exp(-index*alpha)/energ_spec(index));
 				
@@ -252,14 +262,15 @@ gen_random_field_hat(aux,ki,kf,alpha,p,(kind?1:0),(sym?1:0));
 void gen_random::gen_random_field(RSF & field,
                                   const int & ki, const int & kf,
                                   const double & alpha,const double & p,
-                                  const bool & kind,const bool & sym)
+                                  const bool & kind,const bool & sym,
+                                  const std::string & br_spectrum)
 {
 	const int s1(field.shape()[0]);
 	const int s2(field.shape()[1]);
 	const int s3(field.shape()[2]);
 	
 	CSF field_hat(s1,s2/2+1,s3);
-	gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym);
+  gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym,br_spectrum);
 	
   //transform fields to real space
 	if (kind)
@@ -273,14 +284,15 @@ void gen_random::gen_random_field(RSF & field,
 void gen_random::gen_random_field(RVF & field,
                                   const int & ki, const int & kf,
                                   const double & alpha,const double & p,
-                                  const bool & kind,const bool & sym)
+                                  const bool & kind,const bool & sym,
+                                  const std::string & br_spectrum)
 {
 	const int s1(field.shape()[0]);
 	const int s2(field.shape()[1]);
 	const int s3(field.shape()[2]);
 	
 	CVF field_hat(s1,s2/2+1,s3);
-	gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym);
+  gen_random_field_hat(field_hat,ki,kf,alpha,p,kind,sym,br_spectrum);
 	
   //transform fields to real space
 	if(kind)

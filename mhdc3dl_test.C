@@ -78,13 +78,13 @@ void test_adjoint()
 	const bool kkk=0;
 	const bool sss=1;
 	
-  gr.gen_random_field_hat(a.vel(),skmin,skmax,decay,nnn,kkk,sss);
-	gr.gen_random_field_hat(a.mag(),skmin,skmax,decay,nnn,kkk,sss);
-	gr.gen_random_field_hat(a.temp(),skmin,skmax,decay,nnn,kkk,sss);
+  gr.gen_random_field_hat(a.vel(),skmin,skmax,decay,nnn,kkk,sss,"power");
+  gr.gen_random_field_hat(a.mag(),skmin,skmax,decay,nnn,kkk,sss,"power");
+  gr.gen_random_field_hat(a.temp(),skmin,skmax,decay,nnn,kkk,sss,"power");
   
-	gr.gen_random_field_hat(b.vel(),skmin,skmax,decay,nnn,kkk,sss);
-	gr.gen_random_field_hat(b.mag(),skmin,skmax,decay,nnn,kkk,sss);
-	gr.gen_random_field_hat(b.temp(),skmin,skmax,decay,nnn,kkk,sss);
+  gr.gen_random_field_hat(b.vel(),skmin,skmax,decay,nnn,kkk,sss,"power");
+  gr.gen_random_field_hat(b.mag(),skmin,skmax,decay,nnn,kkk,sss,"power");
+  gr.gen_random_field_hat(b.temp(),skmin,skmax,decay,nnn,kkk,sss,"power");
 
 
 //   a=0;

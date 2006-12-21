@@ -72,6 +72,7 @@ void input::py_load_input(py_input_parser & parse)
 	//Basic Fields
   parse(basic_mode,"basic_mode");
   //Random
+  parse(br_spectrum,"br_spectrum");
   parse(br_seed,"br_seed");
 	parse(br_ki,"br_ki");
 	parse(br_kf,"br_kf");
