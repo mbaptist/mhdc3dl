@@ -350,13 +350,22 @@ void lss::diag(std::complex<double> & lambda1,std::complex<double> & lambda2,con
     double c=input_obj.visc*input_obj.diff+input_obj.visc*matrix(1,1)+input_obj.diff*matrix(0,0)
 							+matrix(0,0)*matrix(1,1)-matrix(0,1)*matrix(1,0);		
     double delta=1.-4.*a*c/(b*b);
-    lambda1=-b/(2.*a)*(1.+sqrt(delta));
+    //cout << "b c delta: " << b << " " << c << " " << delta << endl;
     if(delta==0)
+    {
+        lambda1=-b/(2.*a);
 				lambda2=lambda1;
+    }
     else if(delta<0)
-				lambda2=-b/(2.*a)*(1.-sqrt(delta));
+    {
+        lambda1=-b/(2.*a)*(1.+complex<double>(0,1)*sqrt(-delta));
+        lambda2=-b/(2.*a)*(1.-complex<double>(0,1)*sqrt(-delta));
+    }
     else
+    {
+        lambda1=-b/(2.*a)*(1.+sqrt(delta));
 				lambda2=c/(a*lambda1);
+    }
 }
 
 
