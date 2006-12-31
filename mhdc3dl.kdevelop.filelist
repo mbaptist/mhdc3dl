@@ -35,3 +35,5 @@ mhdc3dl_run_default.py
 vzdeigen/vzdeigen.h
 io.C
 io.h
+input.py
+run.py
