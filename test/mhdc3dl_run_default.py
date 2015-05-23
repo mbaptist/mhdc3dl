@@ -1,1 +1,1 @@
-testing/stdtest.cfg
+stdtest.cfg
